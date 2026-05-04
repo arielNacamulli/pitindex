@@ -21,14 +21,12 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import io
-import logging
 import re
 
 import requests
+from loguru import logger as log
 
 from ._wiki import ChangeEvent
-
-log = logging.getLogger(__name__)
 
 GITHUB_REPO = "fja05680/sp500"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}/contents"
@@ -46,13 +44,13 @@ def _find_seed_url() -> str:
     )
     r.raise_for_status()
     candidates = [
-        item for item in r.json()
+        item
+        for item in r.json()
         if item.get("type") == "file" and SEED_FILE_PATTERN.search(item.get("name", ""))
     ]
     if not candidates:
         raise RuntimeError(
-            f"Could not find a seed CSV in {GITHUB_REPO}. "
-            f"Repository structure may have changed."
+            f"Could not find a seed CSV in {GITHUB_REPO}. Repository structure may have changed."
         )
     candidates.sort(key=lambda c: c["name"], reverse=True)
     return candidates[0]["download_url"]
@@ -75,11 +73,10 @@ def _normalize(tickers: set[str]) -> set[str]:
     dot notation (``BF.B``) and pass through untouched.
     """
     out: set[str] = set()
-    for t in tickers:
-        t = t.strip().upper()
-        t = _SEED_SUFFIX_RE.sub("", t)
-        if t:
-            out.add(t)
+    for raw in tickers:
+        cleaned = _SEED_SUFFIX_RE.sub("", raw.strip().upper())
+        if cleaned:
+            out.add(cleaned)
     return out
 
 
@@ -114,10 +111,9 @@ def roster_at(seed_csv: str, start_date: dt.date) -> tuple[dt.date, set[str]]:
         best = (d, tickers)
     if best is None:
         raise RuntimeError(
-            f"No seed row at or before {start_date.isoformat()}. "
-            f"Seed dataset may not cover that range."
+            f"No seed row at or before {start_date.isoformat()}. Seed dataset may not cover that range."
         )
-    log.info("Seed roster: %d tickers as of %s", len(best[1]), best[0])
+    log.info("Seed roster: {} tickers as of {}", len(best[1]), best[0])
     return best
 
 
@@ -165,28 +161,39 @@ def derive_events(
 
     events: list[ChangeEvent] = []
     prev = seed_roster
-    for d, tickers in snaps[seed_idx + 1:]:
+    for d, tickers in snaps[seed_idx + 1 :]:
         if d > end:
             break
         added = tickers - prev
         removed = prev - tickers
         for t in sorted(added):
-            events.append(ChangeEvent(
-                date=d.isoformat(), action="added",
-                ticker=t, name=None,
-                reason="derived from seed snapshot diff",
-            ))
+            events.append(
+                ChangeEvent(
+                    date=d.isoformat(),
+                    action="added",
+                    ticker=t,
+                    name=None,
+                    reason="derived from seed snapshot diff",
+                )
+            )
         for t in sorted(removed):
-            events.append(ChangeEvent(
-                date=d.isoformat(), action="removed",
-                ticker=t, name=None,
-                reason="derived from seed snapshot diff",
-            ))
+            events.append(
+                ChangeEvent(
+                    date=d.isoformat(),
+                    action="removed",
+                    ticker=t,
+                    name=None,
+                    reason="derived from seed snapshot diff",
+                )
+            )
         prev = tickers
 
     log.info(
-        "Seed-derived: %d events from %s to %s (seed end = %s)",
-        len(events), seed_effective_date, end, last_seed_date,
+        "Seed-derived: {} events from {} to {} (seed end = {})",
+        len(events),
+        seed_effective_date,
+        end,
+        last_seed_date,
     )
     return seed_effective_date, seed_roster, events, last_seed_date
 

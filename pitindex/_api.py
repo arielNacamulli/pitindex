@@ -61,7 +61,7 @@ def _index() -> _Index:
 
 
 class _Index:
-    __slots__ = ("seed_date", "seed", "events", "current_by_ticker", "name_by_ticker", "metadata")
+    __slots__ = ("current_by_ticker", "events", "metadata", "name_by_ticker", "seed", "seed_date")
 
     def __init__(
         self,
@@ -123,13 +123,15 @@ class _Index:
         rows = []
         for t in sorted(tickers):
             cur = self.current_by_ticker.get(t)
-            rows.append({
-                "ticker": t,
-                "name": cur.name if cur else self.name_by_ticker.get(t),
-                "cik": cur.cik if cur else None,
-                "gics_sector": cur.gics_sector if cur else None,
-                "gics_sub_industry": cur.gics_sub_industry if cur else None,
-            })
+            rows.append(
+                {
+                    "ticker": t,
+                    "name": cur.name if cur else self.name_by_ticker.get(t),
+                    "cik": cur.cik if cur else None,
+                    "gics_sector": cur.gics_sector if cur else None,
+                    "gics_sub_industry": cur.gics_sub_industry if cur else None,
+                }
+            )
         df = pd.DataFrame(rows, columns=_OUTPUT_COLUMNS)
         df.attrs["as_of"] = as_of.isoformat()
         df.attrs["build_timestamp_utc"] = self.metadata.get("build_timestamp_utc")
@@ -145,8 +147,8 @@ def _data_age_days(metadata: dict) -> int | None:
     except ValueError:
         return None
     if built.tzinfo is None:
-        built = built.replace(tzinfo=dt.timezone.utc)
-    delta = dt.datetime.now(dt.timezone.utc) - built
+        built = built.replace(tzinfo=dt.UTC)
+    delta = dt.datetime.now(dt.UTC) - built
     return max(delta.days, 0)
 
 
@@ -169,6 +171,7 @@ def _maybe_warn_stale(metadata: dict) -> None:
 
 
 # --- public API ------------------------------------------------------------
+
 
 def get_constituents(as_of: DateLike) -> pd.DataFrame:
     """Return the S&P 500 constituents as of ``as_of`` (end-of-day UTC).
@@ -220,13 +223,11 @@ def get_constituents_history(start: DateLike, end: DateLike) -> pd.DataFrame:
         raise ValueError(f"end {end_d} precedes start {start_d}")
     idx = _index()
     today = dt.date.today()
-    if end_d > today:
-        end_d = today
+    end_d = min(end_d, today)
 
     # Snapshot at start, then again at each date when an event lands inside
     # the window.
-    change_dates = sorted({ev.date for ev in idx.events
-                           if start_d <= ev.date <= end_d})
+    change_dates = sorted({ev.date for ev in idx.events if start_d <= ev.date <= end_d})
     snapshot_dates = [start_d, *[d for d in change_dates if d != start_d]]
 
     frames = []
@@ -252,8 +253,56 @@ def info() -> dict:
     age = _data_age_days(idx.metadata)
     out["data_age_days"] = age
     out["stale_threshold_days"] = _STALE_DAYS
-    out["is_stale"] = (age is not None and _STALE_DAYS > 0 and age > _STALE_DAYS)
+    out["is_stale"] = age is not None and _STALE_DAYS > 0 and age > _STALE_DAYS
     return out
+
+
+class PitIndex:
+    """Object-oriented wrapper around the module-level query API.
+
+    Mirrors the shape of :class:`pitedgar.PitQuery` so the two
+    libraries compose naturally in a backtest pipeline:
+
+        from pitedgar import PitQuery
+        from pitindex import PitIndex
+
+        idx = PitIndex()
+        members = idx.as_of("2020-12-22")["ticker"].tolist()
+
+        q = PitQuery("data/pit_financials.parquet")
+        revenues = q.cross_section("us-gaap:Revenues", "2020-12-22")
+        revenues = revenues[revenues.ticker.isin(members)]
+
+    The class is stateless and threadsafe — all underlying data is
+    loaded once on first use and cached process-wide.
+    """
+
+    def as_of(self, date: DateLike) -> pd.DataFrame:
+        """Return the membership snapshot at ``date``."""
+        return get_constituents(date)
+
+    def history(self, start: DateLike, end: DateLike) -> pd.DataFrame:
+        """Return one snapshot per change date in ``[start, end]``."""
+        return get_constituents_history(start, end)
+
+    def contains(self, ticker: str, date: DateLike) -> bool:
+        """Whether ``ticker`` was an index member at ``date``."""
+        df = get_constituents(date)
+        return ticker.upper() in df["ticker"].values
+
+    def info(self) -> dict:
+        """Build metadata + staleness flags for the loaded dataset."""
+        return info()
+
+    @property
+    def coverage_start(self) -> dt.date:
+        """First date for which PIT membership is supported."""
+        return _index().coverage_start
+
+    @property
+    def coverage_end(self) -> dt.date:
+        """Last date covered by the bundled dataset (build date)."""
+        return _index().coverage_end
 
 
 def update(*, force: bool = False) -> dict:
@@ -274,12 +323,15 @@ def update(*, force: bool = False) -> dict:
     dict
         The build metadata for the freshly-built dataset.
     """
+    # Deferred imports: ``scripts`` is an optional build-time package that is
+    # absent when only the runtime extras are installed; ``json`` is local to
+    # this fallback path. Top-level imports would force the dependency on
+    # every consumer of the library.
     try:
-        from scripts import build_dataset  # type: ignore[import-not-found]
+        from scripts import build_dataset  # noqa: PLC0415
     except ImportError as exc:
         raise RuntimeError(
-            "pitindex.update() requires the build extras. "
-            "Install with: pip install 'pitindex[build]'"
+            "pitindex.update() requires the build extras. Install with: pip install 'pitindex[build]'"
         ) from exc
 
     cache = _loader.USER_CACHE
@@ -291,7 +343,8 @@ def update(*, force: bool = False) -> dict:
             if (dt.datetime.now() - mtime) < dt.timedelta(hours=24):
                 log.info("Cache is fresh (< 24h). Pass force=True to override.")
                 with metadata_path.open() as f:
-                    import json
+                    import json  # noqa: PLC0415
+
                     return json.load(f)
         except OSError:
             pass

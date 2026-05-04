@@ -26,12 +26,11 @@ The output is:
 from __future__ import annotations
 
 import datetime as dt
-import logging
 from dataclasses import dataclass, field
 
-from ._wiki import ChangeEvent, Constituent
+from loguru import logger as log
 
-log = logging.getLogger(__name__)
+from ._wiki import ChangeEvent, Constituent
 
 
 @dataclass
@@ -44,7 +43,7 @@ class ReconciliationReport:
     invalid_add_existing: list[dict] = field(default_factory=list)
     invalid_remove_missing: list[dict] = field(default_factory=list)
     missing_from_walk: list[str] = field(default_factory=list)  # in current but walk lost them
-    extra_from_walk: list[str] = field(default_factory=list)    # walk has them, current doesn't
+    extra_from_walk: list[str] = field(default_factory=list)  # walk has them, current doesn't
     synthetic_events_added: int = 0
     diff_ratio: float = 0.0
 
@@ -62,10 +61,7 @@ def reconcile(
     current_set = {c.ticker for c in current}
 
     # Filter to events within the window we care about
-    in_window = [
-        e for e in events
-        if start_date.isoformat() <= e.date <= end_date.isoformat()
-    ]
+    in_window = [e for e in events if start_date.isoformat() <= e.date <= end_date.isoformat()]
     in_window.sort(key=lambda e: (e.date, 0 if e.action == "removed" else 1))
     # Process removals before additions on the same day so a same-day
     # ticker reuse (rare but possible) does not collide.
@@ -93,7 +89,7 @@ def reconcile(
                 continue
             roster.discard(ev.ticker)
         else:
-            log.warning("Unknown action %r at %s, skipping", ev.action, ev.date)
+            log.warning("Unknown action {!r} at {}, skipping", ev.action, ev.date)
             continue
         cleaned.append(ev)
 
@@ -101,7 +97,7 @@ def reconcile(
 
     # Diff vs. ground truth
     missing = sorted(current_set - roster)  # current has, walk lost
-    extra = sorted(roster - current_set)    # walk has, current doesn't
+    extra = sorted(roster - current_set)  # walk has, current doesn't
 
     report.missing_from_walk = missing
     report.extra_from_walk = extra
@@ -119,18 +115,26 @@ def reconcile(
     name_by_ticker = {c.ticker: c.name for c in current}
 
     for t in missing:
-        cleaned.append(ChangeEvent(
-            date=synthetic_date_add, action="added",
-            ticker=t, name=name_by_ticker.get(t),
-            reason="reconciliation: present in current roster, absent from event walk",
-        ))
+        cleaned.append(
+            ChangeEvent(
+                date=synthetic_date_add,
+                action="added",
+                ticker=t,
+                name=name_by_ticker.get(t),
+                reason="reconciliation: present in current roster, absent from event walk",
+            )
+        )
         report.synthetic_events_added += 1
     for t in extra:
-        cleaned.append(ChangeEvent(
-            date=synthetic_date_rem, action="removed",
-            ticker=t, name=None,
-            reason="reconciliation: absent from current roster, present after event walk",
-        ))
+        cleaned.append(
+            ChangeEvent(
+                date=synthetic_date_rem,
+                action="removed",
+                ticker=t,
+                name=None,
+                reason="reconciliation: absent from current roster, present after event walk",
+            )
+        )
         report.synthetic_events_added += 1
 
     cleaned.sort(key=lambda e: (e.date, 0 if e.action == "removed" else 1, e.ticker))

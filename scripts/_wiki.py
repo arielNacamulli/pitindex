@@ -12,20 +12,14 @@ in time. Reconciliation between the two happens in ``_reconcile.py``.
 from __future__ import annotations
 
 import datetime as dt
-import logging
 import re
 from dataclasses import dataclass
 
 import requests
 from bs4 import BeautifulSoup, Tag
 
-log = logging.getLogger(__name__)
-
 WIKI_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-USER_AGENT = (
-    "pitindex/0.1 (+https://github.com/arielnacamulli/pitindex) "
-    "python-requests"
-)
+USER_AGENT = "pitindex/0.1 (+https://github.com/arielnacamulli/pitindex) python-requests"
 
 
 @dataclass(frozen=True)
@@ -55,12 +49,12 @@ def fetch_html(url: str = WIKI_URL, timeout: int = 30) -> str:
 
 # --- table location --------------------------------------------------------
 
+
 def _find_table(soup: BeautifulSoup, table_id: str) -> Tag:
     table = soup.find("table", id=table_id)
     if table is None:
         raise RuntimeError(
-            f"Could not find table id={table_id!r} on Wikipedia page. "
-            f"The page structure may have changed."
+            f"Could not find table id={table_id!r} on Wikipedia page. The page structure may have changed."
         )
     return table
 
@@ -76,8 +70,18 @@ def _cell_text(cell: Tag) -> str:
 # --- date parsing ----------------------------------------------------------
 
 _MONTHS = {
-    "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
-    "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12,
+    "january": 1,
+    "february": 2,
+    "march": 3,
+    "april": 4,
+    "may": 5,
+    "june": 6,
+    "july": 7,
+    "august": 8,
+    "september": 9,
+    "october": 10,
+    "november": 11,
+    "december": 12,
 }
 
 
@@ -88,7 +92,8 @@ def _parse_date(s: str) -> str | None:
     'October 2 2018', 'Sept 1, 2020' (rare abbreviations).
     Returns None when the string is empty, '-', or just a year.
     """
-    if not s or s in {"-", "—", "–", "N/A", "n/a"}:
+    # Wikipedia uses several dash glyphs in "no value" cells; normalise them all.
+    if not s or s in {"-", "—", "–", "N/A", "n/a"}:  # noqa: RUF001
         return None
     s = s.strip().rstrip(".")
 
@@ -117,6 +122,7 @@ def _parse_date(s: str) -> str | None:
 
 # --- current roster --------------------------------------------------------
 
+
 def parse_current_constituents(html: str) -> list[Constituent]:
     soup = BeautifulSoup(html, "lxml")
     table = _find_table(soup, "constituents")
@@ -140,16 +146,18 @@ def parse_current_constituents(html: str) -> list[Constituent]:
 
     if idx_symbol is None or idx_security is None:
         raise RuntimeError(
-            f"Cannot locate Symbol/Security columns in constituents table. "
-            f"Headers seen: {headers}"
+            f"Cannot locate Symbol/Security columns in constituents table. Headers seen: {headers}"
         )
 
     out: list[Constituent] = []
     for row in table.find_all("tr")[1:]:
         cells = row.find_all(["td", "th"])
-        if len(cells) <= max(filter(None, [idx_symbol, idx_security, idx_sector, idx_sub, idx_cik, idx_date])):
+        if len(cells) <= max(
+            filter(None, [idx_symbol, idx_security, idx_sector, idx_sub, idx_cik, idx_date])
+        ):
             continue
-        ticker = _cell_text(cells[idx_symbol]).replace(" ", "").strip()
+        # Wikipedia occasionally embeds U+00A0 (no-break space) inside ticker cells.
+        ticker = _cell_text(cells[idx_symbol]).replace("\xa0", "").strip()
         if not ticker:
             continue
         name = _cell_text(cells[idx_security])
@@ -160,14 +168,16 @@ def parse_current_constituents(html: str) -> list[Constituent]:
         sector = _cell_text(cells[idx_sector]) if idx_sector is not None else None
         sub = _cell_text(cells[idx_sub]) if idx_sub is not None else None
         date_added = _parse_date(_cell_text(cells[idx_date])) if idx_date is not None else None
-        out.append(Constituent(
-            ticker=_normalize_ticker(ticker),
-            name=name,
-            cik=cik,
-            gics_sector=sector or None,
-            gics_sub_industry=sub or None,
-            date_added=date_added,
-        ))
+        out.append(
+            Constituent(
+                ticker=_normalize_ticker(ticker),
+                name=name,
+                cik=cik,
+                gics_sector=sector or None,
+                gics_sub_industry=sub or None,
+                date_added=date_added,
+            )
+        )
     return out
 
 
@@ -178,6 +188,7 @@ def _normalize_ticker(t: str) -> str:
 
 
 # --- change events ---------------------------------------------------------
+
 
 def parse_changes(html: str) -> list[ChangeEvent]:
     """Parse the 'Selected changes' table into a flat list of events.
@@ -219,26 +230,32 @@ def parse_changes(html: str) -> list[ChangeEvent]:
         last_date = date_iso
 
         if add_t:
-            out.append(ChangeEvent(
-                date=date_iso, action="added",
-                ticker=_normalize_ticker(add_t),
-                name=add_n or None,
-                reason=reason or None,
-            ))
+            out.append(
+                ChangeEvent(
+                    date=date_iso,
+                    action="added",
+                    ticker=_normalize_ticker(add_t),
+                    name=add_n or None,
+                    reason=reason or None,
+                )
+            )
         if rem_t:
-            out.append(ChangeEvent(
-                date=date_iso, action="removed",
-                ticker=_normalize_ticker(rem_t),
-                name=rem_n or None,
-                reason=reason or None,
-            ))
+            out.append(
+                ChangeEvent(
+                    date=date_iso,
+                    action="removed",
+                    ticker=_normalize_ticker(rem_t),
+                    name=rem_n or None,
+                    reason=reason or None,
+                )
+            )
     return out
 
 
 __all__ = [
-    "Constituent",
     "ChangeEvent",
+    "Constituent",
     "fetch_html",
-    "parse_current_constituents",
     "parse_changes",
+    "parse_current_constituents",
 ]

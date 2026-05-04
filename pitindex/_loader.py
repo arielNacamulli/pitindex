@@ -20,8 +20,7 @@ from importlib import resources
 from pathlib import Path
 
 PACKAGE_DATA = "pitindex.data"
-USER_CACHE = Path(os.environ.get("PITINDEX_CACHE_DIR") or
-                  Path.home() / ".cache" / "pitindex")
+USER_CACHE = Path(os.environ.get("PITINDEX_CACHE_DIR") or Path.home() / ".cache" / "pitindex")
 
 
 @dataclass(frozen=True)
@@ -72,13 +71,15 @@ def load_events() -> list[Event]:
         rows = list(csv.DictReader(f))
     out: list[Event] = []
     for r in rows:
-        out.append(Event(
-            date=dt.date.fromisoformat(r["date"]),
-            action=r["action"],
-            ticker=r["ticker"],
-            name=r["name"] or None,
-            reason=r["reason"] or None,
-        ))
+        out.append(
+            Event(
+                date=dt.date.fromisoformat(r["date"]),
+                action=r["action"],
+                ticker=r["ticker"],
+                name=r["name"] or None,
+                reason=r["reason"] or None,
+            )
+        )
     out.sort(key=lambda e: (e.date, 0 if e.action == "removed" else 1, e.ticker))
     return out
 
@@ -93,14 +94,16 @@ def load_current() -> list[CurrentEntry]:
             d_parsed = dt.date.fromisoformat(d) if d else None
         except ValueError:
             d_parsed = None
-        out.append(CurrentEntry(
-            ticker=r["ticker"],
-            name=r["name"],
-            cik=r["cik"] or None,
-            gics_sector=r["gics_sector"] or None,
-            gics_sub_industry=r["gics_sub_industry"] or None,
-            date_added=d_parsed,
-        ))
+        out.append(
+            CurrentEntry(
+                ticker=r["ticker"],
+                name=r["name"],
+                cik=r["cik"] or None,
+                gics_sector=r["gics_sector"] or None,
+                gics_sub_industry=r["gics_sub_industry"] or None,
+                date_added=d_parsed,
+            )
+        )
     return out
 
 
@@ -110,6 +113,7 @@ def load_metadata() -> dict:
 
 
 __all__ = [
+    "USER_CACHE",
     "CurrentEntry",
     "Event",
     "SeedRow",
@@ -117,5 +121,4 @@ __all__ = [
     "load_events",
     "load_metadata",
     "load_seed",
-    "USER_CACHE",
 ]

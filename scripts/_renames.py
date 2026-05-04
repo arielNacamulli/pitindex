@@ -19,18 +19,17 @@ than corruption.
 from __future__ import annotations
 
 import csv
-import logging
 from pathlib import Path
 
-from ._wiki import ChangeEvent
+from loguru import logger as log
 
-log = logging.getLogger(__name__)
+from ._wiki import ChangeEvent
 
 
 def load_renames(path: Path) -> list[ChangeEvent]:
     """Read a renames CSV and return a flat list of paired events."""
     if not path.exists():
-        log.warning("Renames CSV not found at %s; proceeding without renames.", path)
+        log.warning("Renames CSV not found at {}; proceeding without renames.", path)
         return []
     out: list[ChangeEvent] = []
     with path.open("r", encoding="utf-8") as f:
@@ -41,17 +40,25 @@ def load_renames(path: Path) -> list[ChangeEvent]:
             reason = (row.get("reason") or "").strip() or None
             if not (date and old and new):
                 continue
-            out.append(ChangeEvent(
-                date=date, action="removed",
-                ticker=old, name=None,
-                reason=f"rename → {new}: {reason or ''}".rstrip(": "),
-            ))
-            out.append(ChangeEvent(
-                date=date, action="added",
-                ticker=new, name=None,
-                reason=f"rename ← {old}: {reason or ''}".rstrip(": "),
-            ))
-    log.info("Loaded %d rename events from %s", len(out), path)
+            out.append(
+                ChangeEvent(
+                    date=date,
+                    action="removed",
+                    ticker=old,
+                    name=None,
+                    reason=f"rename → {new}: {reason or ''}".rstrip(": "),
+                )
+            )
+            out.append(
+                ChangeEvent(
+                    date=date,
+                    action="added",
+                    ticker=new,
+                    name=None,
+                    reason=f"rename ← {old}: {reason or ''}".rstrip(": "),
+                )
+            )
+    log.info("Loaded {} rename events from {}", len(out), path)
     return out
 
 
@@ -63,7 +70,7 @@ def load_manual_events(path: Path) -> list[ChangeEvent]:
     2018-06-26 which the upstream seed dataset omits).
     """
     if not path.exists():
-        log.warning("Manual events CSV not found at %s; proceeding without overrides.", path)
+        log.warning("Manual events CSV not found at {}; proceeding without overrides.", path)
         return []
     out: list[ChangeEvent] = []
     with path.open("r", encoding="utf-8") as f:
@@ -76,14 +83,18 @@ def load_manual_events(path: Path) -> list[ChangeEvent]:
             if not (date and action and ticker):
                 continue
             if action not in {"added", "removed"}:
-                log.warning("Skipping manual event with unknown action %r", action)
+                log.warning("Skipping manual event with unknown action {!r}", action)
                 continue
-            out.append(ChangeEvent(
-                date=date, action=action,
-                ticker=ticker, name=name,
-                reason=f"manual override: {reason or ''}".rstrip(": "),
-            ))
-    log.info("Loaded %d manual override events from %s", len(out), path)
+            out.append(
+                ChangeEvent(
+                    date=date,
+                    action=action,
+                    ticker=ticker,
+                    name=name,
+                    reason=f"manual override: {reason or ''}".rstrip(": "),
+                )
+            )
+    log.info("Loaded {} manual override events from {}", len(out), path)
     return out
 
 

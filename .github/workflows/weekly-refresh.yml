@@ -36,7 +36,7 @@ jobs:
         run: python -m scripts.build_dataset -v
 
       - name: Run tests against the freshly-built data
-        run: pytest -v
+        run: pytest --tb=short -q
 
       - name: Detect data drift
         id: drift

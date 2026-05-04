@@ -9,6 +9,7 @@ Public API:
 """
 
 from ._api import (
+    PitIndex,
     StaleDataWarning,
     get_constituents,
     get_constituents_history,
@@ -17,6 +18,7 @@ from ._api import (
 )
 
 __all__ = [
+    "PitIndex",
     "StaleDataWarning",
     "get_constituents",
     "get_constituents_history",

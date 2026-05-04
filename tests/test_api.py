@@ -1,4 +1,5 @@
 """API-shape tests. These exercise the public surface, not data quality."""
+
 from __future__ import annotations
 
 import datetime as dt
