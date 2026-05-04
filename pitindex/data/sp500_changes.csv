@@ -1,0 +1,1013 @@
+date,action,ticker,name,reason
+2005-01-03,removed,LEHMQ,,rename → LEH: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
+2005-01-03,added,LEH,,rename ← LEHMQ: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
+2005-03-14,removed,PWER,,derived from seed snapshot diff
+2005-03-14,added,NOV,,derived from seed snapshot diff
+2005-03-28,added,SHLD,,derived from seed snapshot diff
+2005-07-05,removed,GLK,,derived from seed snapshot diff
+2005-07-05,removed,VRTS,,derived from seed snapshot diff
+2005-07-05,added,DHI,,derived from seed snapshot diff
+2005-07-05,added,STZ,,derived from seed snapshot diff
+2005-07-22,removed,TOY,,derived from seed snapshot diff
+2005-07-22,added,WFT,,derived from seed snapshot diff
+2005-08-11,removed,UCL,,derived from seed snapshot diff
+2005-08-11,added,TSN,,derived from seed snapshot diff
+2005-08-12,removed,SDS,,derived from seed snapshot diff
+2005-08-12,added,VNO,,derived from seed snapshot diff
+2005-08-15,removed,NXTL,,derived from seed snapshot diff
+2005-08-15,added,MUR,,derived from seed snapshot diff
+2005-08-19,removed,DALRQ,,derived from seed snapshot diff
+2005-08-19,added,PSA,,derived from seed snapshot diff
+2005-08-29,removed,MAY,,derived from seed snapshot diff
+2005-08-30,added,CVH,,derived from seed snapshot diff
+2005-10-03,removed,G,,derived from seed snapshot diff
+2005-10-03,removed,PVN,,derived from seed snapshot diff
+2005-10-03,added,AMP,,derived from seed snapshot diff
+2005-10-04,added,LEN,,derived from seed snapshot diff
+2005-10-11,removed,DPHIQ,,derived from seed snapshot diff
+2005-10-11,added,PDCO,,derived from seed snapshot diff
+2005-11-21,added,AMZN,,derived from seed snapshot diff
+2005-12-02,removed,CPNLQ,,derived from seed snapshot diff
+2005-12-02,added,GNW,,derived from seed snapshot diff
+2005-12-20,removed,GP,,derived from seed snapshot diff
+2005-12-20,added,SSP,,derived from seed snapshot diff
+2006-01-03,removed,KRB,,derived from seed snapshot diff
+2006-01-03,removed,VSTNQ,,derived from seed snapshot diff
+2006-01-03,added,VIAB,,derived from seed snapshot diff
+2006-01-03,added,WFM,,derived from seed snapshot diff
+2006-01-04,removed,MERQ,,derived from seed snapshot diff
+2006-01-05,added,EL,,derived from seed snapshot diff
+2006-02-01,removed,RBK,,derived from seed snapshot diff
+2006-02-01,removed,SEBL,,derived from seed snapshot diff
+2006-02-01,added,HAR,,derived from seed snapshot diff
+2006-02-01,added,VRSN,,derived from seed snapshot diff
+2006-02-27,removed,SFA,,derived from seed snapshot diff
+2006-02-27,added,BRL,,derived from seed snapshot diff
+2006-03-03,removed,DCNAQ,,derived from seed snapshot diff
+2006-03-03,added,CHK,,derived from seed snapshot diff
+2006-04-03,removed,BR,,derived from seed snapshot diff
+2006-04-03,removed,CIN,,derived from seed snapshot diff
+2006-04-03,removed,JP,,derived from seed snapshot diff
+2006-04-03,removed,MYG,,derived from seed snapshot diff
+2006-04-03,added,BXP,,derived from seed snapshot diff
+2006-04-03,added,DF,,derived from seed snapshot diff
+2006-04-03,added,GOOGL,,derived from seed snapshot diff
+2006-04-03,added,KIM,,derived from seed snapshot diff
+2006-04-20,removed,CHIR,,derived from seed snapshot diff
+2006-04-20,added,SNDK,,derived from seed snapshot diff
+2006-04-24,removed,GDT,,derived from seed snapshot diff
+2006-04-24,added,LM,,derived from seed snapshot diff
+2006-05-18,removed,AMCC,,derived from seed snapshot diff
+2006-05-18,added,EQ,,derived from seed snapshot diff
+2006-06-02,removed,ABS,,derived from seed snapshot diff
+2006-06-02,added,JNPR,,derived from seed snapshot diff
+2006-06-06,removed,EC,,derived from seed snapshot diff
+2006-06-06,added,CBH,,derived from seed snapshot diff
+2006-06-28,removed,KRI,,derived from seed snapshot diff
+2006-06-28,added,CNX,,derived from seed snapshot diff
+2006-07-18,removed,CTB,,derived from seed snapshot diff
+2006-07-18,added,WIN,,derived from seed snapshot diff
+2006-08-01,removed,CAR,,derived from seed snapshot diff
+2006-08-01,removed,GTW,,derived from seed snapshot diff
+2006-08-01,added,H,,derived from seed snapshot diff
+2006-08-01,added,WYND,,derived from seed snapshot diff
+2006-08-11,removed,KMG,,derived from seed snapshot diff
+2006-08-11,added,CME,,derived from seed snapshot diff
+2006-10-02,removed,ANDW,,derived from seed snapshot diff
+2006-10-02,removed,GDW,,derived from seed snapshot diff
+2006-10-02,added,SII,,derived from seed snapshot diff
+2006-10-02,added,WU,,derived from seed snapshot diff
+2006-11-06,removed,ASO,,derived from seed snapshot diff
+2006-11-06,added,CELG,,derived from seed snapshot diff
+2006-11-10,removed,FSH,,derived from seed snapshot diff
+2006-11-10,removed,LPX,,derived from seed snapshot diff
+2006-11-10,added,CBRE,,derived from seed snapshot diff
+2006-11-10,added,FIS,,derived from seed snapshot diff
+2006-11-17,removed,ACV,,derived from seed snapshot diff
+2006-11-17,added,CTSH,,derived from seed snapshot diff
+2006-11-20,removed,HCA,,derived from seed snapshot diff
+2006-11-20,added,BTUUQ,,derived from seed snapshot diff
+2006-12-01,removed,LU,,derived from seed snapshot diff
+2006-12-01,removed,NFB,,derived from seed snapshot diff
+2006-12-01,added,IAC,,derived from seed snapshot diff
+2006-12-01,added,STR,,derived from seed snapshot diff
+2006-12-04,removed,FSL,,derived from seed snapshot diff
+2006-12-04,added,DTV,,derived from seed snapshot diff
+2006-12-20,removed,NAV,,derived from seed snapshot diff
+2006-12-20,added,TEX,,derived from seed snapshot diff
+2007-01-03,removed,BLS,,derived from seed snapshot diff
+2007-01-03,removed,PTC,,derived from seed snapshot diff
+2007-01-03,added,SE,,derived from seed snapshot diff
+2007-01-04,added,ESV,,derived from seed snapshot diff
+2007-01-10,removed,SBL,,derived from seed snapshot diff
+2007-01-10,added,AVB,,derived from seed snapshot diff
+2007-02-01,removed,CMVT,,derived from seed snapshot diff
+2007-02-02,added,RL,,derived from seed snapshot diff
+2007-02-12,removed,EOP,,derived from seed snapshot diff
+2007-02-12,added,VAR,,derived from seed snapshot diff
+2007-02-15,removed,APCC,,derived from seed snapshot diff
+2007-02-15,added,HCBK,,derived from seed snapshot diff
+2007-02-22,removed,PGL,,derived from seed snapshot diff
+2007-02-22,added,TEG,,derived from seed snapshot diff
+2007-03-02,removed,HMA,,derived from seed snapshot diff
+2007-03-02,added,CHRW,,derived from seed snapshot diff
+2007-03-20,removed,PD,,derived from seed snapshot diff
+2007-03-20,added,HST,,derived from seed snapshot diff
+2007-03-23,removed,CMX,,derived from seed snapshot diff
+2007-03-23,added,DDR,,derived from seed snapshot diff
+2007-03-29,removed,UVN,,derived from seed snapshot diff
+2007-03-29,added,ANF,,derived from seed snapshot diff
+2007-04-02,removed,TSG,,derived from seed snapshot diff
+2007-04-02,added,MDLZ,,derived from seed snapshot diff
+2007-04-10,removed,H,,derived from seed snapshot diff
+2007-04-10,added,AIZ,,derived from seed snapshot diff
+2007-05-31,removed,KMI,,derived from seed snapshot diff
+2007-05-31,added,SUNEQ,,derived from seed snapshot diff
+2007-06-01,removed,MEDI,,derived from seed snapshot diff
+2007-06-01,added,PCP,,derived from seed snapshot diff
+2007-07-02,removed,ADCT,,derived from seed snapshot diff
+2007-07-02,removed,MEL,,derived from seed snapshot diff
+2007-07-02,removed,PMCS,,derived from seed snapshot diff
+2007-07-02,removed,SANM,,derived from seed snapshot diff
+2007-07-02,added,COV,,derived from seed snapshot diff
+2007-07-02,added,DFS,,derived from seed snapshot diff
+2007-07-02,added,GGP,,derived from seed snapshot diff
+2007-07-02,added,TEL,,derived from seed snapshot diff
+2007-07-09,removed,DG,,derived from seed snapshot diff
+2007-07-09,added,ACAS,,derived from seed snapshot diff
+2007-07-12,removed,BMET,,derived from seed snapshot diff
+2007-07-12,added,AKAM,,derived from seed snapshot diff
+2007-08-27,removed,KSE,,derived from seed snapshot diff
+2007-08-27,added,JEF,,derived from seed snapshot diff
+2007-09-07,removed,CBSS,,derived from seed snapshot diff
+2007-09-07,added,MCHP,,derived from seed snapshot diff
+2007-09-25,removed,FDC,,derived from seed snapshot diff
+2007-09-26,added,ICE,,derived from seed snapshot diff
+2007-09-27,removed,MXIM,,derived from seed snapshot diff
+2007-09-27,added,ANDV,,derived from seed snapshot diff
+2007-10-01,removed,NCR,,derived from seed snapshot diff
+2007-10-01,added,TDC,,derived from seed snapshot diff
+2007-10-02,removed,SLR,,derived from seed snapshot diff
+2007-10-02,added,EXPE,,derived from seed snapshot diff
+2007-10-08,removed,ASN,,derived from seed snapshot diff
+2007-10-08,added,NBL,,derived from seed snapshot diff
+2007-10-10,removed,TXU,,derived from seed snapshot diff
+2007-10-10,added,EXPD,,derived from seed snapshot diff
+2007-10-25,removed,HLT,,derived from seed snapshot diff
+2007-10-25,added,NYX,,derived from seed snapshot diff
+2007-10-26,removed,AV,,derived from seed snapshot diff
+2007-10-26,added,JEC,,derived from seed snapshot diff
+2007-10-29,removed,BOL,,derived from seed snapshot diff
+2007-10-29,added,TIE,,derived from seed snapshot diff
+2007-11-09,removed,HCR,,derived from seed snapshot diff
+2007-11-09,added,POM,,derived from seed snapshot diff
+2007-11-16,removed,TEK,,derived from seed snapshot diff
+2007-11-16,added,MTW,,derived from seed snapshot diff
+2007-11-19,removed,AT,,derived from seed snapshot diff
+2007-11-19,added,AMT,,derived from seed snapshot diff
+2007-12-14,removed,DJ,,derived from seed snapshot diff
+2007-12-14,added,GME,,derived from seed snapshot diff
+2007-12-21,removed,TRB,,derived from seed snapshot diff
+2007-12-21,added,RRC,,derived from seed snapshot diff
+2007-12-31,removed,TIN,,derived from seed snapshot diff
+2007-12-31,added,GHC,,derived from seed snapshot diff
+2008-01-02,removed,SNV,,derived from seed snapshot diff
+2008-01-02,added,TSS,,derived from seed snapshot diff
+2008-01-29,removed,HET,,derived from seed snapshot diff
+2008-01-29,added,CAM,,derived from seed snapshot diff
+2008-03-31,removed,CBH,,derived from seed snapshot diff
+2008-03-31,removed,CCTYQ,,derived from seed snapshot diff
+2008-03-31,added,HCP,,derived from seed snapshot diff
+2008-03-31,added,PM,,derived from seed snapshot diff
+2008-06-02,removed,BSC,,derived from seed snapshot diff
+2008-06-02,added,ISRG,,derived from seed snapshot diff
+2008-06-06,removed,TT,,derived from seed snapshot diff
+2008-06-06,added,SWN,,derived from seed snapshot diff
+2008-06-11,removed,ABKFQ,,derived from seed snapshot diff
+2008-06-11,added,LO,,derived from seed snapshot diff
+2008-06-23,removed,BC,,derived from seed snapshot diff
+2008-06-23,removed,OMX,,derived from seed snapshot diff
+2008-06-23,added,COG,,derived from seed snapshot diff
+2008-06-23,added,MEE,,derived from seed snapshot diff
+2008-07-01,removed,CFC,,derived from seed snapshot diff
+2008-07-01,removed,SSP,,derived from seed snapshot diff
+2008-07-01,added,AKS,,derived from seed snapshot diff
+2008-07-01,added,SNI,,derived from seed snapshot diff
+2008-07-18,added,MA,,derived from seed snapshot diff
+2008-07-31,removed,CCU,,derived from seed snapshot diff
+2008-07-31,added,DVA,,derived from seed snapshot diff
+2008-08-21,removed,IAC,,derived from seed snapshot diff
+2008-08-21,added,IVZ,,derived from seed snapshot diff
+2008-08-26,removed,EDS,,derived from seed snapshot diff
+2008-08-27,added,CF,,derived from seed snapshot diff
+2008-09-11,removed,FMCC,,derived from seed snapshot diff
+2008-09-11,removed,FNMA,,derived from seed snapshot diff
+2008-09-15,removed,LEH,Lehman Brothers Holdings,manual override: S&P 500 removal effective 2008-09-15 after Chapter 11 filing. The upstream seed dataset encodes the company under its post-bankruptcy ticker LEHMQ; we apply a rename LEHMQ -> LEH at start_date in ticker_renames.csv so PIT queries use the period-correct symbol.
+2008-09-15,added,CRM,,derived from seed snapshot diff
+2008-09-15,added,FAST,,derived from seed snapshot diff
+2008-09-22,added,HRS,,derived from seed snapshot diff
+2008-09-23,removed,SAF,,derived from seed snapshot diff
+2008-09-24,added,PXD,,derived from seed snapshot diff
+2008-09-30,removed,WAMUQ,,derived from seed snapshot diff
+2008-09-30,removed,WEN,,derived from seed snapshot diff
+2008-09-30,added,APH,,derived from seed snapshot diff
+2008-10-02,added,FLS,,derived from seed snapshot diff
+2008-10-07,removed,WWY,,derived from seed snapshot diff
+2008-10-07,added,KDP,,derived from seed snapshot diff
+2008-10-22,removed,DDS,,derived from seed snapshot diff
+2008-10-22,added,NDAQ,,derived from seed snapshot diff
+2008-10-31,removed,MTG,,derived from seed snapshot diff
+2008-10-31,added,WEC,,derived from seed snapshot diff
+2008-11-06,removed,TEX,,derived from seed snapshot diff
+2008-11-06,added,SJM,,derived from seed snapshot diff
+2008-11-11,removed,UIS,,derived from seed snapshot diff
+2008-11-13,removed,GGP,,derived from seed snapshot diff
+2008-11-13,added,PBCT,,derived from seed snapshot diff
+2008-11-14,removed,ASH,,derived from seed snapshot diff
+2008-11-14,removed,HPC,,derived from seed snapshot diff
+2008-11-14,added,WYNN,,derived from seed snapshot diff
+2008-11-14,added,XRAY,,derived from seed snapshot diff
+2008-11-17,added,CEPH,,derived from seed snapshot diff
+2008-11-18,removed,BUD,,derived from seed snapshot diff
+2008-11-19,added,SRCL,,derived from seed snapshot diff
+2008-11-24,removed,ABI,,derived from seed snapshot diff
+2008-11-24,added,LIFE,,derived from seed snapshot diff
+2008-12-02,removed,KATE,,derived from seed snapshot diff
+2008-12-02,added,DNB,,derived from seed snapshot diff
+2008-12-05,removed,AW,,derived from seed snapshot diff
+2008-12-05,added,RSG,,derived from seed snapshot diff
+2008-12-19,removed,RIG,,derived from seed snapshot diff
+2008-12-19,added,EQT,,derived from seed snapshot diff
+2008-12-23,removed,BRL,,derived from seed snapshot diff
+2008-12-23,added,MFE,,derived from seed snapshot diff
+2009-01-02,removed,MER,,derived from seed snapshot diff
+2009-01-02,removed,NCC,,derived from seed snapshot diff
+2009-01-02,removed,WB,,derived from seed snapshot diff
+2009-01-02,added,FLIR,,derived from seed snapshot diff
+2009-01-02,added,OI,,derived from seed snapshot diff
+2009-01-02,added,SCG,,derived from seed snapshot diff
+2009-01-06,removed,UST,,derived from seed snapshot diff
+2009-01-06,added,IRM,,derived from seed snapshot diff
+2009-01-30,removed,SOV,,derived from seed snapshot diff
+2009-01-30,added,WELL,,derived from seed snapshot diff
+2009-02-26,removed,WFT,,derived from seed snapshot diff
+2009-02-26,added,DO,,derived from seed snapshot diff
+2009-03-04,removed,ACAS,,derived from seed snapshot diff
+2009-03-04,removed,JNY,,derived from seed snapshot diff
+2009-03-04,added,HRL,,derived from seed snapshot diff
+2009-03-04,added,VTR,,derived from seed snapshot diff
+2009-03-17,added,ES,,derived from seed snapshot diff
+2009-03-27,removed,NE,,derived from seed snapshot diff
+2009-03-27,added,ORLY,,derived from seed snapshot diff
+2009-03-30,removed,DDR,,derived from seed snapshot diff
+2009-03-30,added,TWC,,derived from seed snapshot diff
+2009-04-02,removed,ROH,,derived from seed snapshot diff
+2009-04-02,added,DNR,,derived from seed snapshot diff
+2009-06-03,removed,MTLQQ,,derived from seed snapshot diff
+2009-06-05,removed,COV,,derived from seed snapshot diff
+2009-06-05,added,FTI,,derived from seed snapshot diff
+2009-06-09,added,ATGE,,derived from seed snapshot diff
+2009-06-26,removed,TEL,,derived from seed snapshot diff
+2009-06-30,added,TMUS,,derived from seed snapshot diff
+2009-07-01,removed,EQ,,derived from seed snapshot diff
+2009-07-01,removed,IR,,derived from seed snapshot diff
+2009-07-01,added,PWR,,derived from seed snapshot diff
+2009-07-01,added,WDC,,derived from seed snapshot diff
+2009-07-27,removed,CITGQ,,derived from seed snapshot diff
+2009-07-27,added,RHT,,derived from seed snapshot diff
+2009-08-19,removed,CTX,,derived from seed snapshot diff
+2009-08-19,added,FMC,,derived from seed snapshot diff
+2009-09-01,removed,MTW,,derived from seed snapshot diff
+2009-09-01,added,CFN,,derived from seed snapshot diff
+2009-09-09,removed,CBE,,derived from seed snapshot diff
+2009-09-09,added,ARG,,derived from seed snapshot diff
+2009-10-16,removed,WYE,,derived from seed snapshot diff
+2009-10-16,added,FSLR,,derived from seed snapshot diff
+2009-11-04,removed,SGP,,derived from seed snapshot diff
+2009-11-06,added,BKNG,,derived from seed snapshot diff
+2009-12-21,removed,CIEN,,derived from seed snapshot diff
+2009-12-21,removed,CVG,,derived from seed snapshot diff
+2009-12-21,removed,DYN,,derived from seed snapshot diff
+2009-12-21,removed,KBH,,derived from seed snapshot diff
+2009-12-21,removed,MBI,,derived from seed snapshot diff
+2009-12-21,added,CLF,,derived from seed snapshot diff
+2009-12-21,added,LDOS,,derived from seed snapshot diff
+2009-12-21,added,MJN,,derived from seed snapshot diff
+2009-12-21,added,ROST,,derived from seed snapshot diff
+2009-12-21,added,V,,derived from seed snapshot diff
+2009-12-23,removed,ESV,,derived from seed snapshot diff
+2009-12-23,added,ROP,,derived from seed snapshot diff
+2010-01-27,removed,JAVA,,derived from seed snapshot diff
+2010-01-29,added,NRG,,derived from seed snapshot diff
+2010-02-08,removed,ACS,,derived from seed snapshot diff
+2010-02-08,added,URBN,,derived from seed snapshot diff
+2010-02-16,removed,BNI,,derived from seed snapshot diff
+2010-02-16,added,BRK.B,,derived from seed snapshot diff
+2010-02-26,removed,RX,,derived from seed snapshot diff
+2010-03-01,removed,PBG,,derived from seed snapshot diff
+2010-03-01,added,DISCA,,derived from seed snapshot diff
+2010-03-01,added,HP,,derived from seed snapshot diff
+2010-03-15,removed,BDK,,derived from seed snapshot diff
+2010-03-15,added,OKE,,derived from seed snapshot diff
+2010-04-29,removed,BJS,,derived from seed snapshot diff
+2010-04-30,added,CERN,,derived from seed snapshot diff
+2010-06-28,removed,XTO,,derived from seed snapshot diff
+2010-06-28,added,KMX,,derived from seed snapshot diff
+2010-07-01,removed,STR,,derived from seed snapshot diff
+2010-07-01,added,QEP,,derived from seed snapshot diff
+2010-07-15,removed,MIL,,derived from seed snapshot diff
+2010-08-27,removed,SII,,derived from seed snapshot diff
+2010-11-17,removed,PTV,,derived from seed snapshot diff
+2010-11-17,added,IR,,derived from seed snapshot diff
+2010-12-20,removed,EKDKQ,,derived from seed snapshot diff
+2010-12-20,removed,KG,,derived from seed snapshot diff
+2010-12-20,removed,NYT,,derived from seed snapshot diff
+2010-12-20,removed,ODP,,derived from seed snapshot diff
+2010-12-20,added,CVC,,derived from seed snapshot diff
+2010-12-20,added,FFIV,,derived from seed snapshot diff
+2010-12-20,added,NFLX,,derived from seed snapshot diff
+2010-12-20,added,NFX,,derived from seed snapshot diff
+2011-01-04,removed,MDP,,derived from seed snapshot diff
+2011-01-04,added,MMI,,derived from seed snapshot diff
+2011-01-18,removed,QLGC,,derived from seed snapshot diff
+2011-01-18,added,NE,,derived from seed snapshot diff
+2011-02-28,removed,AYE,,derived from seed snapshot diff
+2011-02-28,added,JOY,,derived from seed snapshot diff
+2011-03-01,removed,MFE,,derived from seed snapshot diff
+2011-03-01,added,COV,,derived from seed snapshot diff
+2011-04-01,removed,Q,,derived from seed snapshot diff
+2011-04-01,added,EW,,derived from seed snapshot diff
+2011-04-04,removed,GENZ,,derived from seed snapshot diff
+2011-04-04,added,BLK,,derived from seed snapshot diff
+2011-04-28,removed,NOVL,,derived from seed snapshot diff
+2011-04-28,added,CMG,,derived from seed snapshot diff
+2011-06-02,removed,MEE,,derived from seed snapshot diff
+2011-06-02,added,ANRZQ,,derived from seed snapshot diff
+2011-07-01,removed,RSHCQ,,derived from seed snapshot diff
+2011-07-01,added,MPC,,derived from seed snapshot diff
+2011-07-06,removed,MI,,derived from seed snapshot diff
+2011-07-06,added,ACN,,derived from seed snapshot diff
+2011-09-26,removed,NSM,,derived from seed snapshot diff
+2011-09-26,added,MOS,,derived from seed snapshot diff
+2011-10-14,removed,CEPH,,derived from seed snapshot diff
+2011-10-17,added,TEL,,derived from seed snapshot diff
+2011-11-01,removed,ITT,,derived from seed snapshot diff
+2011-11-01,added,XYL,,derived from seed snapshot diff
+2011-11-23,removed,JNS,,derived from seed snapshot diff
+2011-11-23,added,CBE,,derived from seed snapshot diff
+2011-12-12,removed,GAS,,derived from seed snapshot diff
+2011-12-13,added,GAS,,derived from seed snapshot diff
+2011-12-19,removed,AKS,,derived from seed snapshot diff
+2011-12-19,removed,MWW,,derived from seed snapshot diff
+2011-12-19,removed,SUNEQ,,derived from seed snapshot diff
+2011-12-19,added,BWA,,derived from seed snapshot diff
+2011-12-19,added,DLTR,,derived from seed snapshot diff
+2011-12-19,added,PRGO,,derived from seed snapshot diff
+2011-12-21,removed,TLAB,,derived from seed snapshot diff
+2011-12-21,added,TRIP,,derived from seed snapshot diff
+2012-01-03,removed,CPWR,,derived from seed snapshot diff
+2012-01-03,added,WPX,,derived from seed snapshot diff
+2012-03-13,removed,CEG,,derived from seed snapshot diff
+2012-03-13,added,CCI,,derived from seed snapshot diff
+2012-04-02,removed,MHS,,derived from seed snapshot diff
+2012-04-04,added,FOSL,,derived from seed snapshot diff
+2012-05-01,removed,SVU,,derived from seed snapshot diff
+2012-05-01,added,PSX,,derived from seed snapshot diff
+2012-05-22,removed,MMI,,derived from seed snapshot diff
+2012-05-25,removed,EP,,derived from seed snapshot diff
+2012-05-25,added,ALXN,,derived from seed snapshot diff
+2012-05-25,added,KMI,,derived from seed snapshot diff
+2012-06-05,removed,NVLS,,derived from seed snapshot diff
+2012-06-05,added,LRCX,,derived from seed snapshot diff
+2012-06-29,removed,HSH,,derived from seed snapshot diff
+2012-06-29,added,MNST,,derived from seed snapshot diff
+2012-07-02,removed,PGN,,derived from seed snapshot diff
+2012-07-02,added,STX,,derived from seed snapshot diff
+2012-07-27,removed,GR,,derived from seed snapshot diff
+2012-07-31,added,ESV,,derived from seed snapshot diff
+2012-09-05,removed,SHLD,,derived from seed snapshot diff
+2012-09-05,added,LYB,,derived from seed snapshot diff
+2012-10-01,removed,ATGE,,derived from seed snapshot diff
+2012-10-01,removed,LXK,,derived from seed snapshot diff
+2012-10-01,added,PNR,,derived from seed snapshot diff
+2012-10-02,removed,ANRZQ,,derived from seed snapshot diff
+2012-10-02,added,ADT,,derived from seed snapshot diff
+2012-10-02,added,KRFT,,derived from seed snapshot diff
+2012-10-05,removed,SUN,,derived from seed snapshot diff
+2012-10-05,added,PETM,,derived from seed snapshot diff
+2012-12-03,removed,CBE,,derived from seed snapshot diff
+2012-12-03,added,DG,,derived from seed snapshot diff
+2012-12-12,removed,RRD,,derived from seed snapshot diff
+2012-12-12,added,GRMN,,derived from seed snapshot diff
+2012-12-24,removed,TIE,,derived from seed snapshot diff
+2012-12-24,added,APTV,,derived from seed snapshot diff
+2013-01-02,removed,FII,,derived from seed snapshot diff
+2013-01-02,added,ABBV,,derived from seed snapshot diff
+2013-02-14,removed,BIG,,derived from seed snapshot diff
+2013-02-14,added,PVH,,derived from seed snapshot diff
+2013-05-01,removed,TMUS,,derived from seed snapshot diff
+2013-05-01,added,REGN,,derived from seed snapshot diff
+2013-05-07,removed,CVH,,derived from seed snapshot diff
+2013-05-09,added,MAC,,derived from seed snapshot diff
+2013-05-24,removed,DF,,derived from seed snapshot diff
+2013-05-24,added,KSU,,derived from seed snapshot diff
+2013-06-07,removed,HNZ,,derived from seed snapshot diff
+2013-06-07,added,GM,,derived from seed snapshot diff
+2013-06-24,removed,FHN,,derived from seed snapshot diff
+2013-06-24,added,ZTS,,derived from seed snapshot diff
+2013-07-01,removed,APOL,,derived from seed snapshot diff
+2013-07-01,added,NWSA,,derived from seed snapshot diff
+2013-07-09,removed,S,,derived from seed snapshot diff
+2013-07-09,added,NLSN,,derived from seed snapshot diff
+2013-09-11,removed,BMC,,derived from seed snapshot diff
+2013-09-11,added,DAL,,derived from seed snapshot diff
+2013-09-23,removed,AMD,,derived from seed snapshot diff
+2013-09-23,removed,LDOS,,derived from seed snapshot diff
+2013-09-23,added,AME,,derived from seed snapshot diff
+2013-09-23,added,VRTX,,derived from seed snapshot diff
+2013-10-29,removed,DELL,,derived from seed snapshot diff
+2013-10-29,added,RIG,,derived from seed snapshot diff
+2013-11-13,removed,NYX,,derived from seed snapshot diff
+2013-11-13,added,KORS,,derived from seed snapshot diff
+2013-12-02,removed,JCP,,derived from seed snapshot diff
+2013-12-02,added,ALLE,,derived from seed snapshot diff
+2013-12-09,removed,MOLX,,derived from seed snapshot diff
+2013-12-10,added,GGP,,derived from seed snapshot diff
+2013-12-23,removed,ANF,,derived from seed snapshot diff
+2013-12-23,removed,TER,,derived from seed snapshot diff
+2013-12-23,removed,VIAV,,derived from seed snapshot diff
+2013-12-23,added,ADS,,derived from seed snapshot diff
+2013-12-23,added,FB,,derived from seed snapshot diff
+2013-12-23,added,MHK,,derived from seed snapshot diff
+2014-01-24,removed,LIFE,,derived from seed snapshot diff
+2014-01-24,added,TSCO,,derived from seed snapshot diff
+2014-03-24,removed,WPX,,derived from seed snapshot diff
+2014-03-24,added,GMCR,,derived from seed snapshot diff
+2014-04-02,removed,CLF,,derived from seed snapshot diff
+2014-04-02,added,ESS,,derived from seed snapshot diff
+2014-04-03,added,GOOG,,derived from seed snapshot diff
+2014-05-01,removed,BEAM,,derived from seed snapshot diff
+2014-05-01,removed,SLM,,derived from seed snapshot diff
+2014-05-01,added,NAVI,,derived from seed snapshot diff
+2014-05-01,added,UAA,,derived from seed snapshot diff
+2014-05-07,removed,LSI,,derived from seed snapshot diff
+2014-05-08,added,AVGO,,derived from seed snapshot diff
+2014-06-20,removed,IGT,,derived from seed snapshot diff
+2014-06-20,added,XEC,,derived from seed snapshot diff
+2014-07-01,removed,FRX,,derived from seed snapshot diff
+2014-07-01,added,AMG,,derived from seed snapshot diff
+2014-07-02,removed,X,,derived from seed snapshot diff
+2014-07-02,added,MLM,,derived from seed snapshot diff
+2014-08-07,added,DISCK,,derived from seed snapshot diff
+2014-08-19,removed,RDC,,derived from seed snapshot diff
+2014-08-19,added,MNK,,derived from seed snapshot diff
+2014-09-22,removed,BTUUQ,,derived from seed snapshot diff
+2014-09-22,removed,GHC,,derived from seed snapshot diff
+2014-09-22,added,UHS,,derived from seed snapshot diff
+2014-09-22,added,URI,,derived from seed snapshot diff
+2014-11-05,removed,JBL,,derived from seed snapshot diff
+2014-11-05,added,LVLT,,derived from seed snapshot diff
+2014-12-05,removed,BMS,,derived from seed snapshot diff
+2014-12-05,added,RCL,,derived from seed snapshot diff
+2015-01-27,removed,COV,,derived from seed snapshot diff
+2015-01-27,removed,SWY,,derived from seed snapshot diff
+2015-01-27,added,ENDP,,derived from seed snapshot diff
+2015-01-27,added,HCA,,derived from seed snapshot diff
+2015-03-12,removed,PETM,,derived from seed snapshot diff
+2015-03-12,added,SWKS,,derived from seed snapshot diff
+2015-03-17,removed,CFN,,derived from seed snapshot diff
+2015-03-18,added,HSIC,,derived from seed snapshot diff
+2015-03-23,removed,AVP,,derived from seed snapshot diff
+2015-03-23,removed,DNR,,derived from seed snapshot diff
+2015-03-23,removed,NBR,,derived from seed snapshot diff
+2015-03-23,added,AAL,,derived from seed snapshot diff
+2015-03-23,added,EQIX,,derived from seed snapshot diff
+2015-03-23,added,HBI,,derived from seed snapshot diff
+2015-03-23,added,SLG,,derived from seed snapshot diff
+2015-04-07,removed,WIN,,derived from seed snapshot diff
+2015-04-07,added,O,,derived from seed snapshot diff
+2015-06-12,removed,LO,,derived from seed snapshot diff
+2015-06-12,added,QRVO,,derived from seed snapshot diff
+2015-06-30,removed,TEG,,derived from seed snapshot diff
+2015-07-01,removed,QEP,,derived from seed snapshot diff
+2015-07-01,added,BXLT,,derived from seed snapshot diff
+2015-07-01,added,JBHT,,derived from seed snapshot diff
+2015-07-02,removed,ATI,,derived from seed snapshot diff
+2015-07-02,removed,MWV,,derived from seed snapshot diff
+2015-07-02,added,CPGX,,derived from seed snapshot diff
+2015-07-02,added,WRK,,derived from seed snapshot diff
+2015-07-06,removed,KRFT,,derived from seed snapshot diff
+2015-07-06,added,KHC,,derived from seed snapshot diff
+2015-07-07,removed,FDO,,derived from seed snapshot diff
+2015-07-09,added,AAP,,derived from seed snapshot diff
+2015-07-20,removed,NE,,derived from seed snapshot diff
+2015-07-20,added,PYPL,,derived from seed snapshot diff
+2015-07-27,removed,DTV,,derived from seed snapshot diff
+2015-07-29,added,SIG,,derived from seed snapshot diff
+2015-08-31,removed,PLL,,derived from seed snapshot diff
+2015-08-31,added,ATVI,,derived from seed snapshot diff
+2015-09-03,removed,HSP,,derived from seed snapshot diff
+2015-09-03,added,UAL,,derived from seed snapshot diff
+2015-09-21,added,CMCSK,,derived from seed snapshot diff
+2015-09-21,added,FOX,,derived from seed snapshot diff
+2015-09-21,added,NWS,,derived from seed snapshot diff
+2015-10-08,removed,JOY,,derived from seed snapshot diff
+2015-10-08,added,VRSK,,derived from seed snapshot diff
+2015-11-02,removed,HCBK,,derived from seed snapshot diff
+2015-11-02,added,HPE,,derived from seed snapshot diff
+2015-11-10,added,FCPT,,derived from seed snapshot diff
+2015-11-17,removed,FCPT,,derived from seed snapshot diff
+2015-11-18,removed,GNW,,derived from seed snapshot diff
+2015-11-18,removed,SIAL,,derived from seed snapshot diff
+2015-11-18,added,SYF,,derived from seed snapshot diff
+2015-11-19,added,ILMN,,derived from seed snapshot diff
+2015-11-30,added,CSRA,,derived from seed snapshot diff
+2015-12-01,removed,DXC,,derived from seed snapshot diff
+2015-12-14,removed,CMCSK,,derived from seed snapshot diff
+2015-12-28,removed,ALTR,,derived from seed snapshot diff
+2015-12-29,added,CHD,,derived from seed snapshot diff
+2016-01-04,added,CCEP,,derived from seed snapshot diff
+2016-01-04,added,CPRI,,derived from seed snapshot diff
+2016-01-05,removed,FOSL,,derived from seed snapshot diff
+2016-01-05,added,WLTW,,derived from seed snapshot diff
+2016-01-19,added,EXR,,derived from seed snapshot diff
+2016-02-01,removed,BRCM,,derived from seed snapshot diff
+2016-02-01,removed,PCP,,derived from seed snapshot diff
+2016-02-01,added,CFG,,derived from seed snapshot diff
+2016-02-01,added,FRT,,derived from seed snapshot diff
+2016-02-22,removed,PCL,,derived from seed snapshot diff
+2016-02-22,added,CXO,,derived from seed snapshot diff
+2016-03-03,removed,GMCR,,derived from seed snapshot diff
+2016-03-04,removed,CNX,,derived from seed snapshot diff
+2016-03-04,added,AWK,,derived from seed snapshot diff
+2016-03-07,added,UDR,,derived from seed snapshot diff
+2016-03-24,removed,POM,,derived from seed snapshot diff
+2016-03-30,removed,ESV,,derived from seed snapshot diff
+2016-03-30,added,CNC,,derived from seed snapshot diff
+2016-03-30,added,HOLX,,derived from seed snapshot diff
+2016-04-04,removed,CAM,,derived from seed snapshot diff
+2016-04-04,added,FL,,derived from seed snapshot diff
+2016-04-08,added,UA,,derived from seed snapshot diff
+2016-04-18,removed,THC,,derived from seed snapshot diff
+2016-04-18,added,ULTA,,derived from seed snapshot diff
+2016-04-25,removed,GME,,derived from seed snapshot diff
+2016-04-25,added,GPN,,derived from seed snapshot diff
+2016-05-02,removed,ADT,,derived from seed snapshot diff
+2016-05-03,added,AYI,,derived from seed snapshot diff
+2016-05-12,removed,SNDK,,derived from seed snapshot diff
+2016-05-13,added,ALK,,derived from seed snapshot diff
+2016-05-18,removed,TWC,,derived from seed snapshot diff
+2016-05-18,added,DLR,,derived from seed snapshot diff
+2016-05-23,removed,ARG,,derived from seed snapshot diff
+2016-05-23,added,LKQ,,derived from seed snapshot diff
+2016-05-31,removed,CCE,,derived from seed snapshot diff
+2016-05-31,removed,CCEP,,derived from seed snapshot diff
+2016-05-31,added,AJG,,derived from seed snapshot diff
+2016-06-03,removed,BXLT,,derived from seed snapshot diff
+2016-06-03,added,TDG,,derived from seed snapshot diff
+2016-06-21,removed,CVC,,derived from seed snapshot diff
+2016-06-24,added,FBHS,,derived from seed snapshot diff
+2016-07-01,removed,CPGX,,derived from seed snapshot diff
+2016-07-01,removed,GAS,,derived from seed snapshot diff
+2016-07-01,removed,TE,,derived from seed snapshot diff
+2016-07-01,added,ALB,,derived from seed snapshot diff
+2016-07-01,added,LNT,,derived from seed snapshot diff
+2016-07-05,added,FTV,,derived from seed snapshot diff
+2016-09-06,added,MTD,,derived from seed snapshot diff
+2016-09-07,removed,EMC,,derived from seed snapshot diff
+2016-09-08,added,CHTR,,derived from seed snapshot diff
+2016-09-23,removed,HOT,,derived from seed snapshot diff
+2016-09-23,added,COO,,derived from seed snapshot diff
+2016-10-03,removed,DO,,derived from seed snapshot diff
+2016-10-03,added,COTY,,derived from seed snapshot diff
+2016-12-02,removed,LM,,derived from seed snapshot diff
+2016-12-02,removed,OI,,derived from seed snapshot diff
+2016-12-02,added,EVHC,,derived from seed snapshot diff
+2016-12-02,added,MAA,,derived from seed snapshot diff
+2017-01-05,removed,STJ,,derived from seed snapshot diff
+2017-01-05,added,IDXX,,derived from seed snapshot diff
+2017-02-27,removed,SE,,derived from seed snapshot diff
+2017-02-28,added,INCY,,derived from seed snapshot diff
+2017-03-01,removed,PBI,,derived from seed snapshot diff
+2017-03-01,added,CBOE,,derived from seed snapshot diff
+2017-03-02,removed,ENDP,,derived from seed snapshot diff
+2017-03-02,added,REG,,derived from seed snapshot diff
+2017-03-13,removed,HAR,,derived from seed snapshot diff
+2017-03-13,removed,LLTC,,derived from seed snapshot diff
+2017-03-13,added,DISH,,derived from seed snapshot diff
+2017-03-16,added,SNPS,,derived from seed snapshot diff
+2017-03-20,removed,FSLR,,derived from seed snapshot diff
+2017-03-20,removed,FTR,,derived from seed snapshot diff
+2017-03-20,removed,URBN,,derived from seed snapshot diff
+2017-03-20,added,AMD,,derived from seed snapshot diff
+2017-03-20,added,ARE,,derived from seed snapshot diff
+2017-03-20,added,RJF,,derived from seed snapshot diff
+2017-04-04,removed,SWN,,derived from seed snapshot diff
+2017-04-04,added,DXC,,derived from seed snapshot diff
+2017-04-05,removed,DNB,,derived from seed snapshot diff
+2017-04-05,added,IT,,derived from seed snapshot diff
+2017-06-02,removed,TGNA,,derived from seed snapshot diff
+2017-06-02,added,INFO,,derived from seed snapshot diff
+2017-06-15,removed,MJN,,derived from seed snapshot diff
+2017-06-19,removed,AABA,,derived from seed snapshot diff
+2017-06-19,removed,R,,derived from seed snapshot diff
+2017-06-19,removed,TDC,,derived from seed snapshot diff
+2017-06-19,added,ALGN,,derived from seed snapshot diff
+2017-06-19,added,ANSS,,derived from seed snapshot diff
+2017-06-19,added,HLT,,derived from seed snapshot diff
+2017-06-19,added,RE,,derived from seed snapshot diff
+2017-07-25,removed,RAI,,derived from seed snapshot diff
+2017-07-26,removed,BBBY,,derived from seed snapshot diff
+2017-07-26,removed,MNK,,derived from seed snapshot diff
+2017-07-26,removed,MUR,,derived from seed snapshot diff
+2017-07-26,removed,RIG,,derived from seed snapshot diff
+2017-07-26,added,AOS,,derived from seed snapshot diff
+2017-07-26,added,DRE,,derived from seed snapshot diff
+2017-07-26,added,MGM,,derived from seed snapshot diff
+2017-07-26,added,PKG,,derived from seed snapshot diff
+2017-07-26,added,RMD,,derived from seed snapshot diff
+2017-08-07,added,BHF,,derived from seed snapshot diff
+2017-08-08,removed,AN,,derived from seed snapshot diff
+2017-08-28,removed,WFM,,derived from seed snapshot diff
+2017-08-29,added,IQV,,derived from seed snapshot diff
+2017-09-01,removed,DD,,derived from seed snapshot diff
+2017-09-01,removed,DOW,,derived from seed snapshot diff
+2017-09-01,added,DWDP,,derived from seed snapshot diff
+2017-09-01,added,SBAC,,derived from seed snapshot diff
+2017-09-13,removed,SPLS,,derived from seed snapshot diff
+2017-09-18,added,CDNS,,derived from seed snapshot diff
+2017-10-13,removed,LVLT,,derived from seed snapshot diff
+2017-10-13,added,NCLH,,derived from seed snapshot diff
+2017-12-29,removed,BCR,,derived from seed snapshot diff
+2018-01-03,added,HII,,derived from seed snapshot diff
+2018-03-07,removed,SNI,,derived from seed snapshot diff
+2018-03-07,added,IPGP,,derived from seed snapshot diff
+2018-03-19,removed,CHK,,derived from seed snapshot diff
+2018-03-19,removed,PDCO,,derived from seed snapshot diff
+2018-03-19,removed,SIG,,derived from seed snapshot diff
+2018-03-19,added,NKTR,,derived from seed snapshot diff
+2018-03-19,added,SIVB,,derived from seed snapshot diff
+2018-03-19,added,TTWO,,derived from seed snapshot diff
+2018-04-04,removed,CSRA,,derived from seed snapshot diff
+2018-04-04,added,MSCI,,derived from seed snapshot diff
+2018-05-31,removed,WYND,,derived from seed snapshot diff
+2018-05-31,added,ABMD,,derived from seed snapshot diff
+2018-06-05,removed,NAVI,,derived from seed snapshot diff
+2018-06-05,added,EVRG,,derived from seed snapshot diff
+2018-06-07,removed,MON,,derived from seed snapshot diff
+2018-06-07,added,TWTR,,derived from seed snapshot diff
+2018-06-15,removed,TWX,,derived from seed snapshot diff
+2018-06-18,removed,AYI,,derived from seed snapshot diff
+2018-06-18,removed,RRC,,derived from seed snapshot diff
+2018-06-18,added,BR,,derived from seed snapshot diff
+2018-06-18,added,HFC,,derived from seed snapshot diff
+2018-06-20,added,FLT,,derived from seed snapshot diff
+2018-07-02,removed,KDP,,derived from seed snapshot diff
+2018-07-02,added,CPRT,,derived from seed snapshot diff
+2018-08-28,removed,GGP,,derived from seed snapshot diff
+2018-08-28,added,ANET,,derived from seed snapshot diff
+2018-09-12,removed,XL,,derived from seed snapshot diff
+2018-09-17,added,WCG,,derived from seed snapshot diff
+2018-09-19,removed,KORS,,derived from seed snapshot diff
+2018-10-01,removed,ANDV,,derived from seed snapshot diff
+2018-10-01,added,ROL,,derived from seed snapshot diff
+2018-10-11,removed,EVHC,,derived from seed snapshot diff
+2018-10-11,added,FTNT,,derived from seed snapshot diff
+2018-10-31,removed,PX,,derived from seed snapshot diff
+2018-10-31,added,LIN,,rename ← PX: Praxair + Linde merger forming Linde plc; the seed dataset removes PX but does not capture the LIN add.
+2018-11-06,removed,CA,,derived from seed snapshot diff
+2018-11-06,added,KEYS,,derived from seed snapshot diff
+2018-11-13,removed,EQT,,derived from seed snapshot diff
+2018-11-13,added,JKHY,,derived from seed snapshot diff
+2018-11-27,removed,COL,,derived from seed snapshot diff
+2018-11-29,removed,AET,,derived from seed snapshot diff
+2018-12-03,removed,SRCL,,derived from seed snapshot diff
+2018-12-03,added,FANG,,derived from seed snapshot diff
+2018-12-03,added,LW,,derived from seed snapshot diff
+2018-12-03,added,MXIM,,derived from seed snapshot diff
+2018-12-21,removed,ESRX,,derived from seed snapshot diff
+2018-12-24,added,CE,,derived from seed snapshot diff
+2019-01-02,removed,SCG,,derived from seed snapshot diff
+2019-01-02,added,FRC,,derived from seed snapshot diff
+2019-01-18,removed,PCG,Pacific Gas & Electric Company,PCG filed for bankruptcy [ 93 ]
+2019-01-18,added,TFX,Teleflex,PCG filed for bankruptcy [ 93 ]
+2019-02-15,removed,NFX,Newfield Exploration,ECA acquired NFX [ 92 ]
+2019-02-15,added,ATO,Atmos Energy,ECA acquired NFX [ 92 ]
+2019-02-27,removed,GT,The Goodyear Tire & Rubber Company,WAB acquired GE transportation business [ 91 ]
+2019-02-27,added,WAB,Wabtec,WAB acquired GE transportation business [ 91 ]
+2019-03-19,removed,FOX,21st Century Fox,21st Century Fox merged with Disney and some parts spun off as Fox Corporation. [ 90 ]
+2019-03-19,removed,FOXA,21st Century Fox,21st Century Fox merged with Disney and some parts spun off as Fox Corporation. [ 90 ]
+2019-03-19,added,FOX,Fox Corporation,21st Century Fox merged with Disney and some parts spun off as Fox Corporation. [ 90 ]
+2019-03-19,added,FOXA,Fox Corporation,21st Century Fox merged with Disney and some parts spun off as Fox Corporation. [ 90 ]
+2019-04-02,removed,BHF,Brighthouse Financial,DOW spun off from DWDP [ 89 ]
+2019-04-02,added,DOW,Dow,DOW spun off from DWDP [ 89 ]
+2019-06-03,removed,DWDP,DuPont,DWDP changed to DD after spinning off Corteva. [ 88 ]
+2019-06-03,removed,FLR,Fluor Corporation,CTVA spun off from DWDP (which then changed symbol to DD) [ 88 ]
+2019-06-03,added,CTVA,Corteva,CTVA spun off from DWDP (which then changed symbol to DD) [ 88 ]
+2019-06-03,added,DD,DuPont,DWDP changed to DD after spinning off Corteva. [ 88 ]
+2019-06-07,removed,MAT,Mattel,Pending merger of Bemis and Amcor; Bemis treated as the surviving entity. [ 87 ]
+2019-06-07,added,BMS,Bemis,Pending merger of Bemis and Amcor; Bemis treated as the surviving entity. [ 87 ]
+2019-06-11,removed,BMS,Bemis,BMS changed to AMCR post merger with Amcor; [ 86 ] subsequently renamed to Amcor [ 87 ]
+2019-06-11,added,AMCR,Amcor,BMS changed to AMCR post merger with Amcor; [ 86 ] subsequently renamed to Amcor [ 87 ]
+2019-06-29,removed,HRS,,rename → LHX: Harris + L3 Technologies merger forming L3Harris Technologies.
+2019-06-29,added,LHX,,rename ← HRS: Harris + L3 Technologies merger forming L3Harris Technologies.
+2019-07-01,removed,LLL,L3 Technologies,L3 purchased by Harris Corporation [ 85 ]
+2019-07-01,added,MKTX,MarketAxess,L3 purchased by Harris Corporation [ 85 ]
+2019-07-15,removed,RHT,Red Hat,S&P 500 & 100 constituent IBM acquired Red Hat. [ 84 ]
+2019-07-15,added,TMUS,T-Mobile US,S&P 500 & 100 constituent IBM acquired Red Hat. [ 84 ]
+2019-08-08,removed,TMK,,rename → GL: Torchmark renamed Globe Life.
+2019-08-08,added,GL,,rename ← TMK: Torchmark renamed Globe Life.
+2019-08-09,removed,APC,Anadarko Petroleum,S&P 500 & 100 constituent Occidental Petroleum Corp. (NYSE:OXY) acquired Anadarko Petroleum. [ 83 ]
+2019-08-09,removed,FL,Foot Locker,Market capitalization change. [ 83 ]
+2019-08-09,added,IEX,IDEX Corporation,Market capitalization change. [ 83 ]
+2019-08-09,added,LDOS,Leidos,S&P 500 & 100 constituent Occidental Petroleum Corp. (NYSE:OXY) acquired Anadarko Petroleum. [ 83 ]
+2019-09-23,removed,TSS,TSYS,S&P 500 constituent Global Payments (NYSE: GPN) acquired TSS. [ 82 ]
+2019-09-23,added,CDW,CDW Corporation,S&P 500 constituent Global Payments (NYSE: GPN) acquired TSS. [ 82 ]
+2019-09-26,removed,BHGE,,rename → BKR: Baker Hughes restructuring after GE separation; ticker change.
+2019-09-26,removed,JEF,Jefferies Financial Group,JEF spun off SPB. [ 81 ]
+2019-09-26,added,BKR,,rename ← BHGE: Baker Hughes restructuring after GE separation; ticker change.
+2019-09-26,added,NVR,NVR,JEF spun off SPB. [ 81 ]
+2019-10-03,removed,NKTR,Nektar Therapeutics,Market capitalization change. [ 80 ]
+2019-10-03,added,LVS,Las Vegas Sands,Market capitalization change. [ 80 ]
+2019-11-21,removed,CELG,Celgene,Bristol-Myers Squibb (NYSE:BMY) acquired Celgene. [ 79 ]
+2019-11-21,added,NOW,ServiceNow,Bristol-Myers Squibb (NYSE:BMY) acquired Celgene. [ 79 ]
+2019-11-22,removed,HCP,,rename → PEAK: HCP renamed Healthpeak Properties; ticker change.
+2019-11-22,added,PEAK,,rename ← HCP: HCP renamed Healthpeak Properties; ticker change.
+2019-12-04,removed,CBS,,rename → VIAC: CBS + Viacom merger forming ViacomCBS.
+2019-12-04,added,VIAC,,rename ← CBS: CBS + Viacom merger forming ViacomCBS.
+2019-12-05,removed,VIAB,Viacom,CBS acquired Viacom to form ViacomCBS . [ 78 ]
+2019-12-05,added,WRB,W. R. Berkley Corporation,CBS acquired Viacom to form ViacomCBS . [ 78 ]
+2019-12-09,removed,BBT,,rename → TFC: BB&T + SunTrust merger forming Truist Financial.
+2019-12-09,removed,STI,SunTrust Banks,BB&T acquired SunTrust to form Truist Financial . [ 77 ]
+2019-12-09,added,ODFL,Old Dominion Freight Line,BB&T acquired SunTrust to form Truist Financial . [ 77 ]
+2019-12-09,added,TFC,,rename ← BBT: BB&T + SunTrust merger forming Truist Financial.
+2019-12-23,removed,AMG,Affiliated Managers Group,Market capitalization change. [ 76 ]
+2019-12-23,removed,JEC,,rename → J: Jacobs Engineering ticker change to J.
+2019-12-23,removed,MAC,Macerich,Market capitalization change. [ 76 ]
+2019-12-23,removed,TRIP,TripAdvisor,Market capitalization change. [ 76 ]
+2019-12-23,added,J,,rename ← JEC: Jacobs Engineering ticker change to J.
+2019-12-23,added,LYV,Live Nation Entertainment,Market capitalization change. [ 76 ]
+2019-12-23,added,STE,Steris,Market capitalization change. [ 76 ]
+2019-12-23,added,ZBRA,Zebra Technologies,Market capitalization change. [ 76 ]
+2020-01-28,removed,WCG,WellCare,S&P 500 constituent Centene Corp. (NYSE: CNC) acquired Wellcare Health Plans. [ 75 ]
+2020-01-28,added,PAYC,Paycom,S&P 500 constituent Centene Corp. (NYSE: CNC) acquired Wellcare Health Plans. [ 75 ]
+2020-02-29,removed,IR,,rename → TT: Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot.
+2020-02-29,added,TT,,rename ← IR: Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot.
+2020-03-02,removed,XEC,Cimarex Energy,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc. [ 73 ] [ 74 ]"
+2020-03-02,added,IR,Ingersoll Rand,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc. [ 73 ] [ 74 ]"
+2020-04-01,removed,ARNC,Arconic,Arconic separated into 2 companies - Howmet remained on the index. [ 72 ]
+2020-04-01,added,HWM,Howmet Aerospace,Arconic separated into 2 companies - Howmet remained on the index. [ 72 ]
+2020-04-03,removed,UTX,,rename → RTX: United Technologies + Raytheon merger forming Raytheon Technologies (later RTX Corporation).
+2020-04-03,added,CARR,Carrier,United Technologies spun off Otis and Carrier and acquired Raytheon Company. [ 71 ]
+2020-04-03,added,OTIS,Otis Worldwide,United Technologies spun off Otis and Carrier and acquired Raytheon Company. [ 71 ]
+2020-04-03,added,RTX,,rename ← UTX: United Technologies + Raytheon merger forming Raytheon Technologies (later RTX Corporation).
+2020-04-06,removed,M,Macy's,Market capitalization change. [ 71 ]
+2020-04-06,removed,RTN,Raytheon Company,United Technologies spun off Otis and Carrier and acquired Raytheon Company. [ 71 ]
+2020-05-12,removed,AGN,Allergan,Allergan acquired by AbbVie . [ 70 ]
+2020-05-12,removed,CPRI,Capri Holdings,Market capitalization change. [ 70 ]
+2020-05-12,added,DPZ,Domino's Pizza,Market capitalization change. [ 70 ]
+2020-05-12,added,DXCM,Dexcom,Allergan acquired by AbbVie . [ 70 ]
+2020-05-22,removed,HP,Helmerich & Payne,Market capitalization change. [ 69 ]
+2020-05-22,added,WST,West Pharmaceutical Services,Market capitalization change. [ 69 ]
+2020-06-22,removed,ADS,Alliance Data Systems,Market capitalization change. [ 68 ]
+2020-06-22,removed,HOG,Harley-Davidson,Market capitalization change. [ 68 ]
+2020-06-22,removed,JWN,Nordstrom,Market capitalization change. [ 68 ]
+2020-06-22,added,BIO,Bio-Rad Laboratories,Market capitalization change. [ 68 ]
+2020-06-22,added,TDY,Teledyne,Market capitalization change. [ 68 ]
+2020-06-22,added,TYL,Tyler Technologies,Market capitalization change. [ 68 ]
+2020-09-18,removed,CTL,,rename → LUMN: CenturyLink renamed Lumen Technologies.
+2020-09-18,added,LUMN,,rename ← CTL: CenturyLink renamed Lumen Technologies.
+2020-09-21,removed,COTY,Coty,Market capitalization change. [ 67 ]
+2020-09-21,removed,HRB,H&R Block,Market capitalization change. [ 67 ]
+2020-09-21,removed,KSS,Kohl's,Market capitalization change. [ 67 ]
+2020-09-21,added,CTLT,Catalent,Market capitalization change. [ 67 ]
+2020-09-21,added,ETSY,Etsy,Market capitalization change. [ 67 ]
+2020-09-21,added,TER,Teradyne,Market capitalization change. [ 67 ]
+2020-10-07,removed,ETFC,E-Trade,Morgan Stanley acquired E*Trade. [ 66 ]
+2020-10-07,added,POOL,Pool Corporation,Morgan Stanley acquired E*Trade. [ 66 ]
+2020-10-09,added,VNT,Vontier,S&P 500 constituent Fortive spun off Vontier. [ 65 ]
+2020-10-12,removed,NBL,Noble Energy,Chevron acquired Noble Energy. [ 65 ]
+2020-11-17,removed,MYL,,rename → VTRS: Mylan + Pfizer Upjohn merger forming Viatris.
+2020-11-17,added,VTRS,,rename ← MYL: Mylan + Pfizer Upjohn merger forming Viatris.
+2020-12-21,removed,AIV,Apartment Investment & Management,Apartment Investment and Management (Aimco) spun off Apartment Income REIT. [ 64 ]
+2020-12-21,added,TSLA,Tesla,Apartment Investment and Management (Aimco) spun off Apartment Income REIT. [ 64 ]
+2021-01-07,removed,TIF,Tiffany & Co,LVMH Moet Hennessy-Louis Vuitton SE acquired Tiffany & Co. [ 63 ]
+2021-01-07,added,ENPH,Enphase Energy,LVMH Moet Hennessy-Louis Vuitton SE acquired Tiffany & Co. [ 63 ]
+2021-01-21,removed,CXO,Concho Resources,S&P 500/100 constituent ConocoPhillips acquired Concho Resources. [ 62 ]
+2021-01-21,added,TRMB,Trimble,S&P 500/100 constituent ConocoPhillips acquired Concho Resources. [ 62 ]
+2021-02-12,removed,FTI,TechnipFMC,TechnipFMC was removed from the S&P 500 in anticipation of its announced spin-off of Technip Energies. [ 61 ]
+2021-02-12,added,MPWR,Monolithic Power Systems,TechnipFMC was removed from the S&P 500 in anticipation of its announced spin-off of Technip Energies. [ 61 ]
+2021-03-22,removed,FLS,Flowserve,Market capitalization change. [ 60 ]
+2021-03-22,removed,SLG,SL Green Realty,Market capitalization change. [ 60 ]
+2021-03-22,removed,VNT,Vontier,Market capitalization change. [ 60 ]
+2021-03-22,removed,XRX,Xerox,Market capitalization change. [ 60 ]
+2021-03-22,added,CZR,Caesars Entertainment,Market capitalization change. [ 60 ]
+2021-03-22,added,GNRC,Generac Holdings,Market capitalization change. [ 60 ]
+2021-03-22,added,NXPI,NXP,Market capitalization change. [ 60 ]
+2021-03-22,added,PENN,Penn National Gaming,Market capitalization change. [ 60 ]
+2021-04-20,removed,VAR,Varian Medical Systems,Siemens Healthineers acquired Varian Medical Systems. [ 59 ]
+2021-04-20,added,PTC,PTC,Siemens Healthineers acquired Varian Medical Systems. [ 59 ]
+2021-05-14,removed,FLIR,FLIR Systems,S&P 500 constituent Teledyne Technologies acquired FLIR Systems. [ 58 ]
+2021-05-14,added,CRL,Charles River Laboratories,S&P 500 constituent Teledyne Technologies acquired FLIR Systems. [ 58 ]
+2021-06-03,added,OGN,Organon & Co.,S&P 500/100 constituent Merck & Co. spun off Organon. [ 52 ]
+2021-06-04,removed,HFC,HollyFrontier,Market capitalization change. [ 52 ]
+2021-07-21,removed,ALXN,Alexion Pharmaceuticals,AstraZeneca acquired Alexion Pharmaceuticals. [ 57 ]
+2021-07-21,added,MRNA,Moderna,AstraZeneca acquired Alexion Pharmaceuticals. [ 57 ]
+2021-08-03,removed,LB,,rename → BBWI: L Brands renamed Bath & Body Works (after Victoria's Secret spin-off).
+2021-08-03,added,BBWI,,rename ← LB: L Brands renamed Bath & Body Works (after Victoria's Secret spin-off).
+2021-08-30,removed,MXIM,Maxim Integrated,S&P 500 constituent Analog Devices acquired Maxim Integrated Products. [ 56 ]
+2021-08-30,added,TECH,Bio-Techne,S&P 500 constituent Analog Devices acquired Maxim Integrated Products. [ 56 ]
+2021-09-20,removed,NOV,Nov,Market capitalization change. [ 55 ]
+2021-09-20,removed,PRGO,Perrigo,Market capitalization change. [ 55 ]
+2021-09-20,removed,UNM,Unum,Market capitalization change. [ 55 ]
+2021-09-20,added,BRO,Brown & Brown,Market capitalization change. [ 55 ]
+2021-09-20,added,CDAY,Ceridian,Market capitalization change. [ 55 ]
+2021-09-20,added,MTCH,Match Group,Market capitalization change. [ 55 ]
+2021-10-01,removed,COG,,rename → CTRA: Cabot Oil & Gas + Cimarex Energy merger forming Coterra Energy.
+2021-10-01,added,CTRA,,rename ← COG: Cabot Oil & Gas + Cimarex Energy merger forming Coterra Energy.
+2021-12-14,removed,KSU,Kansas City Southern,Canadian Pacific acquired Kansas City Southern. [ 54 ]
+2021-12-14,added,EPAM,EPAM Systems,Canadian Pacific acquired Kansas City Southern. [ 54 ]
+2021-12-20,removed,HBI,Hanesbrands,Market capitalization change. [ 53 ]
+2021-12-20,removed,LEG,Leggett & Platt,Market capitalization change. [ 53 ]
+2021-12-20,removed,WU,Western Union,Market capitalization change. [ 53 ]
+2021-12-20,added,FDS,FactSet,Market capitalization change. [ 53 ]
+2021-12-20,added,SBNY,Signature Bank,Market capitalization change. [ 53 ]
+2021-12-20,added,SEDG,SolarEdge,Market capitalization change. [ 53 ]
+2022-01-21,removed,WLTW,,rename → WTW: Willis Towers Watson ticker change.
+2022-01-21,added,WTW,,rename ← WLTW: Willis Towers Watson ticker change.
+2022-02-02,added,CEG,Constellation Energy,S&P 500 and 100 constituent Exelon Corp. spun off Constellation Energy. [ 52 ]
+2022-02-03,removed,GPS,Gap,Market capitalization change. [ 52 ]
+2022-02-14,removed,VIAC,,rename → PARA: ViacomCBS renamed Paramount Global.
+2022-02-14,added,PARA,,rename ← VIAC: ViacomCBS renamed Paramount Global.
+2022-02-15,removed,XLNX,Xilinx,S&P 500 constituent Advanced Micro Devices acquired Xilinx. [ 51 ]
+2022-02-15,added,NDSN,Nordson Corporation,S&P 500 constituent Advanced Micro Devices acquired Xilinx. [ 51 ]
+2022-03-02,removed,INFO,IHS Markit,S&P 500 constituent S&P Global Inc. acquired IHS Markit. [ 50 ]
+2022-03-02,added,MOH,Molina Healthcare,S&P 500 constituent S&P Global Inc. acquired IHS Markit. [ 50 ]
+2022-04-04,removed,PBCT,People's United Financial,S&P 500 constituent M&T Bank Corp. acquired People's United Financial. [ 49 ]
+2022-04-04,added,CPT,Camden Property Trust,S&P 500 constituent M&T Bank Corp. acquired People's United Financial. [ 49 ]
+2022-04-11,removed,DISCA,"Discovery, Inc.",WarnerMedia and Discovery merge to create Warner Bros. Discovery . [ 48 ]
+2022-04-11,removed,DISCK,"Discovery, Inc.",WarnerMedia and Discovery merge to create Warner Bros. Discovery . [ 48 ]
+2022-04-11,added,WBD,Warner Bros. Discovery,WarnerMedia and Discovery merge to create Warner Bros. Discovery . [ 48 ]
+2022-06-08,removed,CERN,Cerner,S&P 500 constituent Oracle Corp. acquired Cerner. [ 47 ]
+2022-06-08,added,VICI,Vici Properties,S&P 500 constituent Oracle Corp. acquired Cerner. [ 47 ]
+2022-06-09,removed,FB,,rename → META: Facebook renamed Meta Platforms.
+2022-06-09,added,META,,rename ← FB: Facebook renamed Meta Platforms.
+2022-06-21,removed,IPGP,IPG Photonics,Market capitalization change. [ 47 ]
+2022-06-21,removed,UA,Under Armour (Class C),Market capitalization change. [ 47 ]
+2022-06-21,removed,UAA,Under Armour (Class A),Market capitalization change. [ 47 ]
+2022-06-21,added,KDP,Keurig Dr Pepper,Market capitalization change. [ 47 ]
+2022-06-21,added,ON,ON Semiconductor,Market capitalization change. [ 47 ]
+2022-06-28,removed,ANTM,,rename → ELV: Anthem renamed Elevance Health.
+2022-06-28,added,ELV,,rename ← ANTM: Anthem renamed Elevance Health.
+2022-09-19,removed,PENN,Penn Entertainment,Market capitalization change. [ 46 ]
+2022-09-19,removed,PVH,PVH,Market capitalization change. [ 46 ]
+2022-09-19,added,CSGP,CoStar Group,Market capitalization change. [ 46 ]
+2022-09-19,added,INVH,Invitation Homes,Market capitalization change. [ 46 ]
+2022-10-03,removed,CTXS,Citrix Systems,Vista Equity Partners acquired Citrix Systems. [ 45 ]
+2022-10-03,removed,DRE,Duke Realty,S&P 500 constituent Prologis Inc. acquired Duke Realty. [ 45 ]
+2022-10-03,added,EQT,EQT Corporation,S&P 500 constituent Prologis Inc. acquired Duke Realty. [ 45 ]
+2022-10-03,added,PCG,PG&E,Vista Equity Partners acquired Citrix Systems. [ 45 ]
+2022-10-12,removed,NLSN,Nielsen Holdings,Elliot Management Corp acquired Nielsen Holdings. [ 44 ]
+2022-10-12,added,TRGP,Targa Resources,Elliot Management Corp acquired Nielsen Holdings. [ 44 ]
+2022-11-01,removed,TWTR,Twitter,Elon Musk acquired Twitter. [ 43 ]
+2022-11-01,added,ACGL,Arch Capital Group,Elon Musk acquired Twitter. [ 43 ]
+2022-11-07,removed,SYMC,,rename → GEN: NortonLifeLock (ex-Symantec) renamed Gen Digital.
+2022-11-07,added,GEN,,rename ← SYMC: NortonLifeLock (ex-Symantec) renamed Gen Digital.
+2022-12-15,added,MBC,MasterBrand,S&P 500 constituent Fortune Brands Home & Security spun off MasterBrand. [ 42 ]
+2022-12-19,removed,FBHS,Fortune Brands Home & Security,Market capitalization change. [ 42 ]
+2022-12-19,removed,MBC,MasterBrand,Market capitalization change. [ 42 ]
+2022-12-19,added,FSLR,First Solar,Market capitalization change. [ 42 ]
+2022-12-22,removed,ABMD,Abiomed,S&P 500 constituent Johnson & Johnson acquired Abiomed. [ 41 ]
+2022-12-22,added,STLD,Steel Dynamics,S&P 500 constituent Johnson & Johnson acquired Abiomed. [ 41 ]
+2023-01-04,added,GEHC,GE HealthCare,S&P 500 constituent General Electric spun off GE HealthCare. [ 40 ]
+2023-01-05,removed,VNO,Vornado Realty Trust,Market capitalization change. [ 40 ]
+2023-03-09,removed,RE,,rename → EG: Everest Re Group renamed Everest Group.
+2023-03-09,added,EG,,rename ← RE: Everest Re Group renamed Everest Group.
+2023-03-15,removed,SBNY,Signature Bank,The FDIC placed Signature Bank into FDIC Receivership. [ 38 ]
+2023-03-15,removed,SIVB,SVB Financial Group,"The FDIC placed SVB's main subsidiary, Silicon Valley Bank , into receivership. [ 39 ]"
+2023-03-15,added,BG,Bunge Global,The FDIC placed Signature Bank into FDIC Receivership. [ 38 ]
+2023-03-15,added,PODD,Insulet,"The FDIC placed SVB's main subsidiary, Silicon Valley Bank , into receivership. [ 39 ]"
+2023-03-20,removed,LUMN,Lumen Technologies,Market capitalization change. [ 37 ]
+2023-03-20,added,FICO,Fair Isaac,Market capitalization change. [ 37 ]
+2023-05-04,removed,FRC,First Republic Bank,The Federal Deposit Insurance Corporation (FDIC) placed First Republic Bank into FDIC Receivership. [ 36 ]
+2023-05-04,added,AXON,Axon Enterprise,The Federal Deposit Insurance Corporation (FDIC) placed First Republic Bank into FDIC Receivership. [ 36 ]
+2023-05-16,removed,PKI,,rename → RVTY: PerkinElmer renamed Revvity.
+2023-05-16,added,RVTY,,rename ← PKI: PerkinElmer renamed Revvity.
+2023-06-20,removed,DISH,Dish Network,Market capitalization change. [ 35 ]
+2023-06-20,added,PANW,Palo Alto Networks,Market capitalization change. [ 35 ]
+2023-08-25,removed,AAP,Advance Auto Parts,S&P 500 and S&P 100 constituent Johnson & Johnson offered to exchange the shares of Kenvue held for shares of Johnson & Johnson in a split-off exchange offer. [ 34 ]
+2023-08-25,added,KVUE,Kenvue,S&P 500 and S&P 100 constituent Johnson & Johnson offered to exchange the shares of Kenvue held for shares of Johnson & Johnson in a split-off exchange offer. [ 34 ]
+2023-08-30,removed,ABC,,rename → COR: AmerisourceBergen renamed Cencora.
+2023-08-30,added,COR,,rename ← ABC: AmerisourceBergen renamed Cencora.
+2023-09-18,removed,LNC,Lincoln National Corporation,Market capitalization change. [ 33 ]
+2023-09-18,removed,NWL,Newell Brands,Market capitalization change. [ 33 ]
+2023-09-18,added,ABNB,Airbnb,Market capitalization change. [ 33 ]
+2023-09-18,added,BX,Blackstone,Market capitalization change. [ 33 ]
+2023-10-02,added,VLTO,Veralto,S&P 500 and S&P 100 constituent Danaher Corporation spun off Veralto. [ 32 ]
+2023-10-03,removed,DXC,DXC Technology,Market capitalization change. [ 32 ]
+2023-10-18,removed,ATVI,Activision Blizzard,S&P 500 and S&P 100 constituent Microsoft acquired Activision Blizzard . [ 31 ]
+2023-10-18,removed,OGN,Organon & Co.,Market capitalization change. [ 31 ]
+2023-10-18,added,HUBB,Hubbell,Market capitalization change. [ 31 ]
+2023-10-18,added,LULU,Lululemon Athletica,S&P 500 and S&P 100 constituent Microsoft acquired Activision Blizzard . [ 31 ]
+2023-12-18,removed,ALK,Alaska Air Group,Market capitalization change. [ 30 ]
+2023-12-18,removed,SEDG,SolarEdge,Market capitalization change. [ 30 ]
+2023-12-18,removed,SEE,Sealed Air,Market capitalization change. [ 30 ]
+2023-12-18,added,BLDR,Builders FirstSource,Market capitalization change. [ 30 ]
+2023-12-18,added,JBL,Jabil,Market capitalization change. [ 30 ]
+2023-12-18,added,UBER,Uber,Market capitalization change. [ 30 ]
+2024-03-01,removed,PEAK,,rename → DOC: Healthpeak Properties + Physicians Realty Trust merger; ticker changes to DOC.
+2024-03-01,added,DOC,,rename ← PEAK: Healthpeak Properties + Physicians Realty Trust merger; ticker changes to DOC.
+2024-03-18,removed,WHR,Whirlpool Corporation,Market capitalization change. [ 29 ]
+2024-03-18,removed,ZION,Zions Bancorporation,Market capitalization change. [ 29 ]
+2024-03-18,added,DECK,Deckers Brands,Market capitalization change. [ 29 ]
+2024-03-18,added,SMCI,Supermicro,Market capitalization change. [ 29 ]
+2024-04-01,added,SOLV,Solventum,S&P 500 and 100 constituent 3M Co. spun off Solventum. [ 28 ]
+2024-04-02,added,GEV,GE Vernova,S&P 500 and 100 constituent General Electric Corp. spun off GE Vernova. [ 28 ]
+2024-04-03,removed,VFC,VF Corporation,Market capitalization change. [ 28 ]
+2024-04-03,removed,XRAY,Dentsply Sirona,Market capitalization change. [ 28 ]
+2024-04-04,removed,FLT,,rename → CPAY: FleetCor renamed Corpay.
+2024-04-04,added,CPAY,,rename ← FLT: FleetCor renamed Corpay.
+2024-05-08,removed,PXD,Pioneer Natural Resources,S&P 500 and S&P 100 constituent ExxonMobil acquired Pioneer Natural Resources. [ 27 ]
+2024-05-08,added,VST,Vistra,S&P 500 and S&P 100 constituent ExxonMobil acquired Pioneer Natural Resources. [ 27 ]
+2024-06-24,removed,CMA,Comerica,Market capitalization change. [ 26 ]
+2024-06-24,removed,ILMN,"Illumina, Inc.",Market capitalization change. [ 26 ]
+2024-06-24,removed,RHI,Robert Half,Market capitalization change. [ 26 ]
+2024-06-24,added,CRWD,CrowdStrike,Market capitalization change. [ 26 ]
+2024-06-24,added,GDDY,GoDaddy,Market capitalization change. [ 26 ]
+2024-06-24,added,KKR,KKR,Market capitalization change. [ 26 ]
+2024-07-05,removed,WRK,,rename → SW: WestRock + Smurfit Kappa merger forming Smurfit Westrock.
+2024-07-05,added,SW,,rename ← WRK: WestRock + Smurfit Kappa merger forming Smurfit Westrock.
+2024-08-28,removed,CDAY,,rename → DAY: Ceridian renamed Dayforce.
+2024-08-28,added,DAY,,rename ← CDAY: Ceridian renamed Dayforce.
+2024-09-12,removed,BLL,,rename → BALL: Ball Corporation ticker change.
+2024-09-12,added,BALL,,rename ← BLL: Ball Corporation ticker change.
+2024-09-23,removed,AAL,American Airlines Group,Market capitalization change. [ 25 ]
+2024-09-23,removed,BIO,Bio-Rad Laboratories,Market capitalization change. [ 25 ]
+2024-09-23,removed,ETSY,Etsy,Market capitalization change. [ 25 ]
+2024-09-23,added,DELL,Dell Technologies,Market capitalization change. [ 25 ]
+2024-09-23,added,ERIE,Erie Indemnity,Market capitalization change. [ 25 ]
+2024-09-23,added,PLTR,Palantir Technologies,Market capitalization change. [ 25 ]
+2024-09-30,added,AMTM,Amentum,"S&P 500 constituent Jacobs Solutions spun off its Critical Mission Solutions and Cyber Intelligence business, which merged with private Amentum to create newly publicly traded Amentum Holdings. [ 24 ]"
+2024-10-01,removed,BBWI,"Bath & Body Works, Inc.",Market capitalization change. [ 24 ]
+2024-11-26,removed,MRO,Marathon Oil,S&P 500 & 100 constituent ConocoPhillips acquired Marathon Oil. [ 23 ]
+2024-11-26,added,TPL,Texas Pacific Land Corporation,S&P 500 & 100 constituent ConocoPhillips acquired Marathon Oil. [ 23 ]
+2024-12-23,removed,AMTM,Amentum,Market capitalization change. [ 21 ]
+2024-12-23,removed,CTLT,Catalent,Novo Holdings A/S acquired Catalent. [ 22 ]
+2024-12-23,removed,QRVO,Qorvo,Market capitalization change. [ 21 ]
+2024-12-23,added,APO,Apollo Global Management,Market capitalization change. [ 21 ]
+2024-12-23,added,LII,Lennox International,Novo Holdings A/S acquired Catalent. [ 22 ]
+2024-12-23,added,WDAY,"Workday, Inc.",Market capitalization change. [ 21 ]
+2025-03-24,removed,BWA,BorgWarner,Market capitalization change. [ 20 ]
+2025-03-24,removed,CE,Celanese,Market capitalization change. [ 20 ]
+2025-03-24,removed,FMC,FMC Corporation,Market capitalization change. [ 20 ]
+2025-03-24,removed,TFX,Teleflex,Market capitalization change. [ 20 ]
+2025-03-24,added,DASH,DoorDash,Market capitalization change. [ 20 ]
+2025-03-24,added,EXE,Expand Energy,Market capitalization change. [ 20 ]
+2025-03-24,added,TKO,TKO Group Holdings,Market capitalization change. [ 20 ]
+2025-03-24,added,WSM,"Williams-Sonoma, Inc.",Market capitalization change. [ 20 ]
+2025-05-19,removed,DFS,Discover Financial,S&P 500 constituent Capital One Financial Corp. acquired Discover Financial Services. [ 19 ]
+2025-05-19,added,COIN,Coinbase,S&P 500 constituent Capital One Financial Corp. acquired Discover Financial Services. [ 19 ]
+2025-07-09,removed,JNPR,Juniper Networks,S&P 500 constituent Hewlett Packard Enterprise Co. acquired Juniper Networks. [ 18 ]
+2025-07-09,added,DDOG,Datadog,S&P 500 constituent Hewlett Packard Enterprise Co. acquired Juniper Networks. [ 18 ]
+2025-07-18,removed,ANSS,Ansys,S&P 500 constituent Synopsys Inc. acquired Ansys. [ 17 ]
+2025-07-18,added,TTD,Trade Desk (The),S&P 500 constituent Synopsys Inc. acquired Ansys. [ 17 ]
+2025-07-23,removed,HES,Hess Corporation,S&P 500 and S&P 100 constituent Chevron Corp. acquired Hess Corporation [ 16 ]
+2025-07-23,added,XYZ,"Block, Inc.",S&P 500 and S&P 100 constituent Chevron Corp. acquired Hess Corporation [ 16 ]
+2025-08-07,removed,PARA,,rename → PSKY: Paramount Global + Skydance merger forming Paramount Skydance.
+2025-08-07,added,PSKY,,rename ← PARA: Paramount Global + Skydance merger forming Paramount Skydance.
+2025-08-28,removed,WBA,Walgreens Boots Alliance,Sycamore Partners acquired Walgreen Boots Alliance. [ 15 ]
+2025-08-28,added,IBKR,Interactive Brokers,Sycamore Partners acquired Walgreen Boots Alliance. [ 15 ]
+2025-09-22,removed,CZR,Caesars Entertainment,Market capitalization change. [ 14 ]
+2025-09-22,removed,ENPH,Enphase Energy,Market capitalization change. [ 14 ]
+2025-09-22,removed,MKTX,MarketAxess,Market capitalization change. [ 14 ]
+2025-09-22,added,APP,AppLovin,Market capitalization change. [ 14 ]
+2025-09-22,added,EME,Emcor,Market capitalization change. [ 14 ]
+2025-09-22,added,HOOD,Robinhood Markets,Market capitalization change. [ 14 ]
+2025-10-30,added,SOLS,Solstice Advanced Materials,S&P 500 and S&P 100 constituent Honeywell International Inc. spun off Solstice Advanced Materials. [ 13 ]
+2025-10-31,removed,KMX,CarMax,Market capitalization change. [ 13 ]
+2025-11-03,added,Q,Qnity Electronics,"S&P 500 constituent Dupont de Nemours, Inc. spun off Qnity Electronics. [ 13 ]"
+2025-11-04,removed,EMN,Eastman Chemical Co.,Market capitalization change. [ 13 ]
+2025-11-28,removed,IPG,Interpublic Group,S&P 500 constituent Omnicom Group Inc. acquired (The) Interpublic Group. [ 11 ] [ 12 ]
+2025-11-28,added,SNDK,Sandisk,S&P 500 constituent Omnicom Group Inc. acquired (The) Interpublic Group. [ 11 ] [ 12 ]
+2025-12-11,removed,K,Kellanova,Mars Inc. acquired Kellanova. [ 10 ]
+2025-12-11,added,ARES,Ares Management,Mars Inc. acquired Kellanova. [ 10 ]
+2025-12-22,removed,LKQ,LKQ Corporation,Market capitalization change. [ 9 ]
+2025-12-22,removed,MHK,Mohawk Industries,Market capitalization change. [ 9 ]
+2025-12-22,removed,SOLS,Solstice Advanced Materials,Market capitalization change. [ 9 ]
+2025-12-22,added,CRH,CRH,Market capitalization change. [ 9 ]
+2025-12-22,added,CVNA,Carvana,Market capitalization change. [ 9 ]
+2025-12-22,added,FIX,Comfort Systems USA,Market capitalization change. [ 9 ]
+2026-01-26,removed,MMC,,rename → MRSH: Marsh McLennan ticker change.
+2026-01-26,added,MRSH,,rename ← MMC: Marsh McLennan ticker change.
+2026-02-09,removed,DAY,Dayforce,Thoma Bravo L.P. acquired Dayforce. [ 8 ]
+2026-02-09,added,CIEN,Ciena,Thoma Bravo L.P. acquired Dayforce. [ 8 ]
+2026-03-23,removed,LW,Lamb Weston,Market capitalization change. [ 7 ]
+2026-03-23,removed,MOH,Molina Healthcare,Market capitalization change. [ 7 ]
+2026-03-23,removed,MTCH,Match Group,Market capitalization change. [ 7 ]
+2026-03-23,removed,PAYC,Paycom,Market capitalization change. [ 7 ]
+2026-03-23,added,COHR,Coherent Corp.,Market capitalization change. [ 7 ]
+2026-03-23,added,LITE,Lumentum,Market capitalization change. [ 7 ]
+2026-03-23,added,SATS,EchoStar,Market capitalization change. [ 7 ]
+2026-03-23,added,VRT,Vertiv,Market capitalization change. [ 7 ]
+2026-04-09,removed,HOLX,Hologic,Blackstone Inc. and TPG Inc. acquired Hologic. [ 6 ]
+2026-04-09,added,CASY,Casey's,Blackstone Inc. and TPG Inc. acquired Hologic. [ 6 ]

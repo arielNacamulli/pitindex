@@ -1,0 +1,3 @@
+date,action,ticker,name,reason
+2008-09-15,removed,LEH,Lehman Brothers Holdings,S&P 500 removal effective 2008-09-15 after Chapter 11 filing. The upstream seed dataset encodes the company under its post-bankruptcy ticker LEHMQ; we apply a rename LEHMQ -> LEH at start_date in ticker_renames.csv so PIT queries use the period-correct symbol.
+2008-09-15,removed,LEHMQ,Lehman Brothers Holdings (post-bankruptcy notation),Same as above; emitted in both notations so the event no-ops cleanly regardless of which is in the roster.

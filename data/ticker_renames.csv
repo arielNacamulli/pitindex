@@ -1,0 +1,31 @@
+date,old_ticker,new_ticker,reason
+2005-01-03,LEHMQ,LEH,Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
+2018-10-31,PX,LIN,Praxair + Linde merger forming Linde plc; the seed dataset removes PX but does not capture the LIN add.
+2019-06-29,HRS,LHX,Harris + L3 Technologies merger forming L3Harris Technologies.
+2019-08-08,TMK,GL,Torchmark renamed Globe Life.
+2019-09-26,BHGE,BKR,Baker Hughes restructuring after GE separation; ticker change.
+2019-12-23,JEC,J,Jacobs Engineering ticker change to J.
+2019-11-22,HCP,PEAK,HCP renamed Healthpeak Properties; ticker change.
+2019-12-04,CBS,VIAC,CBS + Viacom merger forming ViacomCBS.
+2019-12-09,BBT,TFC,BB&T + SunTrust merger forming Truist Financial.
+2020-02-29,IR,TT,"Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot."
+2020-04-03,UTX,RTX,United Technologies + Raytheon merger forming Raytheon Technologies (later RTX Corporation).
+2020-09-18,CTL,LUMN,CenturyLink renamed Lumen Technologies.
+2020-11-17,MYL,VTRS,Mylan + Pfizer Upjohn merger forming Viatris.
+2021-08-03,LB,BBWI,L Brands renamed Bath & Body Works (after Victoria's Secret spin-off).
+2021-10-01,COG,CTRA,Cabot Oil & Gas + Cimarex Energy merger forming Coterra Energy.
+2022-01-21,WLTW,WTW,Willis Towers Watson ticker change.
+2022-02-14,VIAC,PARA,ViacomCBS renamed Paramount Global.
+2022-06-09,FB,META,Facebook renamed Meta Platforms.
+2022-06-28,ANTM,ELV,Anthem renamed Elevance Health.
+2022-11-07,SYMC,GEN,NortonLifeLock (ex-Symantec) renamed Gen Digital.
+2023-03-09,RE,EG,Everest Re Group renamed Everest Group.
+2023-05-16,PKI,RVTY,PerkinElmer renamed Revvity.
+2023-08-30,ABC,COR,AmerisourceBergen renamed Cencora.
+2024-03-01,PEAK,DOC,Healthpeak Properties + Physicians Realty Trust merger; ticker changes to DOC.
+2024-04-04,FLT,CPAY,FleetCor renamed Corpay.
+2024-07-05,WRK,SW,WestRock + Smurfit Kappa merger forming Smurfit Westrock.
+2024-08-28,CDAY,DAY,Ceridian renamed Dayforce.
+2024-09-12,BLL,BALL,Ball Corporation ticker change.
+2025-08-07,PARA,PSKY,Paramount Global + Skydance merger forming Paramount Skydance.
+2026-01-26,MMC,MRSH,Marsh McLennan ticker change.

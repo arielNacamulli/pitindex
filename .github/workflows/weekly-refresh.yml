@@ -1,0 +1,65 @@
+name: Weekly data refresh
+
+on:
+  schedule:
+    # Mondays at 06:00 UTC — gives the upstream Wikipedia roster a
+    # weekend's worth of edits to settle before we snapshot it.
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # We commit data changes back to main, so we need a token with
+          # write access. The default GITHUB_TOKEN has it under
+          # `permissions: contents: write` above.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[build,dev]"
+
+      - name: Run build pipeline
+        run: python -m scripts.build_dataset -v
+
+      - name: Run tests against the freshly-built data
+        run: pytest -v
+
+      - name: Detect data drift
+        id: drift
+        run: |
+          if git diff --quiet pitindex/data/ data/build_log.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit refreshed data
+        if: steps.drift.outputs.changed == 'true'
+        run: |
+          git config user.name  "pitindex-bot"
+          git config user.email "pitindex-bot@users.noreply.github.com"
+          git add pitindex/data/ data/build_log.md
+          git commit -m "data: weekly refresh ($(date -u +%Y-%m-%d))"
+          git push origin HEAD:main
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.drift.outputs.changed }}" = "true" ]; then
+            echo "✅ Data refreshed and committed."
+          else
+            echo "ℹ️  No upstream changes detected this week."
+          fi
