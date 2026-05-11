@@ -1,6 +1,6 @@
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-05-04**
+- Window: **2004-12-30 → 2026-05-11**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
