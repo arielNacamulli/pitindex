@@ -1,11 +1,11 @@
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-05-18**
+- Window: **2004-12-30 → 2026-05-25**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
-- Diff ratio vs. current: **0.60%**
-- Synthetic events inserted: **0**
+- Diff ratio vs. current: **0.99%**
+- Synthetic events inserted: **2**
 
 ## Invalid 'added' on existing ticker (0)
 
@@ -16,10 +16,10 @@
 - 2008-09-17  LEHMQ
 - 2018-10-31  PX
 
-## Missing from event walk (synthetic add at start_date) (0)
+## Missing from event walk (synthetic add at start_date) (1)
 
-_none_
+BNY
 
-## Extra from event walk (synthetic remove at end_date) (0)
+## Extra from event walk (synthetic remove at end_date) (1)
 
-_none_
+BK

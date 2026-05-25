@@ -1,4 +1,5 @@
 date,action,ticker,name,reason
+2004-12-30,added,BNY,BNY Mellon,"reconciliation: present in current roster, absent from event walk"
 2005-01-03,removed,LEHMQ,,rename → LEH: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-01-03,added,LEH,,rename ← LEHMQ: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-03-14,removed,PWER,,derived from seed snapshot diff
@@ -1013,3 +1014,4 @@ date,action,ticker,name,reason
 2026-04-09,added,CASY,Casey's,Blackstone Inc. and TPG Inc. acquired Hologic. [ 8 ]
 2026-05-07,removed,CTRA,Coterra Energy,S&P 500 constituent Devon Energy Corp. is acquiring Coterra Energy. [ 6 ] [ 7 ]
 2026-05-07,added,VEEV,Veeva Systems,S&P 500 constituent Devon Energy Corp. is acquiring Coterra Energy. [ 6 ] [ 7 ]
+2026-05-25,removed,BK,,"reconciliation: absent from current roster, present after event walk"
