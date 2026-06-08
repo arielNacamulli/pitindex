@@ -1,9 +1,9 @@
 {
-  "build_timestamp_utc": "2026-06-01T07:49:31.592975+00:00",
+  "build_timestamp_utc": "2026-06-08T07:45:43.318618+00:00",
   "current_size": 503,
   "diff_ratio": 0.009940357852882704,
-  "end_date": "2026-06-01",
-  "events_count": 1016,
+  "end_date": "2026-06-08",
+  "events_count": 1018,
   "seed_size": 495,
   "seed_source": "https://github.com/fja05680/sp500",
   "start_date": "2004-12-30",
