@@ -1016,4 +1016,4 @@ date,action,ticker,name,reason
 2026-05-07,added,VEEV,Veeva Systems,S&P 500 constituent Devon Energy Corp. acquired Coterra Energy. [ 8 ] [ 9 ]
 2026-06-01,added,FDXF,FedEx Freight,S&P 500 & 100 constituent FedEx Corp.spun off FedEx Freight Holding. [ 7 ]
 2026-06-02,removed,EPAM,EPAM Systems,Market capitalization change. [ 7 ]
-2026-06-08,removed,BK,,"reconciliation: absent from current roster, present after event walk"
+2026-06-15,removed,BK,,"reconciliation: absent from current roster, present after event walk"
