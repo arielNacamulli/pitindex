@@ -111,7 +111,6 @@ COP,ConocoPhillips,0001163165,Energy,Oil & Gas Exploration & Production,1957-03-
 COR,Cencora,0001140859,Health Care,Health Care Distributors,2001-08-30
 COST,Costco,0000909832,Consumer Staples,Consumer Staples Merchandise Retail,1993-10-01
 CPAY,Corpay,0001175454,Financials,Transaction & Payment Processing Services,2018-06-20
-CPB,Campbell's Company (The),0000016732,Consumer Staples,Packaged Foods & Meats,1957-03-04
 CPRT,Copart,0000900075,Industrials,Diversified Support Services,2018-07-02
 CPT,Camden Property Trust,0000906345,Real Estate,Multi-Family Residential REITs,2022-04-04
 CRH,CRH plc,0000849395,Materials,Construction Materials,2025-12-22
@@ -193,6 +192,7 @@ FIS,Fidelity National Information Services,0001136893,Financials,Transaction & P
 FISV,Fiserv,0000798354,Financials,Transaction & Payment Processing Services,2001-04-02
 FITB,Fifth Third Bancorp,0000035527,Financials,Regional Banks,1996-03-29
 FIX,Comfort Systems USA,0001035983,Industrials,Construction & Engineering,2025-12-22
+FLEX,Flex Ltd.,0000866374,Information Technology,Electronic Manufacturing Services,2026-06-22
 FOX,Fox Corporation (Class B),0001754301,Communication Services,Broadcasting,2019-03-19
 FOXA,Fox Corporation (Class A),0001754301,Communication Services,Broadcasting,2019-03-19
 FRT,Federal Realty Investment Trust,0000034903,Real Estate,Retail REITs,2016-02-01
@@ -316,6 +316,7 @@ MPWR,Monolithic Power Systems,0001280452,Information Technology,Semiconductors,2
 MRK,Merck & Co.,0000310158,Health Care,Pharmaceuticals,1957-03-04
 MRNA,Moderna,0001682852,Health Care,Biotechnology,2021-07-21
 MRSH,Marsh McLennan,0000062709,Financials,Insurance Brokers,1987-08-31
+MRVL,Marvell Technology,0001835632,Information Technology,Semiconductors,2026-06-22
 MS,Morgan Stanley,0000895421,Financials,Investment Banking & Brokerage,1993-07-29
 MSCI,MSCI Inc.,0001408198,Financials,Financial Exchanges & Data,2018-04-04
 MSFT,Microsoft,0000789019,Information Technology,Systems Software,1994-06-01
@@ -372,7 +373,6 @@ PNC,PNC Financial Services,0000713676,Financials,Diversified Banks,1988-04-30
 PNR,Pentair,0000077360,Industrials,Industrial Machinery & Supplies & Components,2012-10-01
 PNW,Pinnacle West Capital,0000764622,Utilities,Multi-Utilities,1999-10-04
 PODD,Insulet Corporation,0001145197,Health Care,Health Care Equipment,2023-03-15
-POOL,Pool Corporation,0000945841,Consumer Discretionary,Distributors,2020-10-07
 PPG,PPG Industries,0000079879,Materials,Specialty Chemicals,1957-03-04
 PPL,PPL Corporation,0000922224,Utilities,Electric Utilities,2001-10-01
 PRU,Prudential Financial,0001137774,Financials,Life & Health Insurance,2002-07-22
