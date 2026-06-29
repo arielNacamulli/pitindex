@@ -1,5 +1,6 @@
 date,action,ticker,name,reason
 2004-12-30,added,BNY,BNY Mellon,"reconciliation: present in current roster, absent from event walk"
+2004-12-30,added,ECHO,EchoStar,"reconciliation: present in current roster, absent from event walk"
 2005-01-03,removed,LEHMQ,,rename → LEH: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-01-03,added,LEH,,rename ← LEHMQ: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-03-14,removed,PWER,,derived from seed snapshot diff
@@ -1016,8 +1017,9 @@ date,action,ticker,name,reason
 2026-05-07,added,VEEV,Veeva Systems,S&P 500 constituent Devon Energy Corp. acquired Coterra Energy. [ 8 ] [ 9 ]
 2026-06-01,added,FDXF,FedEx Freight,S&P 500 & 100 constituent FedEx Corp. spun off FedEx Freight Holding. [ 7 ]
 2026-06-02,removed,EPAM,EPAM Systems,Market capitalization change. [ 7 ]
-2026-06-22,removed,BK,,"reconciliation: absent from current roster, present after event walk"
 2026-06-22,removed,CPB,Campbell's,Market capitalization change. [ 6 ]
 2026-06-22,removed,POOL,Pool Corporation,Market capitalization change. [ 6 ]
 2026-06-22,added,FLEX,Flex Ltd.,Market capitalization change. [ 6 ]
 2026-06-22,added,MRVL,Marvell Technology,Market capitalization change. [ 6 ]
+2026-06-29,removed,BK,,"reconciliation: absent from current roster, present after event walk"
+2026-06-29,removed,SATS,,"reconciliation: absent from current roster, present after event walk"
