@@ -73,7 +73,6 @@ BSX,Boston Scientific,0000885725,Health Care,Health Care Equipment,1995-02-24
 BX,Blackstone Inc.,0001393818,Financials,Asset Management & Custody Banks,2023-09-18
 BXP,"BXP, Inc.",0001037540,Real Estate,Office REITs,2006-04-03
 C,Citigroup,0000831001,Financials,Diversified Banks,1988-05-31
-CAG,Conagra Brands,0000023217,Consumer Staples,Packaged Foods & Meats,1983-08-31
 CAH,Cardinal Health,0000721371,Health Care,Health Care Distributors,1997-05-27
 CARR,Carrier Global,0001783180,Industrials,Building Products,2020-04-03
 CASY,Casey's,0000726958,Consumer Staples,Food Retail,2026-04-09
@@ -227,7 +226,8 @@ HD,Home Depot (The),0000354950,Consumer Discretionary,Home Improvement Retail,19
 HIG,Hartford (The),0000874766,Financials,Property & Casualty Insurance,1957-03-04
 HII,Huntington Ingalls Industries,0001501585,Industrials,Aerospace & Defense,2018-01-03
 HLT,Hilton Worldwide,0001585689,Consumer Discretionary,"Hotels, Resorts & Cruise Lines",2017-06-19
-HON,Honeywell,0000773840,Industrials,Industrial Conglomerates,1957-03-04
+HON,Honeywell Technologies,0000773840,Industrials,Industrial Conglomerates,1957-03-04
+HONA,Honeywell Aerospace,0002089271,Industrials,Aerospace & Defense,2026-06-29
 HOOD,Robinhood Markets,0001783879,Financials,Investment Banking & Brokerage,2025-09-22
 HPE,Hewlett Packard Enterprise,0001645590,Information Technology,"Technology Hardware, Storage & Peripherals",2015-11-02
 HPQ,HP Inc.,0000047217,Information Technology,"Technology Hardware, Storage & Peripherals",1974-12-31
