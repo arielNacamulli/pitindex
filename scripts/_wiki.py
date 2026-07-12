@@ -17,6 +17,7 @@ from dataclasses import dataclass
 
 import requests
 from bs4 import BeautifulSoup, Tag
+from loguru import logger as log
 
 WIKI_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 USER_AGENT = "pitindex/0.1 (+https://github.com/arielnacamulli/pitindex) python-requests"
@@ -35,10 +36,16 @@ class Constituent:
 @dataclass(frozen=True)
 class ChangeEvent:
     date: str  # ISO date, YYYY-MM-DD
-    action: str  # 'added' | 'removed'
-    ticker: str
+    action: str  # 'added' | 'removed' | 'renamed'
+    ticker: str  # for 'renamed': the OLD ticker
     name: str | None
     reason: str | None
+    new_ticker: str | None = None  # only for 'renamed'
+    # 'fill' marks events derived from wiki revision diffs. Their dates are
+    # upper bounds (the page lags its own changes table by months), so a
+    # fill that lands on an already-consistent roster is a benign no-op,
+    # not a reconciliation anomaly.
+    origin: str | None = None  # None (precise) | 'fill'
 
 
 def fetch_html(url: str = WIKI_URL, timeout: int = 30) -> str:
@@ -126,7 +133,13 @@ def _parse_date(s: str) -> str | None:
 def parse_current_constituents(html: str) -> list[Constituent]:
     soup = BeautifulSoup(html, "lxml")
     table = _find_table(soup, "constituents")
+    return parse_constituents_table(table)
 
+
+def parse_constituents_table(table: Tag) -> list[Constituent]:
+    """Parse one roster table. Only Symbol and Security columns are required;
+    CIK/GICS/date-added are optional (the S&P 400 page has no CIK column and
+    pre-2021 revisions of the 400/600 pages lack the stable table id)."""
     # Map header text -> column index
     header_cells = table.find("tr").find_all(["th", "td"])
     headers = [_cell_text(c).lower() for c in header_cells]
@@ -187,6 +200,13 @@ def _normalize_ticker(t: str) -> str:
     return t.upper().replace("-", ".").strip()
 
 
+# A plausible ticker: 1-6 alphanumerics plus an optional .X class suffix.
+# Filters out company names that leak into the ticker column of old-format
+# changes-table rows (the S&P 400 page switched column layout ~mid-2019)
+# and compound cells like "UA/UAA".
+_TICKER_SHAPE = re.compile(r"^[A-Z0-9]{1,6}(\.[A-Z])?$")
+
+
 # --- change events ---------------------------------------------------------
 
 
@@ -215,40 +235,41 @@ def parse_changes(html: str) -> list[ChangeEvent]:
 
     out: list[ChangeEvent] = []
     last_date: str | None = None
+    dropped = 0
     for row in data_rows:
         cells = [_cell_text(c) for c in row.find_all(["td", "th"])]
         if len(cells) < 5:
             continue
         # Standard layout: [date, added_ticker, added_name, removed_ticker, removed_name, reason]
-        date_raw, add_t, add_n, rem_t, rem_n, *rest = cells[:6]
+        date_iso_raw, add_t, add_n, rem_t, rem_n, *rest = cells[:6]
         reason = rest[0] if rest else None
 
-        date_iso = _parse_date(date_raw) or last_date
+        date_iso = _parse_date(date_iso_raw) or last_date
         if date_iso is None:
             # Without a date, we cannot place the event in time; skip.
             continue
         last_date = date_iso
 
-        if add_t:
+        for action, ticker_raw, name in (("added", add_t, add_n), ("removed", rem_t, rem_n)):
+            if not ticker_raw:
+                continue
+            ticker = _normalize_ticker(ticker_raw)
+            if not _TICKER_SHAPE.match(ticker):
+                # Old-format row (or compound cell): the "ticker" is a company
+                # name. Drop it — revision-diff fills recover the event.
+                dropped += 1
+                continue
             out.append(
                 ChangeEvent(
                     date=date_iso,
-                    action="added",
-                    ticker=_normalize_ticker(add_t),
-                    name=add_n or None,
+                    action=action,
+                    ticker=ticker,
+                    name=name or None,
                     reason=reason or None,
                 )
             )
-        if rem_t:
-            out.append(
-                ChangeEvent(
-                    date=date_iso,
-                    action="removed",
-                    ticker=_normalize_ticker(rem_t),
-                    name=rem_n or None,
-                    reason=reason or None,
-                )
-            )
+    if dropped:
+        log.info("parse_changes: dropped {} non-ticker-shaped entries (old-format rows)", dropped)
     return out
 
 
@@ -257,5 +278,6 @@ __all__ = [
     "Constituent",
     "fetch_html",
     "parse_changes",
+    "parse_constituents_table",
     "parse_current_constituents",
 ]

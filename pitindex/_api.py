@@ -27,6 +27,7 @@ from collections.abc import Iterable
 import pandas as pd
 
 from . import _loader
+from ._registry import COMPOSITE_INDICES, validate_index
 
 log = logging.getLogger(__name__)
 
@@ -55,16 +56,17 @@ def _coerce_date(d: DateLike) -> dt.date:
     raise TypeError(f"Unsupported date type: {type(d).__name__}")
 
 
-@functools.lru_cache(maxsize=1)
-def _index() -> _Index:
-    return _Index.load()
+@functools.cache
+def _index(key: str = "sp500") -> _Index:
+    return _Index.load(key)
 
 
 class _Index:
-    __slots__ = ("current_by_ticker", "events", "metadata", "name_by_ticker", "seed", "seed_date")
+    __slots__ = ("current_by_ticker", "events", "key", "metadata", "name_by_ticker", "seed", "seed_date")
 
     def __init__(
         self,
+        key: str,
         seed_date: dt.date,
         seed: set[str],
         events: list[_loader.Event],
@@ -72,6 +74,7 @@ class _Index:
         name_by_ticker: dict[str, str],
         metadata: dict,
     ):
+        self.key = key
         self.seed_date = seed_date
         self.seed = seed
         self.events = events
@@ -80,10 +83,10 @@ class _Index:
         self.metadata = metadata
 
     @classmethod
-    def load(cls) -> _Index:
-        seed_date, seed = _loader.load_seed()
-        events = _loader.load_events()
-        current = _loader.load_current()
+    def load(cls, key: str = "sp500") -> _Index:
+        seed_date, seed = _loader.load_seed(key)
+        events = _loader.load_events(key)
+        current = _loader.load_current(key)
         current_by_ticker = {c.ticker: c for c in current}
         # Best-effort name lookup: prefer current name, fall back to name
         # captured in a change event when the ticker has since left.
@@ -91,9 +94,9 @@ class _Index:
         for e in events:
             if e.ticker not in name_by_ticker and e.name:
                 name_by_ticker[e.ticker] = e.name
-        metadata = _loader.load_metadata()
+        metadata = _index_metadata(_loader.load_metadata(), key)
         _maybe_warn_stale(metadata)
-        return cls(seed_date, seed, events, current_by_ticker, name_by_ticker, metadata)
+        return cls(key, seed_date, seed, events, current_by_ticker, name_by_ticker, metadata)
 
     @property
     def coverage_start(self) -> dt.date:
@@ -106,7 +109,7 @@ class _Index:
     def roster_at(self, as_of: dt.date) -> set[str]:
         if as_of < self.seed_date:
             raise ValueError(
-                f"as_of={as_of.isoformat()} is before seed coverage "
+                f"as_of={as_of.isoformat()} is before seed coverage for {self.key} "
                 f"({self.seed_date.isoformat()}). pitindex does not extrapolate."
             )
         roster = set(self.seed)
@@ -138,6 +141,24 @@ class _Index:
         return df
 
 
+def _index_metadata(full: dict, key: str) -> dict:
+    """Per-index section of build_metadata.json, plus the shared fields.
+
+    Falls back to the legacy flat layout (pre-0.2, sp500-only) when the
+    ``indices`` section is absent — e.g. an old user-cache file.
+    """
+    per_index = (full.get("indices") or {}).get(key)
+    if per_index is None:
+        if key != "sp500":
+            raise RuntimeError(
+                f"Loaded build_metadata.json has no section for {key!r}. "
+                "If a pre-0.2 cache is shadowing the bundled data, clear "
+                "~/.cache/pitindex or re-run pitindex.update()."
+            )
+        per_index = {k: v for k, v in full.items() if k != "indices"}
+    return {"build_timestamp_utc": full.get("build_timestamp_utc"), **per_index}
+
+
 def _data_age_days(metadata: dict) -> int | None:
     raw = metadata.get("build_timestamp_utc")
     if not raw:
@@ -152,12 +173,19 @@ def _data_age_days(metadata: dict) -> int | None:
     return max(delta.days, 0)
 
 
+# Mutable holder (not a bare global) so the once-per-process latch works
+# without a `global` statement: three indices share one build timestamp,
+# and one nag about it is enough.
+_stale_warned = {"done": False}
+
+
 def _maybe_warn_stale(metadata: dict) -> None:
-    if _STALE_DAYS <= 0:
-        return  # opt-out via PITINDEX_STALE_DAYS=0
+    if _STALE_DAYS <= 0 or _stale_warned["done"]:
+        return  # opt-out via PITINDEX_STALE_DAYS=0; warn once per process
     age = _data_age_days(metadata)
     if age is None or age <= _STALE_DAYS:
         return
+    _stale_warned["done"] = True
     warnings.warn(
         f"pitindex bundled data is {age} days old "
         f"(threshold {_STALE_DAYS}). Run `pip install -U pitindex` to "
@@ -173,32 +201,60 @@ def _maybe_warn_stale(metadata: dict) -> None:
 # --- public API ------------------------------------------------------------
 
 
-def get_constituents(as_of: DateLike) -> pd.DataFrame:
-    """Return the S&P 500 constituents as of ``as_of`` (end-of-day UTC).
+def get_constituents(as_of: DateLike, index: str = "sp500") -> pd.DataFrame:
+    """Return the index constituents as of ``as_of`` (end-of-day UTC).
 
     Parameters
     ----------
     as_of
         A ``datetime.date``, ``datetime.datetime``, or ISO-format string
         (``YYYY-MM-DD``).
+    index
+        One of ``sp500`` (default), ``sp400``, ``sp600``, or the virtual
+        composite ``sp1500`` (union of the three; adds an ``index``
+        column telling which sub-index each ticker belongs to).
 
     Returns
     -------
     pd.DataFrame
-        Columns: ``ticker, name, cik, gics_sector, gics_sub_industry``.
-        ``cik`` and GICS fields are populated only for tickers that are
-        still index members today; historical members carry ``None`` for
-        those fields. ``as_of`` is exposed via ``df.attrs['as_of']``.
+        Columns: ``ticker, name, cik, gics_sector, gics_sub_industry``
+        (plus ``index`` for the composite). ``cik`` and GICS fields are
+        populated only for tickers that are still index members today;
+        historical members carry ``None`` for those fields. ``as_of`` is
+        exposed via ``df.attrs['as_of']``.
     """
+    key = validate_index(index)
     as_of_d = _coerce_date(as_of)
-    idx = _index()
     if as_of_d > dt.date.today():
         raise ValueError(f"as_of={as_of_d.isoformat()} is in the future.")
+    if key in COMPOSITE_INDICES:
+        return _composite_frame(key, as_of_d)
+    idx = _index(key)
     roster = idx.roster_at(as_of_d)
     return idx.to_frame(as_of_d, roster)
 
 
-def get_constituents_history(start: DateLike, end: DateLike) -> pd.DataFrame:
+def _composite_frame(key: str, as_of_d: dt.date) -> pd.DataFrame:
+    members = COMPOSITE_INDICES[key]
+    floor = max(_index(k).seed_date for k in members)
+    if as_of_d < floor:
+        raise ValueError(
+            f"as_of={as_of_d.isoformat()} is before seed coverage for {key} "
+            f"({floor.isoformat()} — the latest floor of its members: "
+            f"{', '.join(members)}). Query the sub-indices individually for earlier dates."
+        )
+    frames = []
+    for k in members:
+        idx = _index(k)
+        snap = idx.to_frame(as_of_d, idx.roster_at(as_of_d))
+        snap["index"] = k
+        frames.append(snap)
+    df = pd.concat(frames, ignore_index=True)
+    df.attrs["as_of"] = as_of_d.isoformat()
+    return df
+
+
+def get_constituents_history(start: DateLike, end: DateLike, index: str = "sp500") -> pd.DataFrame:
     """Return one snapshot per *change date* in ``[start, end]``.
 
     The result is a sparse history: rows are emitted only on dates when
@@ -211,29 +267,32 @@ def get_constituents_history(start: DateLike, end: DateLike) -> pd.DataFrame:
     ----------
     start, end
         Inclusive bounds (date / datetime / ISO string).
+    index
+        ``sp500`` (default), ``sp400``, ``sp600``, or ``sp1500``.
 
     Returns
     -------
     pd.DataFrame
-        Columns: ``as_of, ticker, name, cik, gics_sector, gics_sub_industry``.
+        Columns: ``as_of, ticker, name, cik, gics_sector, gics_sub_industry``
+        (plus ``index`` for the composite).
     """
+    key = validate_index(index)
     start_d = _coerce_date(start)
     end_d = _coerce_date(end)
     if end_d < start_d:
         raise ValueError(f"end {end_d} precedes start {start_d}")
-    idx = _index()
     today = dt.date.today()
     end_d = min(end_d, today)
 
-    # Snapshot at start, then again at each date when an event lands inside
-    # the window.
-    change_dates = sorted({ev.date for ev in idx.events if start_d <= ev.date <= end_d})
+    physical = COMPOSITE_INDICES.get(key, (key,))
+    change_dates = sorted(
+        {ev.date for k in physical for ev in _index(k).events if start_d <= ev.date <= end_d}
+    )
     snapshot_dates = [start_d, *[d for d in change_dates if d != start_d]]
 
     frames = []
     for d in snapshot_dates:
-        roster = idx.roster_at(d)
-        snap = idx.to_frame(d, roster)
+        snap = get_constituents(d, index=key)
         snap.insert(0, "as_of", d.isoformat())
         frames.append(snap)
     if not frames:
@@ -241,16 +300,30 @@ def get_constituents_history(start: DateLike, end: DateLike) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)
 
 
-def info() -> dict:
+def info(index: str = "sp500") -> dict:
     """Return metadata about the bundled dataset (build time, sources, sizes).
 
     Includes ``data_age_days`` (None if the build timestamp is missing),
     ``stale_threshold_days`` (the configured freshness budget), and
-    ``is_stale`` (whether the data has crossed the threshold).
+    ``is_stale`` (whether the data has crossed the threshold). For the
+    composite ``sp1500`` the sizes are synthesized from the members and
+    ``start_date`` is the composite floor.
     """
-    idx = _index()
-    out = dict(idx.metadata)
-    age = _data_age_days(idx.metadata)
+    key = validate_index(index)
+    if key in COMPOSITE_INDICES:
+        members = {k: _index(k).metadata for k in COMPOSITE_INDICES[key]}
+        out = {
+            "build_timestamp_utc": next(iter(members.values())).get("build_timestamp_utc"),
+            "start_date": max(m["start_date"] for m in members.values()),
+            "end_date": max(m["end_date"] for m in members.values()),
+            "current_size": sum(m["current_size"] for m in members.values()),
+            "events_count": sum(m["events_count"] for m in members.values()),
+            "members": members,
+        }
+    else:
+        out = dict(_index(key).metadata)
+    out["index"] = key
+    age = _data_age_days(out)
     out["data_age_days"] = age
     out["stale_threshold_days"] = _STALE_DAYS
     out["is_stale"] = age is not None and _STALE_DAYS > 0 and age > _STALE_DAYS
@@ -266,7 +339,9 @@ class PitIndex:
         from pitedgar import PitQuery
         from pitindex import PitIndex
 
-        idx = PitIndex()
+        idx = PitIndex()                  # S&P 500 (default)
+        mid = PitIndex("sp400")           # S&P 400 MidCap
+        broad = PitIndex("sp1500")        # composite of 500+400+600
         members = idx.as_of("2020-12-22")["ticker"].tolist()
 
         q = PitQuery("data/pit_financials.parquet")
@@ -277,32 +352,39 @@ class PitIndex:
     loaded once on first use and cached process-wide.
     """
 
+    def __init__(self, index: str = "sp500"):
+        self.index = validate_index(index)
+
     def as_of(self, date: DateLike) -> pd.DataFrame:
         """Return the membership snapshot at ``date``."""
-        return get_constituents(date)
+        return get_constituents(date, index=self.index)
 
     def history(self, start: DateLike, end: DateLike) -> pd.DataFrame:
         """Return one snapshot per change date in ``[start, end]``."""
-        return get_constituents_history(start, end)
+        return get_constituents_history(start, end, index=self.index)
 
     def contains(self, ticker: str, date: DateLike) -> bool:
         """Whether ``ticker`` was an index member at ``date``."""
-        df = get_constituents(date)
+        df = get_constituents(date, index=self.index)
         return ticker.upper() in df["ticker"].values
 
     def info(self) -> dict:
         """Build metadata + staleness flags for the loaded dataset."""
-        return info()
+        return info(index=self.index)
 
     @property
     def coverage_start(self) -> dt.date:
         """First date for which PIT membership is supported."""
-        return _index().coverage_start
+        if self.index in COMPOSITE_INDICES:
+            return max(_index(k).coverage_start for k in COMPOSITE_INDICES[self.index])
+        return _index(self.index).coverage_start
 
     @property
     def coverage_end(self) -> dt.date:
         """Last date covered by the bundled dataset (build date)."""
-        return _index().coverage_end
+        if self.index in COMPOSITE_INDICES:
+            return max(_index(k).coverage_end for k in COMPOSITE_INDICES[self.index])
+        return _index(self.index).coverage_end
 
 
 def update(*, force: bool = False) -> dict:

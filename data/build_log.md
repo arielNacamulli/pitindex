@@ -1,27 +1,31 @@
+# sp600
+
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-07-06**
-- Seed roster size: **495**
-- Current Wikipedia roster size: **503**
-- Roster size after walking events: **503**
-- Diff ratio vs. current: **1.79%**
-- Synthetic events inserted: **4**
+- Window: **2021-03-31 → 2026-07-12**
+- Seed roster size: **601**
+- Current Wikipedia roster size: **602**
+- Roster size after walking events: **604**
+- Diff ratio vs. current: **1.16%**
+- Synthetic events inserted: **2**
+- Renames applied / skipped (other-index no-ops): **0 / 20**
+- Fill no-ops (revision-diff events on already-consistent state): **7**
 
-## Invalid 'added' on existing ticker (1)
+## Invalid 'added' on existing ticker (2)
 
-- 2023-07-10  EG
+- 2022-10-03  XPER
+- 2025-09-02  BHLB
 
-## Invalid 'removed' on missing ticker (4)
+## Invalid 'removed' on missing ticker (3)
 
-- 2008-09-15  LEHMQ
-- 2008-09-17  LEHMQ
-- 2018-10-31  PX
-- 2023-07-10  RE
+- 2025-01-02  GEAR
+- 2025-09-02  BBT
+- 2026-03-23  AHRT
 
-## Missing from event walk (synthetic add at start_date) (2)
+## Missing from event walk (synthetic add at start_date) (0)
 
-BNY, ECHO
+_none_
 
 ## Extra from event walk (synthetic remove at end_date) (2)
 
-BK, SATS
+ALSK, CPB
