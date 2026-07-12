@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-12
+
+The S&P 1500 release: adds S&P 400 (MidCap), S&P 600 (SmallCap), and the
+virtual `sp1500` composite alongside the existing S&P 500. Motivated by
+cross-sectional factor-model work, which needs breadth and small caps.
+Design rationale in the new `DESIGN.md`.
+
+### Added
+- `index=` keyword on `get_constituents`, `get_constituents_history`,
+  `info`, and `PitIndex(...)`; `--index` option on the `get`, `history`,
+  `info`, and `build` CLI commands. Default stays `sp500` everywhere, so
+  v0.1 call shapes are unchanged.
+- **sp400** dataset, PIT coverage from 2011-11-20; **sp600** dataset, PIT
+  coverage from 2021-03-26 (the S&P 600 Wikipedia page carried a wrong
+  ~1000-name roster before then — no free source covers the gap).
+- **sp1500** virtual composite: query-time union of the three physical
+  indices with an extra `index` output column; floor = max of the member
+  floors.
+- New event source for sp400/sp600 (`scripts/_wikirev.py`): seed roster
+  and fill events derived from monthly-sampled Wikipedia page *revisions*
+  (their changes tables alone leave a 9-11% roster diff). Fill events are
+  dated at the revision timestamp (PIT-safe upper bound) with revid
+  provenance, guarded by per-index roster sanity bands, and committed as
+  an incremental baseline under `data/*_revision_events.csv`.
+- Index registry: `pitindex/_registry.py` (runtime) and
+  `scripts/_indices.py` (build specs).
+
+### Changed
+- Ticker renames are now **conditional**: `ticker_renames.csv` stays one
+  global file and a rename fires only in the index whose roster holds the
+  old ticker (new atomic `renamed` action in the reconcile walk).
+  Compensating adds that abused the old unconditional semantics moved to
+  `manual_events.csv`, which gained an `index` column.
+- `build_metadata.json` gained per-index sections under `indices`
+  (legacy sp500 top-level keys preserved for pre-0.2 consumers).
+- `StaleDataWarning` fires once per process instead of once per index.
+- Weekly-refresh workflow builds all three indices and commits the
+  revision-baseline drift under `data/` too.
+
+### Fixed
+- BK → BNY (2026-05-21) and SATS → ECHO (2026-06-24) ticker changes were
+  untracked; the sp500 build now reconciles with **zero** synthetic
+  events (was 5).
+
 ## [0.1.0] - 2026-05-04
 
 Initial release. Point-in-time S&P 500 constituents from free public sources,
@@ -42,5 +86,6 @@ with PIT coverage from 2005-01-03 through today.
   data every Monday 06:00 UTC and commits drift back to `master`.
   `release.yml` publishes to PyPI on tag push via OIDC trusted publishing.
 
-[Unreleased]: https://github.com/arielNacamulli/pitindex/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/arielNacamulli/pitindex/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/arielNacamulli/pitindex/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/arielNacamulli/pitindex/releases/tag/v0.1.0

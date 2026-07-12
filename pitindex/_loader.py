@@ -56,18 +56,18 @@ def _open_data(name: str):
     return (resources.files(PACKAGE_DATA) / name).open("r", encoding="utf-8")
 
 
-def load_seed() -> tuple[dt.date, set[str]]:
-    with _open_data("sp500_seed.csv") as f:
+def load_seed(index: str = "sp500") -> tuple[dt.date, set[str]]:
+    with _open_data(f"{index}_seed.csv") as f:
         rows = list(csv.DictReader(f))
     if not rows:
-        raise RuntimeError("Seed roster CSV is empty.")
+        raise RuntimeError(f"Seed roster CSV for {index} is empty.")
     effective_date = dt.date.fromisoformat(rows[0]["effective_date"])
     tickers = {r["ticker"] for r in rows}
     return effective_date, tickers
 
 
-def load_events() -> list[Event]:
-    with _open_data("sp500_changes.csv") as f:
+def load_events(index: str = "sp500") -> list[Event]:
+    with _open_data(f"{index}_changes.csv") as f:
         rows = list(csv.DictReader(f))
     out: list[Event] = []
     for r in rows:
@@ -84,8 +84,8 @@ def load_events() -> list[Event]:
     return out
 
 
-def load_current() -> list[CurrentEntry]:
-    with _open_data("sp500_current.csv") as f:
+def load_current(index: str = "sp500") -> list[CurrentEntry]:
+    with _open_data(f"{index}_current.csv") as f:
         rows = list(csv.DictReader(f))
     out: list[CurrentEntry] = []
     for r in rows:

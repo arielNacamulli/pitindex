@@ -1,6 +1,4 @@
 date,action,ticker,name,reason
-2004-12-30,added,BNY,BNY Mellon,"reconciliation: present in current roster, absent from event walk"
-2004-12-30,added,ECHO,EchoStar,"reconciliation: present in current roster, absent from event walk"
 2005-01-03,removed,LEHMQ,,rename → LEH: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-01-03,added,LEH,,rename ← LEHMQ: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-03-14,removed,PWER,,derived from seed snapshot diff
@@ -676,7 +674,7 @@ date,action,ticker,name,reason
 2018-10-11,removed,EVHC,,derived from seed snapshot diff
 2018-10-11,added,FTNT,,derived from seed snapshot diff
 2018-10-31,removed,PX,,derived from seed snapshot diff
-2018-10-31,added,LIN,,rename ← PX: Praxair + Linde merger forming Linde plc; the seed dataset removes PX but does not capture the LIN add.
+2018-10-31,added,LIN,Linde plc,manual override: Compensating add for the PX -> LIN rename: the fja05680 seed records the PX removal on its own but never adds LIN. Under conditional rename semantics (DESIGN.md par. 4) the rename no-ops once PX is already gone; this event restores LIN at the correct date.
 2018-11-06,removed,CA,,derived from seed snapshot diff
 2018-11-06,added,KEYS,,derived from seed snapshot diff
 2018-11-13,removed,EQT,,derived from seed snapshot diff
@@ -1015,13 +1013,15 @@ date,action,ticker,name,reason
 2026-04-09,added,CASY,Casey's,Blackstone Inc. and TPG Inc. acquired Hologic. [ 11 ]
 2026-05-07,removed,CTRA,Coterra Energy,S&P 500 constituent Devon Energy Corp. acquired Coterra Energy. [ 9 ] [ 10 ]
 2026-05-07,added,VEEV,Veeva Systems,S&P 500 constituent Devon Energy Corp. acquired Coterra Energy. [ 9 ] [ 10 ]
+2026-05-21,removed,BK,,rename → BNY: BNY (Bank of New York Mellon) ticker change on NYSE.
+2026-05-21,added,BNY,,rename ← BK: BNY (Bank of New York Mellon) ticker change on NYSE.
 2026-06-01,added,FDXF,FedEx Freight,S&P 500 & 100 constituent FedEx Corp. spun off FedEx Freight Holding. [ 8 ]
 2026-06-02,removed,EPAM,EPAM Systems,Market capitalization change. [ 8 ]
 2026-06-22,removed,CPB,Campbell's,Market capitalization change. [ 7 ]
 2026-06-22,removed,POOL,Pool Corporation,Market capitalization change. [ 7 ]
 2026-06-22,added,FLEX,Flex Ltd.,Market capitalization change. [ 7 ]
 2026-06-22,added,MRVL,Marvell Technology,Market capitalization change. [ 7 ]
+2026-06-24,removed,SATS,,rename → ECHO: EchoStar ticker change on Nasdaq.
+2026-06-24,added,ECHO,,rename ← SATS: EchoStar ticker change on Nasdaq.
 2026-06-29,added,HONA,Honeywell Aerospace,S&P 500 constituent Honeywell spun off Honeywell Aerospace. [ 6 ]
 2026-06-30,removed,CAG,Conagra Brands,Market capitalization change. [ 6 ]
-2026-07-06,removed,BK,,"reconciliation: absent from current roster, present after event walk"
-2026-07-06,removed,SATS,,"reconciliation: absent from current roster, present after event walk"

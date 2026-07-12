@@ -42,6 +42,9 @@ class ReconciliationReport:
     final_size_after_events: int
     invalid_add_existing: list[dict] = field(default_factory=list)
     invalid_remove_missing: list[dict] = field(default_factory=list)
+    renames_applied: int = 0
+    renames_skipped: int = 0  # old ticker not in this index's roster: expected no-op
+    fill_noops: int = 0  # revision-diff fills landing on already-consistent state: benign
     missing_from_walk: list[str] = field(default_factory=list)  # in current but walk lost them
     extra_from_walk: list[str] = field(default_factory=list)  # walk has them, current doesn't
     synthetic_events_added: int = 0
@@ -62,9 +65,10 @@ def reconcile(
 
     # Filter to events within the window we care about
     in_window = [e for e in events if start_date.isoformat() <= e.date <= end_date.isoformat()]
-    in_window.sort(key=lambda e: (e.date, 0 if e.action == "removed" else 1))
-    # Process removals before additions on the same day so a same-day
-    # ticker reuse (rare but possible) does not collide.
+    _prio = {"removed": 0, "renamed": 1, "added": 2}
+    in_window.sort(key=lambda e: (e.date, _prio.get(e.action, 3)))
+    # Process removals before renames before additions on the same day so
+    # a same-day ticker reuse (rare but possible) does not collide.
 
     roster = set(seed_roster)
     report = ReconciliationReport(
@@ -77,15 +81,55 @@ def reconcile(
 
     cleaned: list[ChangeEvent] = []
     for ev in in_window:
+        if ev.action == "renamed":
+            # Atomic: fires only in the index whose roster holds the old
+            # ticker; a silent no-op elsewhere (NOT an anomaly — the
+            # renames file is global across indices, see DESIGN.md §4).
+            if ev.ticker not in roster or not ev.new_ticker:
+                report.renames_skipped += 1
+                continue
+            roster.discard(ev.ticker)
+            roster.add(ev.new_ticker)
+            report.renames_applied += 1
+            # Emit as a removed/added pair so the shipped CSV schema (and
+            # the runtime walk) stay unchanged.
+            suffix = f": {ev.reason}" if ev.reason else ""
+            cleaned.append(
+                ChangeEvent(
+                    date=ev.date,
+                    action="removed",
+                    ticker=ev.ticker,
+                    name=ev.name,
+                    reason=f"rename → {ev.new_ticker}{suffix}",
+                )
+            )
+            cleaned.append(
+                ChangeEvent(
+                    date=ev.date,
+                    action="added",
+                    ticker=ev.new_ticker,
+                    name=ev.name,
+                    reason=f"rename ← {ev.ticker}{suffix}",
+                )
+            )
+            continue
         if ev.action == "added":
             if ev.ticker in roster:
-                report.invalid_add_existing.append({"date": ev.date, "ticker": ev.ticker})
+                # A fill confirming a ticker the walk already holds is the
+                # expected consequence of wiki-page lag, not an anomaly.
+                if ev.origin == "fill":
+                    report.fill_noops += 1
+                else:
+                    report.invalid_add_existing.append({"date": ev.date, "ticker": ev.ticker})
                 # Skip: keeping it would inflate the roster phantom-style
                 continue
             roster.add(ev.ticker)
         elif ev.action == "removed":
             if ev.ticker not in roster:
-                report.invalid_remove_missing.append({"date": ev.date, "ticker": ev.ticker})
+                if ev.origin == "fill":
+                    report.fill_noops += 1
+                else:
+                    report.invalid_remove_missing.append({"date": ev.date, "ticker": ev.ticker})
                 continue
             roster.discard(ev.ticker)
         else:
@@ -169,6 +213,8 @@ def render_report_md(report: ReconciliationReport) -> str:
         f"- Roster size after walking events: **{report.final_size_after_events}**",
         f"- Diff ratio vs. current: **{report.diff_ratio:.2%}**",
         f"- Synthetic events inserted: **{report.synthetic_events_added}**",
+        f"- Renames applied / skipped (other-index no-ops): **{report.renames_applied} / {report.renames_skipped}**",
+        f"- Fill no-ops (revision-diff events on already-consistent state): **{report.fill_noops}**",
         "",
         f"## Invalid 'added' on existing ticker ({len(report.invalid_add_existing)})",
         "",

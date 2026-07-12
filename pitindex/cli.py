@@ -21,8 +21,18 @@ from . import (
     info,
     update,
 )
+from ._registry import ALL_INDICES
 
 OutputFormat = Literal["table", "json", "csv"]
+
+_index_option = click.option(
+    "--index",
+    "index",
+    type=click.Choice(list(ALL_INDICES)),
+    default="sp500",
+    show_default=True,
+    help="Which index to query (sp1500 = composite of the other three).",
+)
 
 
 def _emit(df: pd.DataFrame, fmt: str) -> None:
@@ -42,6 +52,7 @@ def cli() -> None:
 
 
 @cli.command("info")
+@_index_option
 @click.option(
     "--format",
     "fmt",
@@ -49,9 +60,9 @@ def cli() -> None:
     default="table",
     show_default=True,
 )
-def cmd_info(fmt: str) -> None:
+def cmd_info(index: str, fmt: str) -> None:
     """Show metadata about the loaded dataset (build time, sources, staleness)."""
-    payload = info()
+    payload = info(index=index)
     if fmt == "json":
         click.echo(json.dumps(payload, indent=2, default=str))
         return
@@ -61,6 +72,7 @@ def cmd_info(fmt: str) -> None:
 
 
 @cli.command("get")
+@_index_option
 @click.option(
     "--as-of",
     "as_of",
@@ -80,10 +92,10 @@ def cmd_info(fmt: str) -> None:
     default=False,
     help="Print just the ticker symbols, one per line.",
 )
-def cmd_get(as_of: str, fmt: str, tickers_only: bool) -> None:
+def cmd_get(index: str, as_of: str, fmt: str, tickers_only: bool) -> None:
     """Print the index membership at AS_OF."""
     try:
-        df = get_constituents(as_of)
+        df = get_constituents(as_of, index=index)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     if tickers_only:
@@ -94,6 +106,7 @@ def cmd_get(as_of: str, fmt: str, tickers_only: bool) -> None:
 
 
 @cli.command("history")
+@_index_option
 @click.option("--start", required=True, help="Start date YYYY-MM-DD.")
 @click.option("--end", required=True, help="End date YYYY-MM-DD.")
 @click.option(
@@ -103,10 +116,10 @@ def cmd_get(as_of: str, fmt: str, tickers_only: bool) -> None:
     default="csv",
     show_default=True,
 )
-def cmd_history(start: str, end: str, fmt: str) -> None:
+def cmd_history(index: str, start: str, end: str, fmt: str) -> None:
     """Print one membership snapshot per change date in [START, END]."""
     try:
-        df = get_constituents_history(start, end)
+        df = get_constituents_history(start, end, index=index)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _emit(df, fmt)
@@ -125,7 +138,14 @@ def cmd_update(force: bool) -> None:
 
 
 @cli.command("build")
-@click.option("--start-date", default=None, help="Override the bootstrap date (default 2005-01-03).")
+@click.option(
+    "--index",
+    "index",
+    type=click.Choice(["all", "sp500", "sp400", "sp600"]),
+    default="all",
+    show_default=True,
+    help="Which index to (re)build.",
+)
 @click.option(
     "--max-diff-ratio",
     type=float,
@@ -133,7 +153,7 @@ def cmd_update(force: bool) -> None:
     help="Override the reconciliation tolerance (default 0.05).",
 )
 @click.option("-v", "--verbose", is_flag=True, default=False)
-def cmd_build(start_date: str | None, max_diff_ratio: float | None, verbose: bool) -> None:
+def cmd_build(index: str, max_diff_ratio: float | None, verbose: bool) -> None:
     """Run the full build pipeline against live upstream sources.
 
     Writes the regenerated CSVs into ``pitindex/data/`` (the in-repo
@@ -149,9 +169,7 @@ def cmd_build(start_date: str | None, max_diff_ratio: float | None, verbose: boo
             "The build pipeline requires the [build] extra. Install with: pip install 'pitindex[build]'"
         ) from exc
 
-    argv: list[str] = []
-    if start_date:
-        argv += ["--start-date", start_date]
+    argv: list[str] = ["--index", index]
     if max_diff_ratio is not None:
         argv += ["--max-diff-ratio", str(max_diff_ratio)]
     if verbose:

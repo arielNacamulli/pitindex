@@ -17,13 +17,15 @@ pytest --cov=pitindex --cov-report=term-missing
 # Run a single test
 pytest tests/test_known_dates.py::test_known_membership
 
-# Rebuild the bundled dataset from upstream sources
+# Rebuild the bundled dataset from upstream sources (all indices)
 python -m scripts.build_dataset -v
+python -m scripts.build_dataset --index sp400 -v   # one index
 
 # CLI
 pitindex --help
 pitindex info
 pitindex get --as-of 2020-12-22
+pitindex get --as-of 2023-06-30 --index sp1500
 pitindex history --start 2015-01-01 --end 2015-12-31
 pitindex update
 pitindex build
@@ -37,59 +39,78 @@ sister package to [`pitedgar`](https://github.com/arielNacamulli/pitedgar)
 no-look-ahead-bias philosophy: every value is stamped with the date it
 became publicly known, not the date it nominally refers to.
 
+It covers the **S&P 1500 family**: `sp500` (from 2005), `sp400` (from
+2011-12), `sp600` (from 2021-03 — no free source exists earlier), plus
+the virtual composite `sp1500` (query-time union, no files of its own).
+Structural decisions and their rationale live in **`DESIGN.md`** — read
+it before changing the pipeline architecture.
+
 The runtime model is **event-sourcing on a tiny event log** — a seed
 roster snapshot at `start_date` plus a chronological list of add/remove
-events. To get the membership at any point in time `T`, walk events in
-order up to `T`, applying each one to a running set. Naive O(N) walk
-per query is < 1 ms — there is no need for a more sophisticated index.
+events, per index. To get the membership at any point in time `T`, walk
+events in order up to `T`, applying each one to a running set. Naive
+O(N) walk per query is < 1 ms — there is no need for a more
+sophisticated index.
 
 ### Data pipeline (`scripts/`)
 
-Three trust-ordered sources are merged into a single event log:
+`scripts/_indices.py` holds the per-index build specs (wiki page, floor,
+seed strategy, roster sanity band). Trust-ordered sources per index:
 
-1. **`scripts/_seed.py`** — fetches the
-   [`fja05680/sp500`](https://github.com/fja05680/sp500) dataset (daily
-   snapshots 1996→2019) via the GitHub Contents API, normalizes the
-   `-YYYYMM` exit-date suffix encoding, and computes events as diffs
-   between consecutive snapshots. Primary source for the seed-covered
-   window because Wikipedia's "Selected changes" table is not
-   exhaustive (many 2008-financial-crisis exits are absent there).
-2. **`scripts/_wiki.py`** — fetches Wikipedia's "List of S&P 500
-   companies" page, parses the two stable-id tables (`#constituents`
-   and `#changes`) with BeautifulSoup. Provides the current roster (CIK
-   + GICS sector) and the change events for the post-seed tail.
+1. Seed + primary events:
+   - **sp500** — **`scripts/_seed.py`** fetches the
+     [`fja05680/sp500`](https://github.com/fja05680/sp500) dataset (daily
+     snapshots 1996→2019) via the GitHub Contents API, normalizes the
+     `-YYYYMM` exit-date suffix encoding, and computes events as diffs
+     between consecutive snapshots. Primary within its window because
+     Wikipedia's "Selected changes" table is not exhaustive (many
+     2008-financial-crisis exits are absent there).
+   - **sp400/sp600** — **`scripts/_wikirev.py`** derives the seed roster
+     and *fill events* from monthly-sampled revisions of the Wikipedia
+     page itself (their changes tables leave a 9-11% diff on their own).
+     Maintains an incremental committed baseline under
+     `data/{key}_revision_events.csv` + `data/{key}_revision_state.json`.
+2. **`scripts/_wiki.py`** — fetches the "List of S&P NNN companies"
+   page, parses the two stable-id tables (`#constituents` and
+   `#changes`) with BeautifulSoup. Provides the current roster and the
+   precise-dated change events.
 3. **`scripts/_renames.py`** — loads two curated CSVs:
    - `data/ticker_renames.csv` — ticker changes for continuing
-     constituents (FB → META, PX → LIN, MMC → MRSH, …) which neither
-     source tracks because the *company* didn't enter or leave.
-   - `data/manual_events.csv` — explicit add/remove events that fix
-     known seed errors (e.g. period-correct `LEH` for Lehman where the
-     seed encodes the post-bankruptcy `LEHMQ` throughout).
+     constituents (FB → META, BK → BNY, …). Global file; each rename is
+     applied conditionally, only in the index holding the old ticker.
+   - `data/manual_events.csv` — explicit add/remove events (with an
+     `index` column) that fix known upstream errors (e.g. period-correct
+     `LEH` for Lehman where the seed encodes `LEHMQ` throughout).
 
 `scripts/_reconcile.py` is the **reconciliation gate**: walks the seed
-forward through merged events and compares against the current
-Wikipedia roster. Aborts the build if `diff_ratio > 5%`. The build log
-lands in `data/build_log.md`.
+forward through merged events (handling `renamed` events atomically) and
+compares against the current Wikipedia roster. Aborts the build if
+`diff_ratio > 5%`. The build log lands in `data/build_log.md`.
 
-`scripts/build_dataset.py` is the orchestrator. Outputs four files
-under `pitindex/data/`:
-- `sp500_seed.csv` — initial roster at `start_date`
-- `sp500_changes.csv` — chronological event log (post-reconciliation)
-- `sp500_current.csv` — current roster with full metadata
-- `build_metadata.json` — build timestamp, sources, sizes, diff ratio
+`scripts/build_dataset.py` is the orchestrator (`--index all|sp500|sp400|sp600`).
+Per index it outputs under `pitindex/data/`:
+- `{key}_seed.csv` — initial roster at the index floor
+- `{key}_changes.csv` — chronological event log (post-reconciliation)
+- `{key}_current.csv` — current roster with full metadata
+- `build_metadata.json` — shared; per-index sections under `indices`
+  plus legacy sp500 top-level keys
 
 ### Runtime (`pitindex/`)
 
-- **`pitindex/_loader.py`** — lazy CSV loaders. Uses
-  `importlib.resources` for the bundled data and falls back to a user
-  cache directory (`~/.cache/pitindex/` or `$PITINDEX_CACHE_DIR`) for
-  fresher data injected by `pitindex.update()`.
+- **`pitindex/_registry.py`** — index keys, composite definition
+  (`sp1500` = union of the three physical indices), validation.
+- **`pitindex/_loader.py`** — lazy CSV loaders, parametrized by index
+  key. Uses `importlib.resources` for the bundled data and falls back
+  to a user cache directory (`~/.cache/pitindex/` or
+  `$PITINDEX_CACHE_DIR`) for fresher data injected by `pitindex.update()`.
 - **`pitindex/_api.py`** — public API: `get_constituents`,
-  `get_constituents_history`, `info`, `update`, plus the `PitIndex`
-  class wrapper (mirrors the `pitedgar.PitQuery` shape) and the
-  `StaleDataWarning` (emitted on first call when the bundled data
-  exceeds `PITINDEX_STALE_DAYS`, default 14).
-- **`pitindex/cli.py`** — Click-based CLI (`pitindex info|get|history|update|build`).
+  `get_constituents_history`, `info` (all with `index="sp500"`),
+  `update`, plus the `PitIndex` class wrapper (mirrors the
+  `pitedgar.PitQuery` shape) and the `StaleDataWarning` (emitted once
+  per process when the bundled data exceeds `PITINDEX_STALE_DAYS`,
+  default 14). Composite queries add an `index` output column.
+- **`pitindex/cli.py`** — Click-based CLI (`pitindex info|get|history|update|build`,
+  `--index` on the query commands).
 
 ### How freshness works
 

@@ -1,3 +1,5 @@
-date,action,ticker,name,reason
-2008-09-15,removed,LEH,Lehman Brothers Holdings,S&P 500 removal effective 2008-09-15 after Chapter 11 filing. The upstream seed dataset encodes the company under its post-bankruptcy ticker LEHMQ; we apply a rename LEHMQ -> LEH at start_date in ticker_renames.csv so PIT queries use the period-correct symbol.
-2008-09-15,removed,LEHMQ,Lehman Brothers Holdings (post-bankruptcy notation),Same as above; emitted in both notations so the event no-ops cleanly regardless of which is in the roster.
+index,date,action,ticker,name,reason
+sp500,2008-09-15,removed,LEH,Lehman Brothers Holdings,S&P 500 removal effective 2008-09-15 after Chapter 11 filing. The upstream seed dataset encodes the company under its post-bankruptcy ticker LEHMQ; we apply a rename LEHMQ -> LEH at start_date in ticker_renames.csv so PIT queries use the period-correct symbol.
+sp500,2008-09-15,removed,LEHMQ,Lehman Brothers Holdings (post-bankruptcy notation),Same as above; emitted in both notations so the event no-ops cleanly regardless of which is in the roster.
+sp500,2018-10-31,added,LIN,Linde plc,Compensating add for the PX -> LIN rename: the fja05680 seed records the PX removal on its own but never adds LIN. Under conditional rename semantics (DESIGN.md par. 4) the rename no-ops once PX is already gone; this event restores LIN at the correct date.
+sp400,2015-04-07,removed,IGT,International Game Technology,Acquired by GTECH plc (closed 2015-04-07); the successor IGT plc is UK-domiciled and not eligible for S&P US indices.

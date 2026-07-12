@@ -3,8 +3,15 @@
 Point-in-time constituents of major equity indices, derived from free public
 sources, shipped as a small Python package.
 
-The first index supported is the **S&P 500**, with PIT coverage from
-**2005-01-03 through today**.
+The **S&P 1500 family** is supported, with per-index PIT coverage dictated
+by what the free sources can honestly reconstruct:
+
+| Index | Key | Coverage from |
+|---|---|---|
+| S&P 500 | `sp500` (default) | **2005-01-03** |
+| S&P 400 MidCap | `sp400` | **2011-11-20** |
+| S&P 600 SmallCap | `sp600` | **2021-03-26** |
+| S&P 1500 (virtual composite) | `sp1500` | **2021-03-26** (max of the three) |
 
 ```python
 import pitindex
@@ -13,11 +20,17 @@ import pitindex
 df = pitindex.get_constituents("2020-12-22")
 # -> DataFrame[ticker, name, cik, gics_sector, gics_sub_industry]
 
+# Other indices of the family:
+mid = pitindex.get_constituents("2023-06-30", index="sp400")
+broad = pitindex.get_constituents("2023-06-30", index="sp1500")
+# sp1500 adds an `index` column telling which sub-index each ticker is in.
+
 # Sparse history: one snapshot per change date in [start, end]:
 hist = pitindex.get_constituents_history("2020-01-01", "2020-12-31")
 
 # Build metadata (sources, sizes, last refresh):
-pitindex.info()
+pitindex.info()                # sp500
+pitindex.info(index="sp600")
 
 # Refresh the local cache from upstream sources (requires the [build] extra):
 pitindex.update()
@@ -36,13 +49,15 @@ need data fresher than the most recent release.
 
 ## API
 
-### `get_constituents(as_of)`
+### `get_constituents(as_of, index="sp500")`
 
 Returns the index membership at the end of the given date.
 
 - `as_of` accepts `datetime.date`, `datetime.datetime`, or an ISO-format
   string `"YYYY-MM-DD"`.
-- Output columns: `ticker, name, cik, gics_sector, gics_sub_industry`.
+- `index` is one of `sp500`, `sp400`, `sp600`, `sp1500`.
+- Output columns: `ticker, name, cik, gics_sector, gics_sub_industry`
+  (plus `index` for the `sp1500` composite).
 - `cik` and the GICS columns are populated for tickers that are still
   index members today; for delisted constituents only what was preserved
   upstream is returned (typically the company name).
@@ -50,7 +65,7 @@ Returns the index membership at the end of the given date.
   membership state — no calendar interpolation is required.
 - The `as_of` value is also exposed via `df.attrs["as_of"]`.
 
-### `get_constituents_history(start, end)`
+### `get_constituents_history(start, end, index="sp500")`
 
 Returns one snapshot per **change date** in `[start, end]` plus a snapshot
 at `start`. The output adds an `as_of` column to the schema above.
@@ -105,8 +120,11 @@ the cron run?") and the user-side ("did the user remember to upgrade?").
 
 ## How the data is built
 
-The build pipeline (`python -m scripts.build_dataset`) combines three
-free public sources, in order of trust:
+The build pipeline (`python -m scripts.build_dataset`) combines free
+public sources, in order of trust. See `DESIGN.md` for the full
+rationale behind each choice.
+
+**S&P 500:**
 
 1. **Seed snapshot dataset** — the community-maintained
    [`fja05680/sp500`](https://github.com/fja05680/sp500) repository
@@ -123,29 +141,59 @@ free public sources, in order of trust:
    2008-financial-crisis exits, for example), so we deliberately defer
    to the seed where they overlap.
 
-3. **Curated overrides** — two CSVs in `data/` close gaps that neither
-   upstream source captures:
-   - `data/ticker_renames.csv`: index members whose **ticker changed**
-     (FB → META, BBT → TFC, UTX → RTX, …). Wikipedia treats those as
-     no-ops because the *company* did not enter or leave the index;
-     the seed sometimes records only the removal of the old ticker.
-   - `data/manual_events.csv`: explicit `added`/`removed` events that
-     correct known errors or omissions in the upstream data (e.g. the
-     period-correct `LEH` ticker for Lehman Brothers, where the seed
-     uses the post-bankruptcy notation `LEHMQ` throughout).
+**S&P 400 / S&P 600** (no fja05680 equivalent exists):
 
-Every build runs a **reconciliation gate**: the seed roster is walked
-forward through the merged event log and compared against the current
-Wikipedia roster. If the resulting diff exceeds 5% of the current
-roster, the build fails loud rather than shipping silently-corrupt
-data. The full reconciliation report lands in `data/build_log.md`.
+1. **Wikipedia "changes" table** — the precise-dated event source, but
+   measurably incomplete for these pages (mostly missing removals).
+2. **Page revision history** — the seed roster comes from the oldest
+   reliable page revision, and *fill events* are derived from diffs
+   between monthly-sampled revisions (the same snapshot-diff technique,
+   applied to Wikipedia's own history). Fill events are dated at the
+   revision timestamp — the first date the information was demonstrably
+   public — and carry revid provenance in their `reason` field. A
+   per-index sanity band on parsed roster sizes rejects corrupt
+   revisions (the pre-2021 S&P 600 page carried ~1000 names). The
+   derived baseline is committed under `data/{key}_revision_events.csv`
+   and only its tail is extended on weekly rebuilds.
+
+**All indices — curated overrides**, two CSVs in `data/` that close gaps
+no upstream source captures:
+
+- `data/ticker_renames.csv`: index members whose **ticker changed**
+  (FB → META, BBT → TFC, BK → BNY, …). The file is global: a rename is
+  applied only in the index whose roster holds the old ticker on the
+  rename date, and no-ops silently elsewhere.
+- `data/manual_events.csv`: explicit `added`/`removed` events (with an
+  `index` column) that correct known errors or omissions in the
+  upstream data (e.g. the period-correct `LEH` ticker for Lehman
+  Brothers, where the seed uses the post-bankruptcy notation `LEHMQ`
+  throughout).
+
+Every build runs a per-index **reconciliation gate**: the seed roster is
+walked forward through the merged event log and compared against the
+current Wikipedia roster. If the resulting diff exceeds 5% of the
+current roster, the build fails loud rather than shipping
+silently-corrupt data. The full reconciliation report lands in
+`data/build_log.md`.
 
 ## Limitations
 
+- **Heterogeneous coverage floors.** sp500 from 2005-01-03, sp400 from
+  2011-11-20, sp600 only from 2021-03-26 — before that date the S&P 600
+  Wikipedia page carried a wrong (~1000-name) roster and no free source
+  for its membership exists. The `sp1500` composite starts at the max of
+  the floors. Pre-floor queries raise instead of extrapolating.
+- **Fill-event dates are upper bounds.** For sp400/sp600, events
+  recovered from revision diffs are dated at the revision timestamp (lag
+  ≤ ~1 month vs the true effective date). Precisely-dated changes-table
+  events are preferred wherever they exist. This is conservative in the
+  no-look-ahead direction.
 - **Tickers for delisted constituents may be the upstream-encoded form.**
   The seed dataset uses post-event tickers for some delisted companies
   (`LEHMQ`, `WAMUQ`, `ABKFQ`, …). We patch the most prominent ones via
   `ticker_renames.csv` but coverage is best-effort. PRs welcome.
+- **No CIK for sp400 members.** The S&P 400 Wikipedia page does not
+  publish a CIK column (the 500 and 600 pages do).
 - **No index weights.** Weights require contemporaneous market-cap and
   float data that no truly-free source provides at PIT granularity. If
   you need weights, derive them from the constituent list plus your
@@ -153,8 +201,6 @@ data. The full reconciliation report lands in `data/build_log.md`.
 - **No corporate-action provenance.** The change events carry a `reason`
   field where one was captured by the source, but the library is not a
   corporate-actions database.
-- **2005-01-03 is the earliest supported date.** Before that, the seed
-  dataset's reliability and our coverage of ticker renames degrade.
 
 ## Contributing
 

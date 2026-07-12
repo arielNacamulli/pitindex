@@ -41,7 +41,9 @@ jobs:
       - name: Detect data drift
         id: drift
         run: |
-          if git diff --quiet pitindex/data/ data/build_log.md; then
+          # data/ also carries the sp400/sp600 revision baselines the
+          # build extends incrementally — commit their drift too.
+          if git diff --quiet pitindex/data/ data/; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -52,7 +54,7 @@ jobs:
         run: |
           git config user.name  "pitindex-bot"
           git config user.email "pitindex-bot@users.noreply.github.com"
-          git add pitindex/data/ data/build_log.md
+          git add pitindex/data/ data/
           git commit -m "data: weekly refresh ($(date -u +%Y-%m-%d))"
           git push origin HEAD:master
 
