@@ -902,5 +902,5 @@ date,action,ticker,name,reason
 2026-07-06,added,GT,Goodyear Tire and Rubber Company,STEL was acquired by Prosperity Bancshares . GT was moved from the S&P 400 to replace it as it was more representative of the small cap market space. [ 6 ]
 2026-07-08,removed,RWT,Redwood Trust,MFP was spun off from Middleby Corp. and replaced RWT which was no longer representative of the small-cap market space. [ 5 ]
 2026-07-08,added,MFP,Midera Food Processing,MFP was spun off from Middleby Corp. and replaced RWT which was no longer representative of the small-cap market space. [ 5 ]
-2026-07-12,removed,ALSK,,"reconciliation: absent from current roster, present after event walk"
-2026-07-12,removed,CPB,,"reconciliation: absent from current roster, present after event walk"
+2026-07-13,removed,ALSK,,"reconciliation: absent from current roster, present after event walk"
+2026-07-13,removed,CPB,,"reconciliation: absent from current roster, present after event walk"

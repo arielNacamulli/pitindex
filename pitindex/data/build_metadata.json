@@ -1,14 +1,14 @@
 {
-  "build_timestamp_utc": "2026-07-12T19:04:41.667803+00:00",
+  "build_timestamp_utc": "2026-07-13T09:20:09.195924+00:00",
   "current_size": 503,
   "diff_ratio": 0.007952286282306162,
-  "end_date": "2026-07-12",
+  "end_date": "2026-07-13",
   "events_count": 1026,
   "indices": {
     "sp400": {
       "current_size": 400,
       "diff_ratio": 0.035,
-      "end_date": "2026-07-12",
+      "end_date": "2026-07-13",
       "events_count": 1550,
       "renames_applied": 4,
       "seed_size": 400,
@@ -20,7 +20,7 @@
     "sp500": {
       "current_size": 503,
       "diff_ratio": 0.007952286282306162,
-      "end_date": "2026-07-12",
+      "end_date": "2026-07-13",
       "events_count": 1026,
       "renames_applied": 31,
       "seed_size": 495,
@@ -32,7 +32,7 @@
     "sp600": {
       "current_size": 602,
       "diff_ratio": 0.011627906976744186,
-      "end_date": "2026-07-12",
+      "end_date": "2026-07-13",
       "events_count": 905,
       "renames_applied": 0,
       "seed_size": 601,
