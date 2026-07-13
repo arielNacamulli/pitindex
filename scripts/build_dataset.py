@@ -32,7 +32,7 @@ from pathlib import Path
 
 from loguru import logger as log
 
-from . import _reconcile, _renames, _seed, _wiki, _wikirev
+from . import _reconcile, _renames, _sec, _seed, _wiki, _wikirev
 from ._indices import SPECS, IndexSpec
 
 LOG_FMT = (
@@ -136,6 +136,7 @@ def build_index(
     max_diff_ratio: float,
     cached_html: str | None = None,
     cached_seed: str | None = None,
+    sec_map: dict[str, str] | None = None,
 ) -> tuple[dict, _reconcile.ReconciliationReport]:
     """Build one index end-to-end and write its per-index data files."""
     key = spec.key
@@ -150,6 +151,13 @@ def build_index(
         raise RuntimeError(
             f"[{key}] current roster size {len(current)} outside sanity band {spec.roster_band}."
         )
+
+    # -- 1b. Correct/fill CIKs against the SEC's official mapping ------------
+    cik_corrected = cik_filled = 0
+    if sec_map:
+        current, cik_corrected, cik_filled = _sec.correct_ciks(current, sec_map, key)
+        if cik_corrected or cik_filled:
+            log.info("[{}] CIKs: {} corrected, {} filled from SEC map", key, cik_corrected, cik_filled)
 
     # -- 2. Seed + primary event source, per strategy -------------------------
     if spec.seed_strategy == "fja05680":
@@ -233,6 +241,8 @@ def build_index(
         "diff_ratio": report.diff_ratio,
         "synthetic_events": report.synthetic_events_added,
         "renames_applied": report.renames_applied,
+        "cik_corrected_from_sec": cik_corrected,
+        "cik_filled_from_sec": cik_filled,
     }
     return meta, report
 
@@ -270,6 +280,9 @@ def main(argv: list[str] | None = None) -> int:
         except (json.JSONDecodeError, OSError):
             existing_indices = {}
 
+    log.info("Fetching the SEC ticker→CIK map...")
+    sec_map = _sec.fetch_sec_ticker_map()
+
     report_sections: list[str] = []
     indices_meta: dict[str, dict] = dict(existing_indices)
     for key in keys:
@@ -281,6 +294,7 @@ def main(argv: list[str] | None = None) -> int:
                 max_diff_ratio=args.max_diff_ratio,
                 cached_html=args.cached_html if key == "sp500" else None,
                 cached_seed=args.cached_seed if key == "sp500" else None,
+                sec_map=sec_map,
             )
         except _reconcile.ReconciliationError as exc:
             report_sections.append(f"# {key}\n\n" + _reconcile.render_report_md(exc.report))

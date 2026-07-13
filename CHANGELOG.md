@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-13
+
+### Added
+- Build-time CIK validation against the SEC's official
+  `company_tickers.json` (`scripts/_sec.py`): fills the CIKs the S&P 400
+  wiki page doesn't carry at all (+400) and corrects stale wiki CIKs.
+  Disagreements are arbitrated via the SEC submissions API — the CIK
+  whose filings actually list the ticker wins — so premature
+  company_tickers entries (e.g. a pending ExxonMobil holdco shell
+  claiming XOM) cannot override a valid roster value.
+
+### Fixed
+- Stale CIKs on the S&P 600 page, found by pitdata's cik-consistency
+  cross-check: NE (pre-Chapter-11 Noble -> 0001895262), WEN (Wendy's
+  International, dead 2008 -> 0000030697), FA (-> 0001210677).
+
 ## [0.2.0] - 2026-07-12
 
 The S&P 1500 release: adds S&P 400 (MidCap), S&P 600 (SmallCap), and the
@@ -86,6 +102,7 @@ with PIT coverage from 2005-01-03 through today.
   data every Monday 06:00 UTC and commits drift back to `master`.
   `release.yml` publishes to PyPI on tag push via OIDC trusted publishing.
 
-[Unreleased]: https://github.com/arielNacamulli/pitindex/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/arielNacamulli/pitindex/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/arielNacamulli/pitindex/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/arielNacamulli/pitindex/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/arielNacamulli/pitindex/releases/tag/v0.1.0
