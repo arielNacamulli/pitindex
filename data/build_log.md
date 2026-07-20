@@ -2,13 +2,13 @@
 
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-07-13**
+- Window: **2004-12-30 → 2026-07-20**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
 - Diff ratio vs. current: **0.80%**
 - Synthetic events inserted: **0**
-- Renames applied / skipped (other-index no-ops): **31 / 5**
+- Renames applied / skipped (other-index no-ops): **28 / 8**
 - Fill no-ops (revision-diff events on already-consistent state): **0**
 
 ## Invalid 'added' on existing ticker (1)
@@ -34,7 +34,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2011-11-20 → 2026-07-13**
+- Window: **2011-11-20 → 2026-07-20**
 - Seed roster size: **400**
 - Current Wikipedia roster size: **400**
 - Roster size after walking events: **400**
@@ -76,7 +76,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2021-03-31 → 2026-07-13**
+- Window: **2021-03-31 → 2026-07-20**
 - Seed roster size: **601**
 - Current Wikipedia roster size: **602**
 - Roster size after walking events: **604**

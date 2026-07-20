@@ -1529,3 +1529,5 @@ date,action,ticker,name,reason
 2026-06-21,removed,MASI,,"derived from wiki revision diff (rev 1360492269 @ 2026-06-21, prev 2026-05-24)"
 2026-07-06,added,ALSN,,"derived from wiki revision diff (rev 1362781477 @ 2026-07-06, prev 2026-06-21)"
 2026-07-06,removed,GT,,"derived from wiki revision diff (rev 1362781477 @ 2026-07-06, prev 2026-06-21)"
+2026-07-19,added,BTSG,,"derived from wiki revision diff (rev 1364890191 @ 2026-07-19, prev 2026-07-06)"
+2026-07-19,removed,GTLS,,"derived from wiki revision diff (rev 1364890191 @ 2026-07-19, prev 2026-07-06)"
