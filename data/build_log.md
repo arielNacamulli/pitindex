@@ -2,7 +2,7 @@
 
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-07-20**
+- Window: **2004-12-30 → 2026-07-27**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
@@ -34,7 +34,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2011-11-20 → 2026-07-20**
+- Window: **2011-11-20 → 2026-07-27**
 - Seed roster size: **400**
 - Current Wikipedia roster size: **400**
 - Roster size after walking events: **400**
@@ -76,12 +76,12 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2021-03-31 → 2026-07-20**
+- Window: **2021-03-31 → 2026-07-27**
 - Seed roster size: **601**
-- Current Wikipedia roster size: **602**
+- Current Wikipedia roster size: **603**
 - Roster size after walking events: **604**
-- Diff ratio vs. current: **1.16%**
-- Synthetic events inserted: **2**
+- Diff ratio vs. current: **1.00%**
+- Synthetic events inserted: **1**
 - Renames applied / skipped (other-index no-ops): **0 / 20**
 - Fill no-ops (revision-diff events on already-consistent state): **7**
 
@@ -100,6 +100,6 @@ _none_
 
 _none_
 
-## Extra from event walk (synthetic remove at end_date) (2)
+## Extra from event walk (synthetic remove at end_date) (1)
 
-ALSK, CPB
+ALSK
