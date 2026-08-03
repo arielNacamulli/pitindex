@@ -2,7 +2,7 @@
 
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-07-27**
+- Window: **2004-12-30 → 2026-08-03**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
@@ -34,7 +34,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2011-11-20 → 2026-07-27**
+- Window: **2011-11-20 → 2026-08-03**
 - Seed roster size: **400**
 - Current Wikipedia roster size: **400**
 - Roster size after walking events: **400**
@@ -76,7 +76,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2021-03-31 → 2026-07-27**
+- Window: **2021-03-31 → 2026-08-03**
 - Seed roster size: **601**
 - Current Wikipedia roster size: **603**
 - Roster size after walking events: **604**

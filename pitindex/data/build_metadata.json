@@ -1,10 +1,10 @@
 {
-  "build_timestamp_utc": "2026-07-27T09:43:58.270248+00:00",
+  "build_timestamp_utc": "2026-08-03T09:37:24.107180+00:00",
   "cik_corrected_from_sec": 1,
   "cik_filled_from_sec": 0,
   "current_size": 503,
   "diff_ratio": 0.007952286282306162,
-  "end_date": "2026-07-27",
+  "end_date": "2026-08-03",
   "events_count": 1026,
   "indices": {
     "sp400": {
@@ -12,7 +12,7 @@
       "cik_filled_from_sec": 400,
       "current_size": 400,
       "diff_ratio": 0.035,
-      "end_date": "2026-07-27",
+      "end_date": "2026-08-03",
       "events_count": 1560,
       "renames_applied": 4,
       "seed_size": 400,
@@ -26,7 +26,7 @@
       "cik_filled_from_sec": 0,
       "current_size": 503,
       "diff_ratio": 0.007952286282306162,
-      "end_date": "2026-07-27",
+      "end_date": "2026-08-03",
       "events_count": 1026,
       "renames_applied": 28,
       "seed_size": 495,
@@ -36,12 +36,12 @@
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
     },
     "sp600": {
-      "cik_corrected_from_sec": 3,
+      "cik_corrected_from_sec": 2,
       "cik_filled_from_sec": 0,
       "current_size": 603,
       "diff_ratio": 0.009950248756218905,
-      "end_date": "2026-07-27",
-      "events_count": 908,
+      "end_date": "2026-08-03",
+      "events_count": 916,
       "renames_applied": 0,
       "seed_size": 601,
       "seed_source": "wikipedia revision history of 'List of S&P 600 companies'",
