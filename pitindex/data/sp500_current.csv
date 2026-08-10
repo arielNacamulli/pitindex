@@ -38,7 +38,7 @@ APA,APA Corporation,0001841666,Energy,Oil & Gas Exploration & Production,1997-07
 APD,Air Products,0000002969,Materials,Industrial Gases,1985-04-30
 APH,Amphenol,0000820313,Information Technology,Electronic Components,2008-09-30
 APO,Apollo Global Management,0001858681,Financials,Asset Management & Custody Banks,2024-12-23
-APP,AppLovin,0001751008,Information Technology,Application Software,2025-09-22
+APP,AppLovin,0001751008,Communication Services,Advertising,2025-09-22
 APTV,Aptiv,0001521332,Consumer Discretionary,Automotive Parts & Equipment,2012-12-24
 ARE,Alexandria Real Estate Equities,0001035443,Real Estate,Office REITs,2017-03-20
 ARES,Ares Management,0001176948,Financials,Asset Management & Custody Banks,2025-12-11
@@ -128,7 +128,7 @@ CVX,Chevron Corporation,0000093410,Energy,Integrated Oil & Gas,1957-03-04
 D,Dominion Energy,0000715957,Utilities,Multi-Utilities,2016-11-30
 DAL,Delta Air Lines,0000027904,Industrials,Passenger Airlines,2013-09-11
 DASH,DoorDash,0001792789,Consumer Discretionary,Specialized Consumer Services,2025-03-24
-DD,DuPont,0001666700,Materials,Specialty Chemicals,2019-06-03
+DD,DuPont,0001666700,Industrials,Industrial Conglomerates,2019-06-03
 DDOG,Datadog,0001561550,Information Technology,Application Software,2025-07-09
 DE,Deere & Company,0000315189,Industrials,Agricultural & Farm Machinery,1957-03-04
 DECK,Deckers Brands,0000910521,Consumer Discretionary,Footwear,2024-03-18
@@ -150,7 +150,6 @@ DUK,Duke Energy,0001326160,Utilities,Electric Utilities,1976-06-30
 DVA,DaVita,0000927066,Health Care,Health Care Services,2008-07-31
 DVN,Devon Energy,0001090012,Energy,Oil & Gas Exploration & Production,2000-08-30
 DXCM,Dexcom,0001093557,Health Care,Health Care Equipment,2020-05-12
-EA,Electronic Arts,0000712515,Communication Services,Interactive Home Entertainment,2002-07-22
 EBAY,eBay Inc.,0001065088,Consumer Discretionary,Broadline Retail,2002-07-22
 ECHO,EchoStar,0001415404,Communication Services,Wireless Telecommunication Services,2026-03-23
 ECL,Ecolab,0000031462,Materials,Specialty Chemicals,1989-01-31
@@ -186,6 +185,7 @@ FDS,FactSet,0001013237,Financials,Financial Exchanges & Data,2021-12-20
 FDX,FedEx,0001048911,Industrials,Air Freight & Logistics,1980-12-31
 FDXF,FedEx Freight,0002082247,Industrials,Cargo Ground Transportation,2026-06-01
 FE,FirstEnergy,0001031296,Utilities,Electric Utilities,1997-11-28
+FERG,Ferguson Enterprises,0002011641,Industrials,Building Products,2026-08-05
 FFIV,"F5, Inc.",0001048695,Information Technology,Communications Equipment,2010-12-20
 FICO,Fair Isaac,0000814547,Information Technology,Application Software,2023-03-20
 FIS,Fidelity National Information Services,0001136893,Financials,Transaction & Payment Processing Services,2006-11-10
