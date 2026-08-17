@@ -1,38 +1,40 @@
 {
-  "build_timestamp_utc": "2026-08-10T07:25:41.376563+00:00",
+  "build_timestamp_utc": "2026-08-17T07:24:18.911333+00:00",
   "cik_corrected_from_sec": 0,
   "cik_filled_from_sec": 0,
   "current_size": 503,
-  "diff_ratio": 0.009940357852882704,
-  "end_date": "2026-08-10",
+  "diff_ratio": 0.007952286282306162,
+  "end_date": "2026-08-17",
   "events_count": 1028,
   "indices": {
     "sp400": {
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 400,
       "current_size": 400,
-      "diff_ratio": 0.035,
-      "end_date": "2026-08-10",
+      "diff_ratio": 0.0375,
+      "end_date": "2026-08-17",
       "events_count": 1560,
       "renames_applied": 4,
       "seed_size": 400,
       "seed_source": "wikipedia revision history of 'List of S&P 400 companies'",
       "start_date": "2011-11-20",
       "synthetic_events": 0,
+      "wikipedia_changes_source": "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_400",
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_400_companies"
     },
     "sp500": {
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 0,
       "current_size": 503,
-      "diff_ratio": 0.009940357852882704,
-      "end_date": "2026-08-10",
+      "diff_ratio": 0.007952286282306162,
+      "end_date": "2026-08-17",
       "events_count": 1028,
       "renames_applied": 28,
       "seed_size": 495,
       "seed_source": "https://github.com/fja05680/sp500",
       "start_date": "2004-12-30",
       "synthetic_events": 0,
+      "wikipedia_changes_source": "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500",
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
     },
     "sp600": {
@@ -40,13 +42,14 @@
       "cik_filled_from_sec": 0,
       "current_size": 603,
       "diff_ratio": 0.009950248756218905,
-      "end_date": "2026-08-10",
-      "events_count": 918,
+      "end_date": "2026-08-17",
+      "events_count": 920,
       "renames_applied": 0,
       "seed_size": 601,
       "seed_source": "wikipedia revision history of 'List of S&P 600 companies'",
       "start_date": "2021-03-31",
       "synthetic_events": 1,
+      "wikipedia_changes_source": "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_600",
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_600_companies"
     }
   },
@@ -55,5 +58,6 @@
   "seed_source": "https://github.com/fja05680/sp500",
   "start_date": "2004-12-30",
   "synthetic_events": 0,
+  "wikipedia_changes_source": "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500",
   "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 }

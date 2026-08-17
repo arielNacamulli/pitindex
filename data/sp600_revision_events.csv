@@ -915,3 +915,5 @@ date,action,ticker,name,reason
 2026-07-29,removed,MOH,,"derived from wiki revision diff (rev 1366695382 @ 2026-07-29, prev 2026-07-24)"
 2026-08-07,added,FIVN,,"derived from wiki revision diff (rev 1368130181 @ 2026-08-07, prev 2026-07-29)"
 2026-08-07,removed,TWO,,"derived from wiki revision diff (rev 1368130181 @ 2026-08-07, prev 2026-07-29)"
+2026-08-11,added,ADIG,,"derived from wiki revision diff (rev 1368913196 @ 2026-08-11, prev 2026-08-07)"
+2026-08-11,removed,HTZ,,"derived from wiki revision diff (rev 1368913196 @ 2026-08-11, prev 2026-08-07)"

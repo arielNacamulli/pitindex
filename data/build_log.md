@@ -2,19 +2,18 @@
 
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-08-10**
+- Window: **2004-12-30 → 2026-08-17**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
-- Diff ratio vs. current: **0.99%**
+- Diff ratio vs. current: **0.80%**
 - Synthetic events inserted: **0**
 - Renames applied / skipped (other-index no-ops): **28 / 8**
 - Fill no-ops (revision-diff events on already-consistent state): **0**
 
-## Invalid 'added' on existing ticker (2)
+## Invalid 'added' on existing ticker (1)
 
 - 2023-07-10  EG
-- 2023-10-02  VLTO
 
 ## Invalid 'removed' on missing ticker (3)
 
@@ -35,21 +34,21 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2011-11-20 → 2026-08-10**
+- Window: **2011-11-20 → 2026-08-17**
 - Seed roster size: **400**
 - Current Wikipedia roster size: **400**
 - Roster size after walking events: **400**
-- Diff ratio vs. current: **3.50%**
+- Diff ratio vs. current: **3.75%**
 - Synthetic events inserted: **0**
 - Renames applied / skipped (other-index no-ops): **4 / 31**
-- Fill no-ops (revision-diff events on already-consistent state): **307**
+- Fill no-ops (revision-diff events on already-consistent state): **366**
 
 ## Invalid 'added' on existing ticker (2)
 
 - 2012-06-29  ALEX
 - 2023-04-04  CR
 
-## Invalid 'removed' on missing ticker (12)
+## Invalid 'removed' on missing ticker (13)
 
 - 2012-09-28  RSH
 - 2012-12-21  AGP
@@ -58,10 +57,11 @@ _none_
 - 2013-06-28  TLAB
 - 2014-04-30  UAA
 - 2014-12-09  CNVR
-- 2015-07-01  HARSCO
-- 2017-09-18  WEBMD
+- 2016-12-01  AMSG
+- 2016-12-01  PPS
 - 2019-09-18  INGN
 - 2020-05-27  DHC
+- 2020-06-22  REZI
 - 2021-03-22  CZR
 
 ## Missing from event walk (synthetic add at start_date) (0)
@@ -77,7 +77,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2021-03-31 → 2026-08-10**
+- Window: **2021-03-31 → 2026-08-17**
 - Seed roster size: **601**
 - Current Wikipedia roster size: **603**
 - Roster size after walking events: **604**
