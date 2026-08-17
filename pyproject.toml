@@ -108,6 +108,8 @@ ignore = [
     "E501",
     "PLR0912",
     "PLR0913",
+    # Positional-argument variant of PLR0913, left preview in ruff 0.16.
+    "PLR0917",
     "PLR0915",
     "PLR2004",
     "B008",
