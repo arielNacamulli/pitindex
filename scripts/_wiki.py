@@ -56,14 +56,68 @@ def fetch_html(url: str = WIKI_URL, timeout: int = 30) -> str:
 
 # --- table location --------------------------------------------------------
 
+# The table ids are editor-maintained anchors, not guaranteed markup: they get
+# dropped or renamed whenever somebody rewrites a table (the 'changes' id
+# vanished from the S&P 500 page in August 2026, breaking the weekly refresh).
+# When the id is missing we identify the table by its header signature instead,
+# the same way ``_wikirev`` copes with pre-2021 revisions of the 400/600 pages.
+#
+# ``require``: the header must mention at least one needle from every group.
+# ``reject``:  the header must mention none of these — it keeps the changes
+#              table (whose second header row carries Ticker/Security) from
+#              masquerading as a roster table.
+_TableSignature = tuple[tuple[tuple[str, ...], ...], tuple[str, ...]]
+
+_HEADER_SIGNATURES: dict[str, _TableSignature] = {
+    "constituents": ((("symbol", "ticker"), ("security", "company")), ("removed",)),
+    "changes": ((("date",), ("added",), ("removed",)), ()),
+}
+
+
+def _header_text(table: Tag) -> str:
+    """Lowercased text of a table's first two rows.
+
+    Two rows, because the changes table has a two-level header (Date | Added |
+    Removed | Reason, then Ticker | Security | Ticker | Security).
+    """
+    cells = [c for row in table.find_all("tr")[:2] for c in row.find_all(["th", "td"])]
+    return " ".join(_cell_text(c).lower() for c in cells)
+
+
+def _find_tables(soup: BeautifulSoup, table_id: str) -> list[Tag]:
+    """Locate a known table by id, falling back to its header signature.
+
+    Returns every match, largest first — a table that got split into several
+    (e.g. a current list plus an archive) still yields all of its parts.
+    """
+    table = soup.find("table", id=table_id)
+    if table is not None:
+        return [table]
+
+    require, reject = _HEADER_SIGNATURES[table_id]
+    hits: list[Tag] = []
+    for t in soup.find_all("table"):
+        header = _header_text(t)
+        if any(n in header for n in reject):
+            continue
+        if all(any(n in header for n in group) for group in require):
+            hits.append(t)
+    if not hits:
+        raise RuntimeError(
+            f"Could not find table id={table_id!r} on Wikipedia page, and no table matches "
+            f"its header signature {require}. The page structure may have changed."
+        )
+    hits.sort(key=lambda t: len(t.find_all("tr")), reverse=True)
+    log.warning(
+        "Table id={!r} is missing from the Wikipedia page; matched {} table(s) by header instead.",
+        table_id,
+        len(hits),
+    )
+    return hits
+
 
 def _find_table(soup: BeautifulSoup, table_id: str) -> Tag:
-    table = soup.find("table", id=table_id)
-    if table is None:
-        raise RuntimeError(
-            f"Could not find table id={table_id!r} on Wikipedia page. The page structure may have changed."
-        )
-    return table
+    return _find_tables(soup, table_id)[0]
 
 
 def _cell_text(cell: Tag) -> str:
@@ -220,7 +274,31 @@ def parse_changes(html: str) -> list[ChangeEvent]:
     Removed (ticker+name). We emit one ChangeEvent per side that has data.
     """
     soup = BeautifulSoup(html, "lxml")
-    table = _find_table(soup, "changes")
+
+    out: list[ChangeEvent] = []
+    seen: set[tuple[str, str, str]] = set()
+    dropped = 0
+    for table in _find_tables(soup, "changes"):
+        events, table_dropped = _parse_changes_table(table)
+        dropped += table_dropped
+        for e in events:
+            key = (e.date, e.action, e.ticker)
+            if key not in seen:
+                seen.add(key)
+                out.append(e)
+    if dropped:
+        log.info("parse_changes: dropped {} non-ticker-shaped entries (old-format rows)", dropped)
+    if not out:
+        raise RuntimeError(
+            "Located the changes table but parsed zero events from it. The column layout may have changed."
+        )
+    # _reconcile re-sorts anyway; sort here so a multi-table merge is deterministic.
+    out.sort(key=lambda e: (e.date, e.action, e.ticker))
+    return out
+
+
+def _parse_changes_table(table: Tag) -> tuple[list[ChangeEvent], int]:
+    """Parse one changes table. Returns (events, dropped-entry count)."""
     rows = table.find_all("tr")
 
     # The first 1-2 rows are headers. Detect them (any th-only rows).
@@ -268,9 +346,7 @@ def parse_changes(html: str) -> list[ChangeEvent]:
                     reason=reason or None,
                 )
             )
-    if dropped:
-        log.info("parse_changes: dropped {} non-ticker-shaped entries (old-format rows)", dropped)
-    return out
+    return out, dropped
 
 
 __all__ = [
