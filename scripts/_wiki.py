@@ -84,11 +84,14 @@ def _header_text(table: Tag) -> str:
     return " ".join(_cell_text(c).lower() for c in cells)
 
 
-def _find_tables(soup: BeautifulSoup, table_id: str) -> list[Tag]:
+def _find_tables(soup: BeautifulSoup, table_id: str, *, required: bool = True) -> list[Tag]:
     """Locate a known table by id, falling back to its header signature.
 
-    Returns every match, largest first — a table that got split into several
-    (e.g. a current list plus an archive) still yields all of its parts.
+    Returns every match, largest first — a table split into several (e.g. a
+    current list plus an archive) still yields all of its parts. With
+    ``required=False`` an absent table gives an empty list instead of raising:
+    the changes table no longer lives on the roster page, but we still look
+    there in case the split is ever undone.
     """
     table = soup.find("table", id=table_id)
     if table is not None:
@@ -103,6 +106,8 @@ def _find_tables(soup: BeautifulSoup, table_id: str) -> list[Tag]:
         if all(any(n in header for n in group) for group in require):
             hits.append(t)
     if not hits:
+        if not required:
+            return []
         raise RuntimeError(
             f"Could not find table id={table_id!r} on Wikipedia page, and no table matches "
             f"its header signature {require}. The page structure may have changed."
@@ -264,35 +269,41 @@ _TICKER_SHAPE = re.compile(r"^[A-Z0-9]{1,6}(\.[A-Z])?$")
 # --- change events ---------------------------------------------------------
 
 
-def parse_changes(html: str) -> list[ChangeEvent]:
-    """Parse the 'Selected changes' table into a flat list of events.
+def parse_changes(*htmls: str, required: bool = True) -> list[ChangeEvent]:
+    """Parse the changes table(s) of one or more pages into a flat event list.
 
-    The table has a two-row header:
-        Date | Added         | Removed       | Reason
-        ---- | Ticker | Sec. | Ticker | Sec. |
+    Each table has a two-row header:
+        (Effective) Date | Added         | Removed       | Reason | Refs
+        ---------------- | Ticker | Sec. | Ticker | Sec. |
     A single 'date' row may carry up to one Added (ticker+name) AND one
     Removed (ticker+name). We emit one ChangeEvent per side that has data.
-    """
-    soup = BeautifulSoup(html, "lxml")
 
+    Since the 2026-08 split the roster page carries no changes table and the
+    'Historical components' page carries it all, so we read both and merge,
+    deduplicating on (date, action, ticker). ``required`` guards the merged
+    result: at least one page must yield events.
+    """
     out: list[ChangeEvent] = []
     seen: set[tuple[str, str, str]] = set()
     dropped = 0
-    for table in _find_tables(soup, "changes"):
-        events, table_dropped = _parse_changes_table(table)
-        dropped += table_dropped
-        for e in events:
-            key = (e.date, e.action, e.ticker)
-            if key not in seen:
-                seen.add(key)
-                out.append(e)
+    for html in htmls:
+        soup = BeautifulSoup(html, "lxml")
+        for table in _find_tables(soup, "changes", required=False):
+            events, table_dropped = _parse_changes_table(table)
+            dropped += table_dropped
+            for e in events:
+                key = (e.date, e.action, e.ticker)
+                if key not in seen:
+                    seen.add(key)
+                    out.append(e)
     if dropped:
         log.info("parse_changes: dropped {} non-ticker-shaped entries (old-format rows)", dropped)
-    if not out:
+    if not out and required:
         raise RuntimeError(
-            "Located the changes table but parsed zero events from it. The column layout may have changed."
+            "No changes events parsed from any of the supplied pages. The changes table has "
+            "moved or changed layout again — check 'Historical components of the S&P NNN'."
         )
-    # _reconcile re-sorts anyway; sort here so a multi-table merge is deterministic.
+    # _reconcile re-sorts anyway; sort here so a multi-page merge is deterministic.
     out.sort(key=lambda e: (e.date, e.action, e.ticker))
     return out
 

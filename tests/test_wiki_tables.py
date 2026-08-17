@@ -1,9 +1,10 @@
 """Wikipedia table location + changes parsing (unit, offline).
 
-Regression cover for the August 2026 weekly-refresh failure: the ``changes``
-id disappeared from the S&P 500 page and the build aborted with
-"Could not find table id='changes'". The parser now falls back to matching
-the table by its header signature.
+Regression cover for the August 2026 weekly-refresh failure. On 2026-08-11
+Wikipedia moved the changes tables out of 'List of S&P NNN companies' into
+'Historical components of the S&P NNN', so the build aborted with
+"Could not find table id='changes'". The parser now reads both pages and
+merges them, and falls back to a header signature when the id is missing.
 """
 
 from __future__ import annotations
@@ -21,15 +22,28 @@ CONSTITUENTS_ROWS = """
       <td>0000789019</td><td>June 1, 1994</td></tr>
 """
 
+# Mirrors the live layout of 'Historical components of the S&P 500': the date
+# column is headed "Effective Date" and a trailing Refs column follows Reason.
 CHANGES_ROWS = """
-  <tr><th rowspan="2">Date</th><th colspan="2">Added</th>
-      <th colspan="2">Removed</th><th rowspan="2">Reason</th></tr>
+  <tr><th rowspan="2">Effective Date</th><th colspan="2">Added</th>
+      <th colspan="2">Removed</th><th rowspan="2">Reason</th><th rowspan="2">Refs</th></tr>
   <tr><th>Ticker</th><th>Security</th><th>Ticker</th><th>Security</th></tr>
   <tr><td>June 30, 2026</td><td>NEWCO</td><td>Newco Inc.</td>
-      <td>OLDCO</td><td>Oldco Inc.</td><td>Market cap change</td></tr>
+      <td>OLDCO</td><td>Oldco Inc.</td><td>Market cap change</td><td>[1]</td></tr>
   <tr><td>March 24, 2026</td><td>ACME</td><td>Acme Corp.</td>
-      <td></td><td></td><td>S&amp;P 500 constituent</td></tr>
+      <td></td><td></td><td>S&amp;P 500 constituent</td><td>[2]</td></tr>
 """
+
+ROSTER_PAGE = (
+    f'<html><body><table class="wikitable" id="constituents">{CONSTITUENTS_ROWS}</table></body></html>'
+)
+HISTORICAL_PAGE = f'<html><body><table class="wikitable" id="changes">{CHANGES_ROWS}</table></body></html>'
+
+EXPECTED_EVENTS = {
+    ("2026-03-24", "added", "ACME"),
+    ("2026-06-30", "added", "NEWCO"),
+    ("2026-06-30", "removed", "OLDCO"),
+}
 
 
 def page(*, constituents_id: str | None = "constituents", changes_id: str | None = "changes") -> str:
@@ -44,16 +58,22 @@ def page(*, constituents_id: str | None = "constituents", changes_id: str | None
 
 def test_tables_are_found_by_id():
     assert [c.ticker for c in parse_current_constituents(page())] == ["AAPL", "MSFT"]
-    events = parse_changes(page())
-    assert {(e.date, e.action, e.ticker) for e in events} == {
-        ("2026-03-24", "added", "ACME"),
-        ("2026-06-30", "added", "NEWCO"),
-        ("2026-06-30", "removed", "OLDCO"),
-    }
+    assert {(e.date, e.action, e.ticker) for e in parse_changes(page())} == EXPECTED_EVENTS
+
+
+def test_changes_come_from_the_historical_components_page():
+    """The live post-split layout: roster on one page, events on another."""
+    assert [c.ticker for c in parse_current_constituents(ROSTER_PAGE)] == ["AAPL", "MSFT"]
+    events = parse_changes(ROSTER_PAGE, HISTORICAL_PAGE)
+    assert {(e.date, e.action, e.ticker) for e in events} == EXPECTED_EVENTS
+
+
+def test_both_pages_carrying_the_table_is_deduped():
+    """A revert of the split must not double every event."""
+    assert parse_changes(page(), HISTORICAL_PAGE) == parse_changes(HISTORICAL_PAGE)
 
 
 def test_changes_table_is_found_without_its_id():
-    """The exact failure mode of the 2026-08-17 refresh run."""
     assert parse_changes(page(changes_id=None)) == parse_changes(page())
 
 
@@ -78,7 +98,11 @@ def test_split_changes_tables_are_merged_and_deduped():
     assert events[0].ticker == "OLDIE"
 
 
-def test_missing_table_still_raises():
-    html = '<html><body><table class="wikitable"><tr><th>Nope</th></tr></table></body></html>'
-    with pytest.raises(RuntimeError, match="header signature"):
-        parse_changes(html)
+def test_no_changes_table_anywhere_still_raises():
+    """What the build must keep doing if the table moves again."""
+    with pytest.raises(RuntimeError, match="moved or changed layout"):
+        parse_changes(ROSTER_PAGE)
+
+
+def test_missing_changes_table_is_tolerated_when_optional():
+    assert parse_changes(ROSTER_PAGE, required=False) == []

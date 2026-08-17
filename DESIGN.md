@@ -123,6 +123,31 @@ strings that happen to look like tickers (HARSCO, WEBMD) survive the
 filter but die as no-op invalid removes in the walk — inflating
 diff_ratio slightly (~3.5% residual on sp400), which we accept.
 
+## 3d. Changes tables live on their own articles (2026-08-17)
+
+**Decision:** each `IndexSpec` carries a `changes_url` alongside
+`wiki_url`. The build fetches both pages and `parse_changes` takes any
+number of HTML documents, merging their events and deduplicating on
+(date, action, ticker). Table location falls back from the stable id to
+a header signature (changes: date + added + removed; constituents:
+symbol/ticker + security/company, rejecting anything mentioning
+"removed").
+
+**Why:** on 2026-08-11 Wikipedia editors moved the "Selected changes"
+tables out of the three "List of S&P NNN companies" articles into new
+"Historical components of the S&P NNN" articles (edit summary: *move to
+[[Historical components of the S&P 600]]*, page shrinking 296,681 →
+117,885 bytes). The 2026-08-17 weekly refresh aborted on the first index
+with `Could not find table id='changes'`. Reading both pages rather than
+just the new one means a revert of the split — plausible, the articles
+are edited by hand — needs no code change; the dedupe makes the overlap
+harmless. The header-signature fallback covers the narrower case of an
+id being dropped in place, which is how these anchors usually break.
+
+Upside of the split: the new articles are deeper than the sections they
+replaced (sp500 back to 1976-07-01, sp400 to 2012-01, sp600 to 2019-12),
+so the precise-dated event source now extends past our coverage floors.
+
 ## 4. Renames become conditional events (2026-07-12)
 
 **Decision:** `data/ticker_renames.csv` stays a single global file; a

@@ -70,10 +70,14 @@ seed strategy, roster sanity band). Trust-ordered sources per index:
      page itself (their changes tables leave a 9-11% diff on their own).
      Maintains an incremental committed baseline under
      `data/{key}_revision_events.csv` + `data/{key}_revision_state.json`.
-2. **`scripts/_wiki.py`** — fetches the "List of S&P NNN companies"
-   page, parses the two stable-id tables (`#constituents` and
-   `#changes`) with BeautifulSoup. Provides the current roster and the
-   precise-dated change events.
+2. **`scripts/_wiki.py`** — fetches two pages per index and parses them
+   with BeautifulSoup: the roster (`#constituents`) from "List of S&P NNN
+   companies" (`spec.wiki_url`), and the precise-dated change events
+   (`#changes`) from "Historical components of the S&P NNN"
+   (`spec.changes_url`). Wikipedia split the changes tables out of the
+   list articles on 2026-08-11; both pages are still read and merged, so
+   a revert of that split needs no code change. When a table id goes
+   missing the table is located by its header signature instead.
 3. **`scripts/_renames.py`** — loads two curated CSVs:
    - `data/ticker_renames.csv` — ticker changes for continuing
      constituents (FB → META, BK → BNY, …). Global file; each rename is

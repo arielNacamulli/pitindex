@@ -135,17 +135,26 @@ def build_index(
     today: dt.date,
     max_diff_ratio: float,
     cached_html: str | None = None,
+    cached_changes_html: str | None = None,
     cached_seed: str | None = None,
     sec_map: dict[str, str] | None = None,
 ) -> tuple[dict, _reconcile.ReconciliationReport]:
     """Build one index end-to-end and write its per-index data files."""
     key = spec.key
 
-    # -- 1. Wikipedia (current roster + changes table) -----------------------
+    # -- 1. Wikipedia (roster page + historical-components page) -------------
     log.info("[{}] Fetching Wikipedia '{}'...", key, spec.wiki_title)
     html = Path(cached_html).read_text(encoding="utf-8") if cached_html else _wiki.fetch_html(spec.wiki_url)
     current = _wiki.parse_current_constituents(html)
-    wiki_events = _wiki.parse_changes(html)
+    # Since 2026-08-11 the changes table lives on its own article; keep reading
+    # the roster page too, so a revert of that split needs no code change.
+    log.info("[{}] Fetching changes from '{}'...", key, spec.changes_url)
+    changes_html = (
+        Path(cached_changes_html).read_text(encoding="utf-8")
+        if cached_changes_html
+        else _wiki.fetch_html(spec.changes_url)
+    )
+    wiki_events = _wiki.parse_changes(html, changes_html)
     log.info("[{}] Wikipedia: {} current constituents, {} change events", key, len(current), len(wiki_events))
     if not (spec.roster_band[0] <= len(current) <= spec.roster_band[1]):
         raise RuntimeError(
@@ -235,6 +244,7 @@ def build_index(
         "end_date": today.isoformat(),
         "seed_source": seed_source,
         "wikipedia_source": spec.wiki_url,
+        "wikipedia_changes_source": spec.changes_url,
         "current_size": report.current_size,
         "seed_size": report.seed_size,
         "events_count": len(reconciled),
@@ -260,6 +270,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--cached-html", default=None, help="Path to a local sp500 HTML file for offline testing."
+    )
+    parser.add_argument(
+        "--cached-changes-html",
+        default=None,
+        help="Path to a local sp500 'Historical components' HTML file for offline testing.",
     )
     parser.add_argument("--cached-seed", default=None, help="Path to a local seed CSV for offline testing.")
     parser.add_argument("-v", "--verbose", action="store_true")
@@ -293,6 +308,7 @@ def main(argv: list[str] | None = None) -> int:
                 today=today,
                 max_diff_ratio=args.max_diff_ratio,
                 cached_html=args.cached_html if key == "sp500" else None,
+                cached_changes_html=args.cached_changes_html if key == "sp500" else None,
                 cached_seed=args.cached_seed if key == "sp500" else None,
                 sec_map=sec_map,
             )
