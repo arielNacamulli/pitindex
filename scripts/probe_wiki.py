@@ -1,9 +1,9 @@
-"""TEMPORARY diagnostic: where did the 'Selected changes' tables go?
+"""TEMPORARY diagnostic: dump the new 'Historical components' articles.
 
-The 2026-08-17 refresh found no changes table on any of the three pages.
-This probe asks the MediaWiki API what happened: recent revision comments
-(the edit that removed it should say so) and a full-text search for the
-section title (it should surface the article it was split into).
+On 2026-08-11 the 'Selected changes' tables were split out of the three
+'List of S&P NNN companies' articles into 'Historical components of the
+S&P NNN'. This probe dumps the table structure of the new articles so the
+parser can be pointed at them.
 
     python -m scripts.probe_wiki
 """
@@ -12,79 +12,41 @@ from __future__ import annotations
 
 import sys
 
-import requests
+from bs4 import BeautifulSoup
 
-from scripts._indices import SPECS
-from scripts._wiki import USER_AGENT
+from scripts._wiki import fetch_html
 
-API_URL = "https://en.wikipedia.org/w/api.php"
-HEADERS = {"User-Agent": USER_AGENT}
-
-
-def api(**params: object) -> dict:
-    r = requests.get(API_URL, params={"format": "json", **params}, headers=HEADERS, timeout=30)
-    r.raise_for_status()
-    return r.json()
+PAGES = [
+    "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500",
+    "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_400",
+    "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_600",
+]
 
 
-def recent_revisions(title: str, limit: int = 25) -> None:
-    j = api(
-        action="query",
-        prop="revisions",
-        titles=title,
-        rvprop="timestamp|user|comment|size",
-        rvlimit=limit,
-    )
-    for pageid, page in j["query"]["pages"].items():
-        print(f"  revisions of {page.get('title')} (pageid {pageid}):")
-        prev_size = None
-        for rev in page.get("revisions", []):
-            delta = "" if prev_size is None else f" ({rev['size'] - prev_size:+d})"
-            prev_size = rev["size"]
-            print(
-                f"    {rev['timestamp']} size={rev['size']}{delta} {rev.get('user', '?')}: "
-                f"{(rev.get('comment') or '')[:160]}"
+def probe(url: str) -> None:
+    soup = BeautifulSoup(fetch_html(url), "lxml")
+    print(f"  headings: {[h.get_text(' ', strip=True) for h in soup.find_all(['h2', 'h3'])]}")
+
+    for i, table in enumerate(soup.find_all("table")):
+        rows = table.find_all("tr")
+        print(f"  [{i}] id={table.get('id')!r} class={table.get('class')} rows={len(rows)}")
+        for j, row in enumerate(rows[:4]):
+            cells = " | ".join(
+                f"{c.name}:{c.get_text(' ', strip=True)[:26]}" for c in row.find_all(["th", "td"])
             )
-
-
-def search(term: str, limit: int = 10) -> None:
-    j = api(action="query", list="search", srsearch=term, srlimit=limit)
-    print(f"  search {term!r}:")
-    for hit in j["query"]["search"]:
-        print(f"    - {hit['title']} (size {hit['size']}, words {hit['wordcount']})")
-
-
-def links_from(title: str) -> None:
-    """Outgoing links whose title mentions changes/components — a split target."""
-    j = api(action="query", prop="links", titles=title, pllimit="max")
-    for page in j["query"]["pages"].values():
-        hits = [
-            link["title"]
-            for link in page.get("links", [])
-            if any(w in link["title"].lower() for w in ("change", "component", "constituent"))
-        ]
-        print(f"  candidate outgoing links: {hits}")
+            print(f"      r{j}: {cells[:420]}")
+        for j, row in enumerate(rows[-2:]):
+            cells = " | ".join(c.get_text(" ", strip=True)[:26] for c in row.find_all(["th", "td"]))
+            print(f"      last{j}: {cells[:420]}")
 
 
 def main() -> int:
-    for key, spec in SPECS.items():
-        print(f"\n=== {key}: {spec.wiki_title} ===")
+    for url in PAGES:
+        print(f"\n=== {url} ===")
         try:
-            recent_revisions(spec.wiki_title)
-            links_from(spec.wiki_title)
+            probe(url)
         except Exception as exc:
             print(f"  FAILED: {exc!r}")
-
-    print("\n=== searches ===")
-    for term in (
-        '"Selected changes to the list of S&P 500 components"',
-        "insource:/Selected changes to the list/",
-        "List of S&P 500 companies changes",
-    ):
-        try:
-            search(term)
-        except Exception as exc:
-            print(f"  FAILED {term!r}: {exc!r}")
     return 0
 
 
