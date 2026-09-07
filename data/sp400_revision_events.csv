@@ -1539,3 +1539,7 @@ date,action,ticker,name,reason
 2026-07-24,removed,JHG,,"derived from wiki revision diff (rev 1365725675 @ 2026-07-24, prev 2026-07-19)"
 2026-07-24,removed,NSA,,"derived from wiki revision diff (rev 1365725675 @ 2026-07-24, prev 2026-07-19)"
 2026-07-24,removed,TMHC,,"derived from wiki revision diff (rev 1365725675 @ 2026-07-24, prev 2026-07-19)"
+2026-08-24,added,SUI,,"derived from wiki revision diff (rev 1371007376 @ 2026-08-24, prev 2026-08-11)"
+2026-08-24,removed,WBS,,"derived from wiki revision diff (rev 1371007376 @ 2026-08-24, prev 2026-08-11)"
+2026-09-06,added,WBS,,"derived from wiki revision diff (rev 1373530893 @ 2026-09-06, prev 2026-08-24)"
+2026-09-06,removed,SUI,,"derived from wiki revision diff (rev 1373530893 @ 2026-09-06, prev 2026-08-24)"

@@ -1,4 +1,5 @@
 date,action,ticker,name,reason
+2004-12-30,added,VMRK,Vivmark Residential,"reconciliation: present in current roster, absent from event walk"
 2005-01-03,removed,LEHMQ,,rename → LEH: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-01-03,added,LEH,,rename ← LEHMQ: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-03-14,removed,PWER,,derived from seed snapshot diff
@@ -749,8 +750,8 @@ date,action,ticker,name,reason
 2019-12-23,added,LYV,Live Nation Entertainment,Market capitalization changes.
 2019-12-23,added,STE,Steris,Market capitalization changes.
 2019-12-23,added,ZBRA,Zebra Technologies,Market capitalization changes.
-2020-01-28,removed,WCG,WellCare,S&P 500 constituent Centene acquired Wellcare Health Plans.
-2020-01-28,added,PAYC,Paycom,S&P 500 constituent Centene acquired Wellcare Health Plans.
+2020-01-28,removed,WCG,WellCare,Centene acquired Wellcare.
+2020-01-28,added,PAYC,Paycom,Centene acquired Wellcare.
 2020-02-29,removed,IR,,rename → TT: Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot.
 2020-02-29,added,TT,,rename ← IR: Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot.
 2020-03-02,removed,XEC,Cimarex Energy,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc."
@@ -785,7 +786,7 @@ date,action,ticker,name,reason
 2020-09-21,added,TER,Teradyne,Market capitalization changes.
 2020-10-07,removed,ETFC,E-Trade,Morgan Stanley acquired E*Trade.
 2020-10-07,added,POOL,Pool Corporation,Morgan Stanley acquired E*Trade.
-2020-10-09,added,VNT,Vontier,S&P 500 constituent Fortive completed the corporate spin-off of Vontier.
+2020-10-09,added,VNT,Vontier,Fortive completed the corporate spin-off of Vontier.
 2020-10-12,removed,NBL,Noble Energy,Chevron acquired Noble Energy.
 2020-11-17,removed,MYL,,rename → VTRS: Mylan + Pfizer Upjohn merger forming Viatris.
 2020-11-17,added,VTRS,,rename ← MYL: Mylan + Pfizer Upjohn merger forming Viatris.
@@ -839,8 +840,8 @@ date,action,ticker,name,reason
 2022-02-03,removed,GPS,Gap,Market capitalization changes.
 2022-02-14,removed,VIAC,,rename → PARA: ViacomCBS renamed Paramount Global.
 2022-02-14,added,PARA,,rename ← VIAC: ViacomCBS renamed Paramount Global.
-2022-02-15,removed,XLNX,Xilinx,S&P 500 constituent Advanced Micro Devices acquired Xilinx.
-2022-02-15,added,NDSN,Nordson Corporation,S&P 500 constituent Advanced Micro Devices acquired Xilinx.
+2022-02-15,removed,XLNX,Xilinx,Advanced Micro Devices acquired Xilinx.
+2022-02-15,added,NDSN,Nordson Corporation,Advanced Micro Devices acquired Xilinx.
 2022-03-02,removed,INFO,IHS Markit,S&P Global acquired IHS Markit.
 2022-03-02,added,MOH,Molina Healthcare,S&P Global acquired IHS Markit.
 2022-04-04,removed,PBCT,People's United Financial,M&T Bank acquired People's United Financial.
@@ -1023,7 +1024,10 @@ date,action,ticker,name,reason
 2026-06-22,added,MRVL,Marvell Technology,Market capitalization changes.
 2026-06-24,removed,SATS,,rename → ECHO: EchoStar ticker change on Nasdaq.
 2026-06-24,added,ECHO,,rename ← SATS: EchoStar ticker change on Nasdaq.
-2026-06-29,added,HONA,Honeywell Aerospace,S&P 500 constituent Honeywell completed the corporate spin-off of Honeywell Aerospace.
+2026-06-29,added,HONA,Honeywell Aerospace,Honeywell completed the corporate spin-off of Honeywell Aerospace.
 2026-06-30,removed,CAG,Conagra Brands,Market capitalization changes.
 2026-08-05,removed,EA,Electronic Arts,"An investor consortium comprising Saudi Arabia's Public Investment Fund (PIF), Silver Lake , and Affinity Partners acquired Electronic Arts."
 2026-08-05,added,FERG,Ferguson Enterprises,"An investor consortium comprising Saudi Arabia's Public Investment Fund (PIF), Silver Lake , and Affinity Partners acquired Electronic Arts."
+2026-08-18,removed,AVB,AvalonBay Communities,Equity Residential (now Vivmark Residential ) acquired AvalonBay Communities.
+2026-08-18,added,RDDT,Reddit,Equity Residential (now Vivmark Residential ) acquired AvalonBay Communities.
+2026-09-07,removed,EQR,,"reconciliation: absent from current roster, present after event walk"

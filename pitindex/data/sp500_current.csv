@@ -43,7 +43,6 @@ APTV,Aptiv,0001521332,Consumer Discretionary,Automotive Parts & Equipment,2012-1
 ARE,Alexandria Real Estate Equities,0001035443,Real Estate,Office REITs,2017-03-20
 ARES,Ares Management,0001176948,Financials,Asset Management & Custody Banks,2025-12-11
 ATO,Atmos Energy,0000731802,Utilities,Gas Utilities,2019-02-15
-AVB,AvalonBay Communities,0000915912,Real Estate,Multi-Family Residential REITs,2007-01-10
 AVGO,Broadcom,0001730168,Information Technology,Semiconductors,2014-05-08
 AVY,Avery Dennison,0000008818,Materials,Paper & Plastic Packaging Products & Materials,1987-12-31
 AWK,American Water Works,0001410636,Utilities,Water Utilities,2016-03-04
@@ -163,7 +162,6 @@ EME,Emcor,0000105634,Industrials,Construction & Engineering,2025-09-22
 EMR,Emerson Electric,0000032604,Industrials,Electrical Components & Equipment,1965-03-31
 EOG,EOG Resources,0000821189,Energy,Oil & Gas Exploration & Production,2000-11-02
 EQIX,Equinix,0001101239,Real Estate,Data Center REITs,2015-03-20
-EQR,Equity Residential,0000906107,Real Estate,Multi-Family Residential REITs,2001-12-03
 EQT,EQT Corporation,0000033213,Energy,Oil & Gas Exploration & Production,2022-10-03
 ERIE,Erie Indemnity,0000922621,Financials,Insurance Brokers,2024-09-23
 ES,Eversource Energy,0000072741,Utilities,Electric Utilities,2009-07-24
@@ -185,7 +183,7 @@ FDS,FactSet,0001013237,Financials,Financial Exchanges & Data,2021-12-20
 FDX,FedEx,0001048911,Industrials,Air Freight & Logistics,1980-12-31
 FDXF,FedEx Freight,0002082247,Industrials,Cargo Ground Transportation,2026-06-01
 FE,FirstEnergy,0001031296,Utilities,Electric Utilities,1997-11-28
-FERG,Ferguson Enterprises,0002011641,Industrials,Building Products,2026-08-05
+FERG,Ferguson Enterprises,0002011641,Industrials,Trading Companies & Distributors,2026-08-05
 FFIV,"F5, Inc.",0001048695,Information Technology,Communications Equipment,2010-12-20
 FICO,Fair Isaac,0000814547,Information Technology,Application Software,2023-03-20
 FIS,Fidelity National Information Services,0001136893,Financials,Transaction & Payment Processing Services,2006-11-10
@@ -386,6 +384,7 @@ PYPL,PayPal,0001633917,Financials,Transaction & Payment Processing Services,2015
 Q,Qnity Electronics,0002058873,Information Technology,Semiconductor Materials & Equipment,2025-11-03
 QCOM,Qualcomm,0000804328,Information Technology,Semiconductors,1999-07-22
 RCL,Royal Caribbean Group,0000884887,Consumer Discretionary,"Hotels, Resorts & Cruise Lines",2014-12-05
+RDDT,Reddit,0001713445,Communication Services,Interactive Media & Services,2026-08-18
 REG,Regency Centers,0000910606,Real Estate,Retail REITs,2017-03-02
 REGN,Regeneron Pharmaceuticals,0000872589,Health Care,Biotechnology,2013-05-01
 RF,Regions Financial Corporation,0001281761,Financials,Regional Banks,1998-08-28
@@ -469,6 +468,7 @@ VICI,Vici Properties,0001705696,Real Estate,Hotel & Resort REITs,2022-06-08
 VLO,Valero Energy,0001035002,Energy,Oil & Gas Refining & Marketing,2002-12-20
 VLTO,Veralto,0001967680,Industrials,Environmental & Facilities Services,2023-10-02
 VMC,Vulcan Materials Company,0001396009,Materials,Construction Materials,1999-06-30
+VMRK,Vivmark Residential,0000906107,Real Estate,Multi-Family Residential REITs,2001-12-03
 VRSK,Verisk Analytics,0001442145,Industrials,Research & Consulting Services,2015-10-08
 VRSN,Verisign,0001014473,Information Technology,Internet Services & Infrastructure,2006-02-01
 VRT,Vertiv,0001674101,Industrials,Electrical Components & Equipment,2026-03-23

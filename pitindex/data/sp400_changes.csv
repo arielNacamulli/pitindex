@@ -1559,3 +1559,7 @@ date,action,ticker,name,reason
 2026-07-22,added,MOH,Molina Healthcare,Public Storage acquired National Storage Affiliates Trust.
 2026-07-24,removed,TMHC,Taylor Morrison,Berkshire Hathaway acquired Taylor Morrison Home.
 2026-07-24,added,KRYS,Krystal Biotech,Berkshire Hathaway acquired Taylor Morrison Home.
+2026-08-20,removed,WBS,Webster Financial,Banco Santander is acquiring Webster Financial.
+2026-08-20,added,SUI,Sun Communities,Banco Santander is acquiring Webster Financial.
+2026-09-06,removed,SUI,,"derived from wiki revision diff (rev 1373530893 @ 2026-09-06, prev 2026-08-24)"
+2026-09-06,added,WBS,,"derived from wiki revision diff (rev 1373530893 @ 2026-09-06, prev 2026-08-24)"

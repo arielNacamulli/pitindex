@@ -2,39 +2,37 @@
 
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-08-17**
+- Window: **2004-12-30 → 2026-09-07**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
 - Diff ratio vs. current: **0.80%**
-- Synthetic events inserted: **0**
+- Synthetic events inserted: **2**
 - Renames applied / skipped (other-index no-ops): **28 / 8**
 - Fill no-ops (revision-diff events on already-consistent state): **0**
 
-## Invalid 'added' on existing ticker (1)
+## Invalid 'added' on existing ticker (0)
 
-- 2023-07-10  EG
 
-## Invalid 'removed' on missing ticker (3)
+## Invalid 'removed' on missing ticker (2)
 
 - 2008-09-15  LEHMQ
 - 2008-09-17  LEHMQ
-- 2023-07-10  RE
 
-## Missing from event walk (synthetic add at start_date) (0)
+## Missing from event walk (synthetic add at start_date) (1)
 
-_none_
+VMRK
 
-## Extra from event walk (synthetic remove at end_date) (0)
+## Extra from event walk (synthetic remove at end_date) (1)
 
-_none_
+EQR
 
 
 # sp400
 
 # Reconciliation Report
 
-- Window: **2011-11-20 → 2026-08-17**
+- Window: **2011-11-20 → 2026-09-07**
 - Seed roster size: **400**
 - Current Wikipedia roster size: **400**
 - Roster size after walking events: **400**
@@ -77,7 +75,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2021-03-31 → 2026-08-17**
+- Window: **2021-03-31 → 2026-09-07**
 - Seed roster size: **601**
 - Current Wikipedia roster size: **603**
 - Roster size after walking events: **604**
