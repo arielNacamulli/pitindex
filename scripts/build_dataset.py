@@ -19,6 +19,12 @@ maintains the committed revision baseline under data/:
 
 The script is intentionally I/O-tolerant: any single network failure
 aborts the build with a clear error rather than producing partial data.
+
+Exit codes: 0 = every requested index built; 2 = an index failed
+reconciliation. By default the build stops at the first failing index;
+``--keep-going`` (used by the weekly refresh) builds the remaining
+indices anyway and leaves each failed index's files, revision baseline
+and metadata section exactly as they were, still exiting 2.
 """
 
 from __future__ import annotations
@@ -26,6 +32,7 @@ from __future__ import annotations
 import argparse
 import csv
 import datetime as dt
+import functools
 import json
 import sys
 from pathlib import Path
@@ -169,6 +176,9 @@ def build_index(
             log.info("[{}] CIKs: {} corrected, {} filled from SEC map", key, cik_corrected, cik_filled)
 
     # -- 2. Seed + primary event source, per strategy -------------------------
+    # Deferred write of the extended revision baseline: it lands only once
+    # the index has reconciled, so a failed build leaves it untouched.
+    persist_baseline: functools.partial[None] | None = None
     if spec.seed_strategy == "fja05680":
         log.info("[{}] Fetching fja05680 seed dataset...", key)
         seed_csv = Path(cached_seed).read_text(encoding="utf-8") if cached_seed else _seed.fetch_seed_csv()
@@ -192,13 +202,25 @@ def build_index(
         seed_source = f"https://github.com/{_seed.GITHUB_REPO}"
     elif spec.seed_strategy == "wiki_revision":
         log.info("[{}] Deriving seed + fill events from the page revision history...", key)
-        seed_effective_date, seed_roster_frozen, fill_events = _wikirev.build_revision_events(
+        events_csv = LOG_DIR / f"{key}_revision_events.csv"
+        state_json = LOG_DIR / f"{key}_revision_state.json"
+        seed_effective_date, seed_roster_frozen, fill_events, last_sample = _wikirev.build_revision_events(
             title=spec.wiki_title,
             start_date=spec.start_date,
             band=spec.roster_band,
-            events_csv=LOG_DIR / f"{key}_revision_events.csv",
-            state_json=LOG_DIR / f"{key}_revision_state.json",
+            events_csv=events_csv,
+            state_json=state_json,
         )
+        if last_sample is not None:
+            persist_baseline = functools.partial(
+                _wikirev.save_baseline,
+                events_csv,
+                state_json,
+                fill_events,  # the full, pre-dedupe list
+                last_sample,
+                seed_effective_date.isoformat(),
+                seed_roster_frozen,
+            )
         seed_roster = set(seed_roster_frozen)
         # The changes table is the precise-dated source for the whole
         # window (there is no fja05680 equivalent for these indices).
@@ -235,6 +257,8 @@ def build_index(
     )
 
     # -- 5. Persist ------------------------------------------------------------
+    if persist_baseline is not None:
+        persist_baseline()
     _write_seed_csv(PACKAGE_DATA / f"{key}_seed.csv", seed_effective_date, seed_roster)
     _write_changes_csv(PACKAGE_DATA / f"{key}_changes.csv", reconciled)
     _write_current_csv(PACKAGE_DATA / f"{key}_current.csv", current)
@@ -277,11 +301,17 @@ def main(argv: list[str] | None = None) -> int:
         help="Path to a local sp500 'Historical components' HTML file for offline testing.",
     )
     parser.add_argument("--cached-seed", default=None, help="Path to a local seed CSV for offline testing.")
+    parser.add_argument(
+        "--keep-going",
+        action="store_true",
+        help="Build the remaining indices when one fails, keeping the failed one's previous data (exit 2).",
+    )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
     _setup_logging(args.verbose)
 
     today = dt.date.today()
+    build_ts = dt.datetime.now(dt.UTC).isoformat()
     keys = list(SPECS) if args.index == "all" else [args.index]
 
     PACKAGE_DATA.mkdir(parents=True, exist_ok=True)
@@ -291,15 +321,21 @@ def main(argv: list[str] | None = None) -> int:
     existing_indices: dict[str, dict] = {}
     if metadata_path.exists():
         try:
-            existing_indices = json.loads(metadata_path.read_text(encoding="utf-8")).get("indices", {})
+            existing = json.loads(metadata_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
-            existing_indices = {}
+            existing = {}
+        existing_indices = existing.get("indices", {})
+        # Each section carries its own build time, so an index whose rebuild
+        # fails keeps reporting (and warning about) the age of its real data.
+        for section in existing_indices.values():
+            section.setdefault("build_timestamp_utc", existing.get("build_timestamp_utc"))
 
     log.info("Fetching the SEC ticker→CIK map...")
     sec_map = _sec.fetch_sec_ticker_map()
 
     report_sections: list[str] = []
     indices_meta: dict[str, dict] = dict(existing_indices)
+    failed: list[str] = []
     for key in keys:
         spec = SPECS[key]
         try:
@@ -314,15 +350,26 @@ def main(argv: list[str] | None = None) -> int:
             )
         except _reconcile.ReconciliationError as exc:
             report_sections.append(f"# {key}\n\n" + _reconcile.render_report_md(exc.report))
-            (LOG_DIR / "build_log.md").write_text("\n\n".join(report_sections), encoding="utf-8")
             log.error("[{}] Reconciliation failed: {}", key, exc)
-            log.error("See data/build_log.md for details.")
-            return 2
+            if not args.keep_going:
+                (LOG_DIR / "build_log.md").write_text("\n\n".join(report_sections), encoding="utf-8")
+                log.error("See data/build_log.md for details.")
+                return 2
+            failed.append(key)
+            continue
+        except Exception as exc:
+            if not args.keep_going:
+                raise
+            log.exception("[{}] Build failed: {}", key, exc)
+            report_sections.append(f"# {key}\n\nBuild failed before reconciliation: `{exc!r}`")
+            failed.append(key)
+            continue
+        meta["build_timestamp_utc"] = build_ts
         indices_meta[key] = meta
         report_sections.append(f"# {key}\n\n" + _reconcile.render_report_md(report))
 
     payload: dict = {
-        "build_timestamp_utc": dt.datetime.now(dt.UTC).isoformat(),
+        "build_timestamp_utc": build_ts,
         "indices": indices_meta,
     }
     # Legacy top-level sp500 keys, kept for pre-0.2 consumers of info().
@@ -332,6 +379,13 @@ def main(argv: list[str] | None = None) -> int:
 
     (LOG_DIR / "build_log.md").write_text("\n\n".join(report_sections), encoding="utf-8")
 
+    if failed:
+        log.error(
+            "Build incomplete: {} failed and kept their previous data; built {}. See data/build_log.md.",
+            ", ".join(failed),
+            ", ".join(k for k in keys if k not in failed) or "nothing",
+        )
+        return 2
     log.info("Build complete ({}). Data written to {}", ", ".join(keys), PACKAGE_DATA)
     return 0
 

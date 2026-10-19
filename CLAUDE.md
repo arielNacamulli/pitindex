@@ -123,7 +123,12 @@ Two complementary mechanisms:
 1. **Maintainer-side**: `.github/workflows/weekly-refresh.yml` runs the
    build pipeline every Monday 06:00 UTC and commits any drift back to
    `master`. Releases cut from those commits, so `pip install -U
-   pitindex` always pulls the latest weekly snapshot.
+   pitindex` always pulls the latest weekly snapshot. It builds with
+   `--keep-going`: an index that fails reconciliation keeps its previous
+   files, revision baseline and metadata section (with its own
+   `build_timestamp_utc`, so staleness stays honest), the others still
+   refresh, and the run goes red with `data/build_log.md` in the run
+   summary and the `build-log` artifact.
 2. **User-side**: `_api._maybe_warn_stale()` raises
    `StaleDataWarning` on the first API call when the bundled data is
    older than the threshold, with an actionable message ("upgrade or

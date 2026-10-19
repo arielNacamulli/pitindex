@@ -216,13 +216,14 @@ def build_revision_events(
     band: tuple[int, int],
     events_csv: Path,
     state_json: Path,
-) -> tuple[dt.date, frozenset[str], list[ChangeEvent]]:
-    """Return ``(seed_date, seed_roster, fill_events)`` for one index.
+) -> tuple[dt.date, frozenset[str], list[ChangeEvent], RevisionSample | None]:
+    """Return ``(seed_date, seed_roster, fill_events, last_sample)`` for one index.
 
     Incremental: when a committed baseline exists, only revisions newer
-    than its ``last_rev_timestamp`` are rendered; the baseline files are
-    rewritten with the extended tail (committable drift, like the other
-    data outputs).
+    than its ``last_rev_timestamp`` are rendered. Nothing is written here:
+    the caller persists the extended baseline with :func:`save_baseline`
+    only once the index has passed reconciliation, so a failed build never
+    advances the committed baseline past revisions nobody has vetted.
     """
     baseline_events, state = load_baseline(events_csv, state_json)
     revisions = list_revisions(title)
@@ -271,9 +272,7 @@ def build_revision_events(
         len(new_events),
         skipped,
     )
-    if samples:
-        save_baseline(events_csv, state_json, all_events, samples[-1], seed_date.isoformat(), seed_roster)
-    return seed_date, seed_roster, all_events
+    return seed_date, seed_roster, all_events, (samples[-1] if samples else None)
 
 
 __all__ = [
@@ -283,4 +282,5 @@ __all__ = [
     "fetch_roster",
     "list_revisions",
     "monthly_samples",
+    "save_baseline",
 ]
