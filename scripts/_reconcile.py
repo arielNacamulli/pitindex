@@ -80,6 +80,9 @@ def reconcile(
     )
 
     cleaned: list[ChangeEvent] = []
+    # Last applied event per ticker: quoted next to an anomaly, so a
+    # duplicate shows both copies in the report.
+    last_applied: dict[str, ChangeEvent] = {}
     for ev in in_window:
         if ev.action == "renamed":
             # Atomic: fires only in the index whose roster holds the old
@@ -90,6 +93,7 @@ def reconcile(
                 continue
             roster.discard(ev.ticker)
             roster.add(ev.new_ticker)
+            last_applied[ev.ticker] = last_applied[ev.new_ticker] = ev
             report.renames_applied += 1
             # Emit as a removed/added pair so the shipped CSV schema (and
             # the runtime walk) stay unchanged.
@@ -120,7 +124,7 @@ def reconcile(
                 if ev.origin == "fill":
                     report.fill_noops += 1
                 else:
-                    report.invalid_add_existing.append({"date": ev.date, "ticker": ev.ticker})
+                    report.invalid_add_existing.append(_anomaly(ev, last_applied.get(ev.ticker)))
                 # Skip: keeping it would inflate the roster phantom-style
                 continue
             roster.add(ev.ticker)
@@ -129,12 +133,13 @@ def reconcile(
                 if ev.origin == "fill":
                     report.fill_noops += 1
                 else:
-                    report.invalid_remove_missing.append({"date": ev.date, "ticker": ev.ticker})
+                    report.invalid_remove_missing.append(_anomaly(ev, last_applied.get(ev.ticker)))
                 continue
             roster.discard(ev.ticker)
         else:
             log.warning("Unknown action {!r} at {}, skipping", ev.action, ev.date)
             continue
+        last_applied[ev.ticker] = ev
         cleaned.append(ev)
 
     report.final_size_after_events = len(roster)
@@ -197,6 +202,26 @@ def reconcile(
     return cleaned, report
 
 
+def _describe(ev: ChangeEvent) -> str:
+    return ev.source or ev.reason or ev.origin or "?"
+
+
+def _anomaly(ev: ChangeEvent, prior: ChangeEvent | None) -> dict:
+    out = {"date": ev.date, "ticker": ev.ticker, "source": _describe(ev)}
+    if prior is not None:
+        out["prior"] = f"{prior.date} {prior.action}: {_describe(prior)}"
+    return out
+
+
+def _render_anomaly(x: dict) -> list[str]:
+    lines = [f"- {x['date']}  {x['ticker']}"]
+    if x.get("source"):
+        lines.append(f"  - this event: `{x['source']}`")
+    if x.get("prior"):
+        lines.append(f"  - last applied: `{x['prior']}`")
+    return lines
+
+
 class ReconciliationError(RuntimeError):
     def __init__(self, message: str, *, report: ReconciliationReport):
         super().__init__(message)
@@ -220,14 +245,14 @@ def render_report_md(report: ReconciliationReport) -> str:
         "",
     ]
     for x in report.invalid_add_existing:
-        lines.append(f"- {x['date']}  {x['ticker']}")
+        lines += _render_anomaly(x)
     lines += [
         "",
         f"## Invalid 'removed' on missing ticker ({len(report.invalid_remove_missing)})",
         "",
     ]
     for x in report.invalid_remove_missing:
-        lines.append(f"- {x['date']}  {x['ticker']}")
+        lines += _render_anomaly(x)
     lines += [
         "",
         f"## Missing from event walk (synthetic add at start_date) ({len(report.missing_from_walk)})",

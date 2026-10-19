@@ -113,7 +113,7 @@ def test_revision_baseline_is_saved_only_after_reconciliation(build_env, monkeyp
 
     monkeypatch.setattr(build_dataset._wiki, "fetch_html", lambda url: "")
     monkeypatch.setattr(build_dataset._wiki, "parse_current_constituents", lambda html: current)
-    monkeypatch.setattr(build_dataset._wiki, "parse_changes", lambda *htmls: [])
+    monkeypatch.setattr(build_dataset._wiki, "parse_changes", lambda *htmls, **_kw: [])
     monkeypatch.setattr(
         build_dataset._wikirev,
         "build_revision_events",

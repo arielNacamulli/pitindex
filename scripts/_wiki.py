@@ -13,7 +13,8 @@ from __future__ import annotations
 
 import datetime as dt
 import re
-from dataclasses import dataclass
+from collections.abc import Sequence
+from dataclasses import dataclass, field
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -46,6 +47,10 @@ class ChangeEvent:
     # fill that lands on an already-consistent roster is a benign no-op,
     # not a reconciliation anomaly.
     origin: str | None = None  # None (precise) | 'fill'
+    # Where a changes-table event was read (page · table · row: raw cells),
+    # quoted in the reconciliation report so an anomaly can be traced back
+    # to the Wikipedia row behind it. Not part of the event's identity.
+    source: str | None = field(default=None, compare=False)
 
 
 def fetch_html(url: str = WIKI_URL, timeout: int = 30) -> str:
@@ -265,11 +270,15 @@ def _normalize_ticker(t: str) -> str:
 # and compound cells like "UA/UAA".
 _TICKER_SHAPE = re.compile(r"^[A-Z0-9]{1,6}(\.[A-Z])?$")
 
+_SOURCE_MAX = 160  # raw-row excerpt kept in ChangeEvent.source
+
 
 # --- change events ---------------------------------------------------------
 
 
-def parse_changes(*htmls: str, required: bool = True) -> list[ChangeEvent]:
+def parse_changes(
+    *htmls: str, required: bool = True, sources: Sequence[str] | None = None
+) -> list[ChangeEvent]:
     """Parse the changes table(s) of one or more pages into a flat event list.
 
     Each table has a two-row header:
@@ -281,15 +290,17 @@ def parse_changes(*htmls: str, required: bool = True) -> list[ChangeEvent]:
     Since the 2026-08 split the roster page carries no changes table and the
     'Historical components' page carries it all, so we read both and merge,
     deduplicating on (date, action, ticker). ``required`` guards the merged
-    result: at least one page must yield events.
+    result: at least one page must yield events. ``sources`` names the pages
+    (same order as ``htmls``) in each event's ``source``.
     """
     out: list[ChangeEvent] = []
     seen: set[tuple[str, str, str]] = set()
     dropped = 0
-    for html in htmls:
+    for i, html in enumerate(htmls):
+        page = sources[i] if sources else f"page {i + 1}"
         soup = BeautifulSoup(html, "lxml")
-        for table in _find_tables(soup, "changes", required=False):
-            events, table_dropped = _parse_changes_table(table)
+        for j, table in enumerate(_find_tables(soup, "changes", required=False), start=1):
+            events, table_dropped = _parse_changes_table(table, f"{page} · table {j}")
             dropped += table_dropped
             for e in events:
                 key = (e.date, e.action, e.ticker)
@@ -308,7 +319,7 @@ def parse_changes(*htmls: str, required: bool = True) -> list[ChangeEvent]:
     return out
 
 
-def _parse_changes_table(table: Tag) -> tuple[list[ChangeEvent], int]:
+def _parse_changes_table(table: Tag, label: str = "") -> tuple[list[ChangeEvent], int]:
     """Parse one changes table. Returns (events, dropped-entry count)."""
     rows = table.find_all("tr")
 
@@ -325,7 +336,7 @@ def _parse_changes_table(table: Tag) -> tuple[list[ChangeEvent], int]:
     out: list[ChangeEvent] = []
     last_date: str | None = None
     dropped = 0
-    for row in data_rows:
+    for row_no, row in enumerate(data_rows, start=1):
         cells = [_cell_text(c) for c in row.find_all(["td", "th"])]
         if len(cells) < 5:
             continue
@@ -355,6 +366,7 @@ def _parse_changes_table(table: Tag) -> tuple[list[ChangeEvent], int]:
                     ticker=ticker,
                     name=name or None,
                     reason=reason or None,
+                    source=f"{label} · row {row_no}: {' | '.join(cells)[:_SOURCE_MAX]}",
                 )
             )
     return out, dropped

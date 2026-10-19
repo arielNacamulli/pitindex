@@ -106,3 +106,28 @@ def test_no_changes_table_anywhere_still_raises():
 
 def test_missing_changes_table_is_tolerated_when_optional():
     assert parse_changes(ROSTER_PAGE, required=False) == []
+
+
+def test_events_record_their_source_row():
+    """Anomalies in the reconciliation report trace back to the Wikipedia row."""
+    events = parse_changes(ROSTER_PAGE, HISTORICAL_PAGE, sources=("List", "Historical"))
+    newco = next(e for e in events if e.ticker == "NEWCO")
+    assert newco.source is not None
+    assert newco.source.startswith("Historical · table 1 · row 1: June 30, 2026 | NEWCO")
+
+
+def test_duplicate_shows_both_copies_in_report():
+    import datetime as dt
+
+    from scripts._reconcile import ReconciliationError, reconcile, render_report_md
+    from scripts._wiki import ChangeEvent
+
+    events = [
+        ChangeEvent("2015-07-08", "added", "JACK", None, None, source="Historical · row 7"),
+        ChangeEvent("2015-07-30", "added", "JACK", None, None, source="Historical · row 9"),
+    ]
+    with pytest.raises(ReconciliationError) as exc:
+        reconcile(set(), dt.date(2015, 1, 1), events, [], end_date=dt.date(2015, 12, 31))
+    md = render_report_md(exc.value.report)
+    assert "this event: `Historical · row 9`" in md
+    assert "last applied: `2015-07-08 added: Historical · row 7`" in md

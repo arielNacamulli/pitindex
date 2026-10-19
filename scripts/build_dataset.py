@@ -36,6 +36,7 @@ import functools
 import json
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 from loguru import logger as log
 
@@ -161,7 +162,11 @@ def build_index(
         if cached_changes_html
         else _wiki.fetch_html(spec.changes_url)
     )
-    wiki_events = _wiki.parse_changes(html, changes_html)
+    wiki_events = _wiki.parse_changes(
+        html,
+        changes_html,
+        sources=(unquote(spec.wiki_url.rsplit("/", 1)[-1]), unquote(spec.changes_url.rsplit("/", 1)[-1])),
+    )
     log.info("[{}] Wikipedia: {} current constituents, {} change events", key, len(current), len(wiki_events))
     if not (spec.roster_band[0] <= len(current) <= spec.roster_band[1]):
         raise RuntimeError(
