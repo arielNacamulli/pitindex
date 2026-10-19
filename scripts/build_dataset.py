@@ -124,12 +124,28 @@ def _dedupe_fill_events(
             precise_dates.setdefault((e.ticker, "removed"), []).append(d)
             precise_dates.setdefault((e.new_ticker, "added"), []).append(d)
 
+    fill_dates: dict[tuple[str, str], list[dt.date]] = {}
+    for f in fills:
+        fill_dates.setdefault((f.ticker, f.action), []).append(dt.date.fromisoformat(f.date))
+
+    def reversed_between(f: _wiki.ChangeEvent, a: dt.date, b: dt.date) -> bool:
+        # An opposite fill for the same ticker between the precise event and
+        # this fill means the roster flipped back in the meantime (WBS/SUI,
+        # sp400, Sep-Oct 2026): this fill undoes that flip and is not the
+        # precise event's echo, so dropping it would leave the flip standing.
+        opposite = "removed" if f.action == "added" else "added"
+        lo, hi = sorted((a, b))
+        return any(lo < x < hi for x in fill_dates.get((f.ticker, opposite), []))
+
     kept: list[_wiki.ChangeEvent] = []
     dropped = 0
     for f in fills:
         f_date = dt.date.fromisoformat(f.date)
         nearby = precise_dates.get((f.ticker, f.action), [])
-        if any(abs((f_date - d).days) <= FILL_DEDUPE_WINDOW_DAYS for d in nearby):
+        if any(
+            abs((f_date - d).days) <= FILL_DEDUPE_WINDOW_DAYS and not reversed_between(f, d, f_date)
+            for d in nearby
+        ):
             dropped += 1
             continue
         kept.append(f)
@@ -162,10 +178,12 @@ def build_index(
         if cached_changes_html
         else _wiki.fetch_html(spec.changes_url)
     )
+    # Historical components first: it is the primary source, the roster
+    # page's copy of the table only tops it up with newer events.
     wiki_events = _wiki.parse_changes(
-        html,
         changes_html,
-        sources=(unquote(spec.wiki_url.rsplit("/", 1)[-1]), unquote(spec.changes_url.rsplit("/", 1)[-1])),
+        html,
+        sources=(unquote(spec.changes_url.rsplit("/", 1)[-1]), unquote(spec.wiki_url.rsplit("/", 1)[-1])),
     )
     log.info("[{}] Wikipedia: {} current constituents, {} change events", key, len(current), len(wiki_events))
     if not (spec.roster_band[0] <= len(current) <= spec.roster_band[1]):

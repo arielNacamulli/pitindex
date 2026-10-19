@@ -131,11 +131,51 @@ def _find_table(soup: BeautifulSoup, table_id: str) -> Tag:
 
 
 def _cell_text(cell: Tag) -> str:
-    # Strip footnote refs like [1], normalize whitespace
+    # Strip footnote refs, normalize whitespace. get_text(separator=" ")
+    # renders a <sup> ref as "[ 320 ]", so allow spaces inside the brackets —
+    # a ref left in a date cell made the date unparseable (sp400, 2026-10).
     text = cell.get_text(separator=" ", strip=True)
-    text = re.sub(r"\[\d+\]", "", text)
+    text = re.sub(r"\[\s*\d+\s*\]", "", text)
     text = re.sub(r"\s+", " ", text)
     return text.strip()
+
+
+def _span(cell: Tag, attr: str) -> int:
+    m = re.match(r"\d+", str(cell.get(attr) or "1"))
+    return max(int(m.group()), 1) if m else 1
+
+
+def _table_grid(table: Tag) -> list[tuple[bool, list[str]]]:
+    """Rows as ``(is_header_row, cell texts)``, rowspan/colspan expanded.
+
+    A cell spanning several rows (e.g. one date shared by consecutive
+    changes) is repeated into each row it covers, so every row keeps its
+    full column layout instead of shifting left.
+    """
+    grid: list[tuple[bool, list[str]]] = []
+    carried: dict[int, tuple[int, str]] = {}  # column -> (rows still covered, text)
+    for tr in table.find_all("tr"):
+        cells = tr.find_all(["td", "th"])
+        if not cells:
+            continue
+        queue = list(cells)
+        row: list[str] = []
+        while queue or len(row) in carried:
+            col = len(row)
+            if col in carried:
+                left, text = carried.pop(col)
+                if left > 1:
+                    carried[col] = (left - 1, text)
+                row.append(text)
+                continue
+            cell = queue.pop(0)
+            text, rowspan = _cell_text(cell), _span(cell, "rowspan")
+            for _ in range(_span(cell, "colspan")):
+                if rowspan > 1:
+                    carried[len(row)] = (rowspan - 1, text)
+                row.append(text)
+        grid.append((all(c.name == "th" for c in cells), row))
+    return grid
 
 
 # --- date parsing ----------------------------------------------------------
@@ -287,26 +327,37 @@ def parse_changes(
     A single 'date' row may carry up to one Added (ticker+name) AND one
     Removed (ticker+name). We emit one ChangeEvent per side that has data.
 
-    Since the 2026-08 split the roster page carries no changes table and the
-    'Historical components' page carries it all, so we read both and merge,
-    deduplicating on (date, action, ticker). ``required`` guards the merged
-    result: at least one page must yield events. ``sources`` names the pages
-    (same order as ``htmls``) in each event's ``source``.
+    Pages are given in priority order. The first page that yields events is
+    the primary source; later pages contribute only events dated after the
+    primary's newest one. Since the 2026-08 split the changes live on
+    'Historical components of the S&P NNN', but by 2026-10 the S&P 400/600
+    roster pages carried an older copy of the table again, whose dates
+    disagree with the primary's — merging both doubled those events. A
+    stale primary still picks up recent changes from the other page.
+    Within that, events are deduplicated on (date, action, ticker).
+    ``required`` guards the result: at least one page must yield events.
+    ``sources`` names the pages (same order as ``htmls``) in each event's
+    ``source``.
     """
     out: list[ChangeEvent] = []
     seen: set[tuple[str, str, str]] = set()
     dropped = 0
+    newest: str | None = None  # primary page's latest event date
     for i, html in enumerate(htmls):
         page = sources[i] if sources else f"page {i + 1}"
         soup = BeautifulSoup(html, "lxml")
+        page_events: list[ChangeEvent] = []
         for j, table in enumerate(_find_tables(soup, "changes", required=False), start=1):
             events, table_dropped = _parse_changes_table(table, f"{page} · table {j}")
             dropped += table_dropped
-            for e in events:
-                key = (e.date, e.action, e.ticker)
-                if key not in seen:
-                    seen.add(key)
-                    out.append(e)
+            page_events += events
+        for e in page_events:
+            key = (e.date, e.action, e.ticker)
+            if key not in seen and (newest is None or e.date > newest):
+                seen.add(key)
+                out.append(e)
+        if out and newest is None:
+            newest = max(e.date for e in out)
     if dropped:
         log.info("parse_changes: dropped {} non-ticker-shaped entries (old-format rows)", dropped)
     if not out and required:
@@ -321,23 +372,13 @@ def parse_changes(
 
 def _parse_changes_table(table: Tag, label: str = "") -> tuple[list[ChangeEvent], int]:
     """Parse one changes table. Returns (events, dropped-entry count)."""
-    rows = table.find_all("tr")
-
-    # The first 1-2 rows are headers. Detect them (any th-only rows).
-    data_rows: list[Tag] = []
-    for r in rows:
-        cells = r.find_all(["td", "th"])
-        if not cells:
-            continue
-        if all(c.name == "th" for c in cells):
-            continue
-        data_rows.append(r)
+    # The first 1-2 rows are headers (th-only rows).
+    data_rows = [cells for is_header, cells in _table_grid(table) if not is_header]
 
     out: list[ChangeEvent] = []
     last_date: str | None = None
     dropped = 0
-    for row_no, row in enumerate(data_rows, start=1):
-        cells = [_cell_text(c) for c in row.find_all(["td", "th"])]
+    for row_no, cells in enumerate(data_rows, start=1):
         if len(cells) < 5:
             continue
         # Standard layout: [date, added_ticker, added_name, removed_ticker, removed_name, reason]

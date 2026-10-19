@@ -139,3 +139,19 @@ def test_revision_baseline_is_saved_only_after_reconciliation(build_env, monkeyp
         with pytest.raises(_reconcile.ReconciliationError):
             run()
         assert saved == []
+
+
+def test_fill_undoing_a_roster_flip_is_kept():
+    """WBS/SUI, sp400 2026: the roster page reverted a change, then restored it."""
+
+    def ev(date, action, ticker, origin=None):
+        return _wiki.ChangeEvent(date, action, ticker, None, None, origin=origin)
+
+    precise = [ev("2026-08-20", "removed", "WBS")]
+    fills = [
+        ev("2026-08-24", "removed", "WBS", "fill"),  # echo of the precise event: dropped
+        ev("2026-09-06", "added", "WBS", "fill"),  # the flip
+        ev("2026-10-12", "removed", "WBS", "fill"),  # undoes the flip: must survive
+    ]
+    kept = build_dataset._dedupe_fill_events(fills, precise)
+    assert [(e.date, e.action) for e in kept] == [("2026-09-06", "added"), ("2026-10-12", "removed")]

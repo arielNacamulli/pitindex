@@ -131,3 +131,50 @@ def test_duplicate_shows_both_copies_in_report():
     md = render_report_md(exc.value.report)
     assert "this event: `Historical · row 9`" in md
     assert "last applied: `2015-07-08 added: Historical · row 7`" in md
+
+
+# The roster page's older copy of the S&P 400 table (back since ~2026-10):
+# footnote refs inside date cells, and dates shared via rowspan.
+OLD_COPY_ROWS = """
+  <tr><th rowspan="2">Date</th><th colspan="2">Added</th>
+      <th colspan="2">Removed</th><th rowspan="2">Reason</th></tr>
+  <tr><th>Ticker</th><th>Security</th><th>Ticker</th><th>Security</th></tr>
+  <tr><td>July 8, 2015<sup>[320]</sup></td><td>JACK</td><td>Jack in the Box</td>
+      <td>AAP</td><td>Advance Auto Parts</td><td>Dollar Tree acquired Family Dollar.</td></tr>
+  <tr><td rowspan="2">July 1, 2015</td><td>CC</td><td>Chemours</td>
+      <td>SMTC</td><td>Semtech</td><td>DuPont spun off Chemours.</td></tr>
+  <tr><td>EPC</td><td>Edgewell Personal Care</td>
+      <td>HSC</td><td>Harsco</td><td>Energizer spin-off.</td></tr>
+"""
+OLD_COPY_PAGE = f'<html><body><table class="wikitable" id="changes">{OLD_COPY_ROWS}</table></body></html>'
+
+
+def test_footnote_in_date_cell_keeps_the_date():
+    events = parse_changes(OLD_COPY_PAGE)
+    assert {(e.date, e.ticker) for e in events if e.ticker in {"JACK", "AAP"}} == {
+        ("2015-07-08", "JACK"),
+        ("2015-07-08", "AAP"),
+    }
+
+
+def test_rowspan_date_does_not_shift_columns():
+    """The continuation row used to read 'Harsco' as a removed ticker."""
+    events = {(e.date, e.action, e.ticker) for e in parse_changes(OLD_COPY_PAGE)}
+    assert ("2015-07-01", "added", "EPC") in events
+    assert ("2015-07-01", "removed", "HSC") in events
+    assert not any(t == "HARSCO" for _, _, t in events)
+
+
+def test_secondary_page_only_adds_events_newer_than_the_primary():
+    """The roster page's copy must not re-date events the primary already has."""
+    primary = HISTORICAL_PAGE.replace("June 30, 2026", "June 30, 2015").replace(
+        "March 24, 2026", "March 24, 2015"
+    )
+    secondary = HISTORICAL_PAGE.replace("June 30, 2026", "June 2, 2015")  # same changes, older date
+    events = {(e.date, e.action, e.ticker) for e in parse_changes(primary, secondary)}
+    assert events == {
+        ("2015-03-24", "added", "ACME"),
+        ("2015-06-30", "added", "NEWCO"),
+        ("2015-06-30", "removed", "OLDCO"),
+        ("2026-03-24", "added", "ACME"),  # newer than anything on the primary
+    }
