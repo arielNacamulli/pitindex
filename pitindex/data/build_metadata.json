@@ -1,13 +1,14 @@
 {
-  "build_timestamp_utc": "2026-09-07T11:30:56.572916+00:00",
+  "build_timestamp_utc": "2026-10-19T14:18:49.899495+00:00",
   "cik_corrected_from_sec": 0,
   "cik_filled_from_sec": 0,
   "current_size": 503,
-  "diff_ratio": 0.007952286282306162,
-  "end_date": "2026-09-07",
-  "events_count": 1032,
+  "diff_ratio": 0.011928429423459244,
+  "end_date": "2026-10-19",
+  "events_count": 1044,
   "indices": {
     "sp400": {
+      "build_timestamp_utc": "2026-09-07T11:30:56.572916+00:00",
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 399,
       "current_size": 400,
@@ -23,26 +24,28 @@
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_400_companies"
     },
     "sp500": {
+      "build_timestamp_utc": "2026-10-19T14:18:49.899495+00:00",
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 0,
       "current_size": 503,
-      "diff_ratio": 0.007952286282306162,
-      "end_date": "2026-09-07",
-      "events_count": 1032,
-      "renames_applied": 28,
+      "diff_ratio": 0.011928429423459244,
+      "end_date": "2026-10-19",
+      "events_count": 1044,
+      "renames_applied": 29,
       "seed_size": 495,
       "seed_source": "https://github.com/fja05680/sp500",
       "start_date": "2004-12-30",
-      "synthetic_events": 2,
+      "synthetic_events": 4,
       "wikipedia_changes_source": "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500",
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
     },
     "sp600": {
+      "build_timestamp_utc": "2026-10-19T14:18:49.899495+00:00",
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 0,
       "current_size": 603,
       "diff_ratio": 0.009950248756218905,
-      "end_date": "2026-09-07",
+      "end_date": "2026-10-19",
       "events_count": 920,
       "renames_applied": 0,
       "seed_size": 601,
@@ -53,11 +56,11 @@
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_600_companies"
     }
   },
-  "renames_applied": 28,
+  "renames_applied": 29,
   "seed_size": 495,
   "seed_source": "https://github.com/fja05680/sp500",
   "start_date": "2004-12-30",
-  "synthetic_events": 2,
+  "synthetic_events": 4,
   "wikipedia_changes_source": "https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500",
   "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 }
