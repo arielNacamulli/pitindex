@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-24
+
+Bundled data refreshed to 2026-11-24 for all three indices. The weekly
+refresh on `master` had been failing since September, so no index had
+been refreshed after 2026-09-07.
+
+### Fixed
+- Build reads change events from the new "Historical components of the
+  S&P NNN" Wikipedia articles, where editors moved the changes tables on
+  2026-08-11. The roster pages are still read and merged, so a revert of
+  the split needs no code change.
+- Tables whose `id` anchor disappears are located by their header
+  signature instead of aborting the build.
+- sp400 reconciliation (11.2% diff, over the 5% gate): the roster page's
+  old copy of the changes table doubled events with wrong dates. Footnote
+  refs like `[ 320 ]` no longer break date parsing, rowspan/colspan cells
+  are expanded so rows no longer shift a column, and "Historical
+  components" is the primary source, with the roster page only adding
+  newer events.
+- A revision-diff fill that undoes an intermediate flip (WBS/SUI, sp400,
+  Sep-Oct 2026) is no longer dropped by the fill dedupe.
+
+### Changed
+- `scripts.build_dataset --keep-going`: an index that fails
+  reconciliation keeps its previous files, revision baseline and
+  metadata section while the others still build (exit code 2). The
+  weekly refresh uses it and puts the reconciliation report in the run
+  summary and a `build-log` artifact.
+- Each `build_metadata.json` index section carries its own
+  `build_timestamp_utc`.
+- Reconciliation reports quote the Wikipedia page, table and row behind
+  each anomaly.
+- A manual weekly-refresh dispatch on a branch commits to that branch,
+  not to `master`.
+- GitHub Actions moved to their Node 24 majors: `checkout@v7`,
+  `setup-python@v7`, `upload-artifact@v7`, `download-artifact@v8`.
+
 ## [0.2.1] - 2026-07-13
 
 ### Added
@@ -102,7 +139,8 @@ with PIT coverage from 2005-01-03 through today.
   data every Monday 06:00 UTC and commits drift back to `master`.
   `release.yml` publishes to PyPI on tag push via OIDC trusted publishing.
 
-[Unreleased]: https://github.com/arielNacamulli/pitindex/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/arielNacamulli/pitindex/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/arielNacamulli/pitindex/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/arielNacamulli/pitindex/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/arielNacamulli/pitindex/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/arielNacamulli/pitindex/releases/tag/v0.1.0
