@@ -1,5 +1,5 @@
 {
-  "build_timestamp_utc": "2026-11-24T08:19:10.305503+00:00",
+  "build_timestamp_utc": "2026-11-24T08:28:39.500686+00:00",
   "cik_corrected_from_sec": 0,
   "cik_filled_from_sec": 0,
   "current_size": 503,
@@ -8,7 +8,7 @@
   "events_count": 1042,
   "indices": {
     "sp400": {
-      "build_timestamp_utc": "2026-11-24T08:19:10.305503+00:00",
+      "build_timestamp_utc": "2026-11-24T08:28:39.500686+00:00",
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 399,
       "current_size": 400,
@@ -24,7 +24,7 @@
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_400_companies"
     },
     "sp500": {
-      "build_timestamp_utc": "2026-11-24T08:19:10.305503+00:00",
+      "build_timestamp_utc": "2026-11-24T08:28:39.500686+00:00",
       "cik_corrected_from_sec": 0,
       "cik_filled_from_sec": 0,
       "current_size": 503,
@@ -40,7 +40,7 @@
       "wikipedia_source": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
     },
     "sp600": {
-      "build_timestamp_utc": "2026-11-24T08:19:10.305503+00:00",
+      "build_timestamp_utc": "2026-11-24T08:28:39.500686+00:00",
       "cik_corrected_from_sec": 1,
       "cik_filled_from_sec": 0,
       "current_size": 603,
