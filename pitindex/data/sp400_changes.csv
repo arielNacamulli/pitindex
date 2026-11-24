@@ -605,22 +605,22 @@ date,action,ticker,name,reason
 2017-07-12,removed,PNRA,Panera Bread,JAB Holdings B.V. acquired Panera Bread.
 2017-07-12,added,CLB,Core Laboratories,JAB Holdings B.V. acquired Panera Bread.
 2017-07-12,added,KNX,Knight Transportation,"Coach, Inc. acquired Kate Spade."
-2017-07-20,removed,CHS,,"derived from wiki revision diff (rev 791524478 @ 2017-07-20, prev 2017-06-24)"
-2017-07-20,added,JBGS,,"derived from wiki revision diff (rev 791524478 @ 2017-07-20, prev 2017-06-24)"
+2017-07-19,removed,CHS,Chico's FAS,Vornado Realty Trust completed the corporate spin-off of JBG SMITH Properties.
+2017-07-19,added,JBGS,JBG Smith,Vornado Realty Trust completed the corporate spin-off of JBG SMITH Properties.
 2017-07-26,removed,AOS,A.O. Smith,Market capitalization changes.
+2017-07-26,removed,DRE,Duke Realty,Market capitalization changes.
 2017-07-26,removed,PKG,Packaging Corporation of America,Market capitalization changes.
 2017-07-26,removed,RMD,ResMed,Market capitalization changes.
 2017-07-26,added,BBBY,Bed Bath & Beyond Inc.,Market capitalization changes.
 2017-07-26,added,MNK,Mallinckrodt,Market capitalization changes.
 2017-07-26,added,MUR,Murphy Oil,Market capitalization changes.
+2017-07-26,added,RIG,Transocean,Market capitalization changes.
 2017-08-08,removed,FCN,FTI Consulting,Brighthouse Financial replaced AutoNation in the S&P 500.
 2017-08-08,added,AN,AutoNation,Brighthouse Financial replaced AutoNation in the S&P 500.
 2017-08-10,removed,NSR,Neustar,NeuStar was acquired by a private investment group led by Golden Gate Capital.
 2017-08-10,added,COR,CoreSite Realty,NeuStar was acquired by a private investment group led by Golden Gate Capital.
 2017-08-17,removed,CCP,Care Capital Properties,Sabra Health Care REIT acquired Care Capital Properties.
 2017-08-17,added,SBRA,Sabra Health Care REIT,Sabra Health Care REIT acquired Care Capital Properties.
-2017-08-31,removed,DRE,,"derived from wiki revision diff (rev 798100344 @ 2017-08-31, prev 2017-07-20)"
-2017-08-31,added,RIG,,"derived from wiki revision diff (rev 798100344 @ 2017-08-31, prev 2017-07-20)"
 2017-09-18,removed,CDNS,Cadence Design Systems,Cadence Design Systems replaced Staples Inc. in the S&P 500.
 2017-09-18,removed,WBMD,WebMD,Internet Brands acquired WebMD Health.
 2017-09-18,removed,WOOF,VCA Animal Hospitals,Mars Inc. acquired VCA.
@@ -1573,7 +1573,15 @@ date,action,ticker,name,reason
 2026-09-21,added,HUBS,HubSpot,Market capitalization change.
 2026-09-26,removed,WBS,,"derived from wiki revision diff (rev 1376755150 @ 2026-09-26, prev 2026-09-06)"
 2026-09-26,added,SUI,,"derived from wiki revision diff (rev 1376755150 @ 2026-09-26, prev 2026-09-06)"
-2026-10-09,removed,OLN,,"derived from wiki revision diff (rev 1379294000 @ 2026-10-09, prev 2026-09-26)"
-2026-10-09,removed,TWLO,,"derived from wiki revision diff (rev 1379294000 @ 2026-10-09, prev 2026-09-26)"
-2026-10-09,added,CTVA,,"derived from wiki revision diff (rev 1379294000 @ 2026-10-09, prev 2026-09-26)"
-2026-10-09,added,FORM,,"derived from wiki revision diff (rev 1379294000 @ 2026-10-09, prev 2026-09-26)"
+2026-10-06,removed,OLN,Olin Corporation,Market capitalization change.
+2026-10-06,removed,TWLO,Twilio,Market capitalization change.
+2026-10-06,added,CTVA,Corteva,Market capitalization change.
+2026-10-06,added,FORM,FormFactor,Market capitalization change.
+2026-11-04,removed,OKTA,"Okta, Inc.",Market capitalization change.
+2026-11-04,added,GKOS,Glaukos,Market capitalization change.
+2026-11-11,removed,ROKU,"Roku, Inc.",S&P 500 constituent Fox Corporation acquired Roku.
+2026-11-11,added,JHX,James Hardie Industries,S&P 500 constituent Fox Corporation acquired Roku.
+2026-11-18,removed,NWE,NorthWestern Energy,"S&P MidCap 400 constituent Black Hills Corp. acquired NorthWestern Energy Group. Post-merger, the combined company was renamed Bright Horizon Energy Corp."
+2026-11-18,added,CHYM,Chime Financial,"S&P MidCap 400 constituent Black Hills Corp. acquired NorthWestern Energy Group. Post-merger, the combined company was renamed Bright Horizon Energy Corp."
+2026-11-19,removed,BKH,,"derived from wiki revision diff (rev 1386547802 @ 2026-11-19, prev 2026-10-22)"
+2026-11-19,added,HZN,,"derived from wiki revision diff (rev 1386547802 @ 2026-11-19, prev 2026-10-22)"

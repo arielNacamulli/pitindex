@@ -1,5 +1,5 @@
 date,action,ticker,name,reason
-2004-12-30,added,SKYD,Skydance Corporation,"reconciliation: present in current roster, absent from event walk"
+2004-12-30,added,SKYD,Skydance,"reconciliation: present in current roster, absent from event walk"
 2004-12-30,added,VMRK,Vivmark Residential,"reconciliation: present in current roster, absent from event walk"
 2005-01-03,removed,LEHMQ,,rename → LEH: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
 2005-01-03,added,LEH,,rename ← LEHMQ: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.
@@ -697,10 +697,6 @@ date,action,ticker,name,reason
 2019-02-15,added,ATO,Atmos Energy,Encana acquired Newfield Exploration.
 2019-02-27,removed,GT,The Goodyear Tire & Rubber Company,Wabtec acquired GE transportation business
 2019-02-27,added,WAB,Wabtec,Wabtec acquired GE transportation business
-2019-03-19,removed,FOX,21st Century Fox,21st Century Fox merged with Disney and some parts spun off as Fox Corporation.
-2019-03-19,removed,FOXA,21st Century Fox,21st Century Fox merged with Disney and some parts spun off as Fox Corporation.
-2019-03-19,added,FOX,Fox Corporation,21st Century Fox merged with Disney and some parts spun off as Fox Corporation.
-2019-03-19,added,FOXA,Fox Corporation,21st Century Fox merged with Disney and some parts spun off as Fox Corporation.
 2019-04-02,removed,BHF,Brighthouse Financial,DowDuPont completed the corporate spin-off of Dow Inc.
 2019-04-02,added,DOW,Dow,DowDuPont completed the corporate spin-off of Dow Inc.
 2019-06-03,removed,DWDP,DuPont,DWDP changed to DD after spinning off Corteva.
@@ -755,8 +751,8 @@ date,action,ticker,name,reason
 2020-01-28,added,PAYC,Paycom,Centene acquired Wellcare.
 2020-02-29,removed,IR,,rename → TT: Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot.
 2020-02-29,added,TT,,rename ← IR: Pre-merger Ingersoll Rand renamed Trane Technologies; the IR ticker is reassigned to the merged Gardner Denver entity in a same-day pivot.
-2020-03-02,removed,XEC,Cimarex Energy,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc."
-2020-03-02,added,IR,Ingersoll Rand,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc."
+2020-03-03,removed,XEC,Cimarex Energy,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc."
+2020-03-03,added,IR,Ingersoll Rand,"Gardner Denver acquired Ingersoll Rand 's industrial businesses then changed its name to the ""new"" Ingersoll Rand Inc."
 2020-04-01,removed,ARNC,Arconic,Arconic separated into 2 companies - Howmet remained in the index.
 2020-04-01,added,HWM,Howmet Aerospace,Arconic separated into 2 companies - Howmet remained in the index.
 2020-04-03,removed,UTX,,rename → RTX: United Technologies + Raytheon merger forming Raytheon Technologies (later RTX Corporation).
@@ -917,8 +913,6 @@ date,action,ticker,name,reason
 2023-12-18,added,BLDR,Builders FirstSource,Market capitalization changes.
 2023-12-18,added,JBL,Jabil,Market capitalization changes.
 2023-12-18,added,UBER,Uber,Market capitalization changes.
-2024-02-01,removed,CDAY,Ceridian,Ceridian changed its ticker symbol from CDAY to DAY.
-2024-02-01,added,DAY,Dayforce,Ceridian changed its ticker symbol from CDAY to DAY.
 2024-03-01,removed,PEAK,,rename → DOC: Healthpeak Properties + Physicians Realty Trust merger; ticker changes to DOC.
 2024-03-01,added,DOC,,rename ← PEAK: Healthpeak Properties + Physicians Realty Trust merger; ticker changes to DOC.
 2024-03-18,removed,WHR,Whirlpool Corporation,Market capitalization changes.
@@ -941,6 +935,8 @@ date,action,ticker,name,reason
 2024-06-24,added,KKR,KKR,Market capitalization changes.
 2024-07-05,removed,WRK,,rename → SW: WestRock + Smurfit Kappa merger forming Smurfit Westrock.
 2024-07-05,added,SW,,rename ← WRK: WestRock + Smurfit Kappa merger forming Smurfit Westrock.
+2024-08-28,removed,CDAY,,rename → DAY: Ceridian renamed Dayforce.
+2024-08-28,added,DAY,,rename ← CDAY: Ceridian renamed Dayforce.
 2024-09-12,removed,BLL,,rename → BALL: Ball Corporation ticker change.
 2024-09-12,added,BALL,,rename ← BLL: Ball Corporation ticker change.
 2024-09-23,removed,AAL,American Airlines Group,Market capitalization changes.
@@ -1041,5 +1037,7 @@ date,action,ticker,name,reason
 2026-10-06,removed,CTVA,Corteva,Market capitalization changes.
 2026-10-06,removed,WBD,Warner Bros. Discovery,Paramount Skydance acquired Warner Bros. Discovery
 2026-10-06,added,TWLO,Twilio,Paramount Skydance acquired Warner Bros. Discovery
-2026-10-19,removed,EQR,,"reconciliation: absent from current roster, present after event walk"
-2026-10-19,removed,PSKY,,"reconciliation: absent from current roster, present after event walk"
+2026-10-30,removed,KVUE,Kenvue,S&P 500 constituent Kimberly-Clark acquired Kenvue.
+2026-10-30,added,OKTA,"Okta, Inc.",S&P 500 constituent Kimberly-Clark acquired Kenvue.
+2026-11-24,removed,EQR,,"reconciliation: absent from current roster, present after event walk"
+2026-11-24,removed,PSKY,,"reconciliation: absent from current roster, present after event walk"

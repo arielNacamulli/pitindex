@@ -2,19 +2,24 @@
 
 # Reconciliation Report
 
-- Window: **2004-12-30 → 2026-10-19**
+- Window: **2004-12-30 → 2026-11-24**
 - Seed roster size: **495**
 - Current Wikipedia roster size: **503**
 - Roster size after walking events: **503**
-- Diff ratio vs. current: **1.19%**
+- Diff ratio vs. current: **1.99%**
 - Synthetic events inserted: **4**
-- Renames applied / skipped (other-index no-ops): **29 / 7**
+- Renames applied / skipped (other-index no-ops): **30 / 6**
 - Fill no-ops (revision-diff events on already-consistent state): **0**
 
-## Invalid 'added' on existing ticker (0)
+## Invalid 'added' on existing ticker (2)
 
+- 2019-03-19  FOX
+  - this event: `Historical_components_of_the_S&P_500 · table 1 · row 163: March 19, 2019 | FOX | Fox Corporation |  |  | Fox Corporation was added following its spin-off from 21st Century Fox. | `
+  - last applied: `2015-09-21 added: derived from seed snapshot diff`
+- 2019-03-19  FOXA
+  - this event: `Historical_components_of_the_S&P_500 · table 1 · row 162: March 19, 2019 | FOXA | Fox Corporation |  |  | Fox Corporation was added following its spin-off from 21st Century Fox. | `
 
-## Invalid 'removed' on missing ticker (2)
+## Invalid 'removed' on missing ticker (4)
 
 - 2008-09-15  LEHMQ
   - this event: `manual override: Same as above; emitted in both notations so the event no-ops cleanly regardless of which is in the roster.`
@@ -22,6 +27,10 @@
 - 2008-09-17  LEHMQ
   - this event: `derived from seed snapshot diff`
   - last applied: `2005-01-03 renamed: Bootstrap-time rename: the upstream seed dataset uses the post-bankruptcy ticker LEHMQ for Lehman Brothers throughout. Rename to the period-correct LEH at start_date so PIT queries return LEH while the company was a member.`
+- 2019-03-20  TFCF
+  - this event: `Historical_components_of_the_S&P_500 · table 1 · row 161: March 20, 2019 |  |  | TFCF | 21st Century Fox | 21st Century Fox's Class B shares changed ticker from FOX to TFCF effective March 19; the company was removed f`
+- 2019-03-20  TFCFA
+  - this event: `Historical_components_of_the_S&P_500 · table 1 · row 160: March 20, 2019 |  |  | TFCFA | 21st Century Fox | 21st Century Fox's Class A shares changed ticker from FOXA to TFCFA effective March 19; the company was remove`
 
 ## Missing from event walk (synthetic add at start_date) (2)
 
@@ -36,7 +45,7 @@ EQR, PSKY
 
 # Reconciliation Report
 
-- Window: **2011-11-20 → 2026-10-19**
+- Window: **2011-11-20 → 2026-11-24**
 - Seed roster size: **400**
 - Current Wikipedia roster size: **400**
 - Roster size after walking events: **400**
@@ -48,30 +57,30 @@ EQR, PSKY
 ## Invalid 'added' on existing ticker (2)
 
 - 2012-06-29  ALEX
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 611: June 29, 2012 | ALEX | Alexander & Baldwin | PCX | Patriot Coal | Corporate spin-off .`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 613: June 29, 2012 | ALEX | Alexander & Baldwin | PCX | Patriot Coal | Corporate spin-off .`
 - 2023-04-04  CR
   - this event: `Historical_components_of_the_S&P_400 · table 1 · row 146: April 4, 2023 | CR | Crane (new) |  |  | Crane Holdings completed the corporate spin-off of new Crane. Following the spin-off, the parent Crane Holdings Co. cha`
 
 ## Invalid 'removed' on missing ticker (13)
 
 - 2012-09-28  RSH
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 607: September 28, 2012 | LXK | Lexmark | RSH | RadioShack | Corporate spin-off .`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 609: September 28, 2012 | LXK | Lexmark | RSH | RadioShack | Corporate spin-off .`
 - 2012-12-21  AGP
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 602: December 21, 2012 | UNFI | United Natural Foods | AGP | AMERIGROUP | Acquisition.`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 604: December 21, 2012 | UNFI | United Natural Foods | AGP | AMERIGROUP | Acquisition.`
 - 2013-04-30  REGN
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 597: April 30, 2013 | EXP | Eagle Materials | REGN | Regeneron Pharmaceuticals | Market capitalization changes.`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 599: April 30, 2013 | EXP | Eagle Materials | REGN | Regeneron Pharmaceuticals | Market capitalization changes.`
 - 2013-05-01  NOG
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 596: May 1, 2013 | CST | CST Brands | NOG | Northern Oil & Gas | Corporate spin-off .`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 598: May 1, 2013 | CST | CST Brands | NOG | Northern Oil & Gas | Corporate spin-off .`
 - 2013-06-28  TLAB
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 590: June 28, 2013 | MNK | Mallinckrodt | TLAB | Tellabs | Corporate spin-off .`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 592: June 28, 2013 | MNK | Mallinckrodt | TLAB | Tellabs | Corporate spin-off .`
 - 2014-04-30  UAA
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 564: April 30, 2014 | POL | PolyOne | UAA | Under Armour | Corporate spin-off .`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 566: April 30, 2014 | POL | PolyOne | UAA | Under Armour | Corporate spin-off .`
 - 2014-12-09  CNVR
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 534: December 9, 2014 | THS | TreeHouse Foods | CNVR | Conversant | Acquisition.`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 536: December 9, 2014 | THS | TreeHouse Foods | CNVR | Conversant | Acquisition.`
 - 2016-12-01  AMSG
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 463: December 1, 2016 | LM | Legg Mason | AMSG | AmSurg | AmSurg replaced Legg Mason in the S&P 500, and Legg Mason replaced AmSurg in the S&P MidCap 400. AmSurg acq`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 465: December 1, 2016 | LM | Legg Mason | AMSG | AmSurg | AmSurg replaced Legg Mason in the S&P 500, and Legg Mason replaced AmSurg in the S&P MidCap 400. AmSurg acq`
 - 2016-12-01  PPS
-  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 462: December 1, 2016 | PZZA | Papa John's Pizza | PPS | Post Properties | Papa John's International replaced Post Properties in the S&P MidCap 400, and Wingstop rep`
+  - this event: `Historical_components_of_the_S&P_400 · table 1 · row 464: December 1, 2016 | PZZA | Papa John's Pizza | PPS | Post Properties | Papa John's International replaced Post Properties in the S&P MidCap 400, and Wingstop rep`
 - 2019-09-18  INGN
   - this event: `Historical_components_of_the_S&P_400 · table 1 · row 325: September 18, 2019 | PK | Park Hotels & Resorts | INGN | Inogen] | Market capitalization changes.`
 - 2020-05-27  DHC
@@ -95,7 +104,7 @@ _none_
 
 # Reconciliation Report
 
-- Window: **2021-03-31 → 2026-10-19**
+- Window: **2021-03-31 → 2026-11-24**
 - Seed roster size: **601**
 - Current Wikipedia roster size: **603**
 - Roster size after walking events: **604**
